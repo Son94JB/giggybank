@@ -15,6 +15,7 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,6 +29,7 @@ private const val ARG_PARAM2 = "param2"
  */
 
 private const val TAG = "LoginFragment giggy"
+@AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::bind, R.layout.fragment_login) {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -42,6 +44,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
         } else if (token != null) {
             Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
+            binding.accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
+            binding.refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,7 +79,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                         } else if (token != null) {
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Access ${token.accessToken}")
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
-
+                            accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
+                            refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
                         }
                     }
                 } else {

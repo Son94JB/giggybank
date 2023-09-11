@@ -9,8 +9,10 @@ import com.d103.asaf.common.config.BaseActivity
 import com.d208.giggybank.databinding.ActivityMainBinding
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.util.Utility
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "MainActivity giggy"
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

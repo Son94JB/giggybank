@@ -10,12 +10,13 @@ import com.kakao.sdk.common.KakaoSdk
 import com.ssafy.template.config.AddCookiesInterceptor
 import com.ssafy.template.config.ReceivedCookiesInterceptor
 import com.ssafy.template.config.XAccessTokenInterceptor
+import dagger.hilt.android.HiltAndroidApp
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-
+@HiltAndroidApp
 class ApplicationClass : Application() {
 
 
