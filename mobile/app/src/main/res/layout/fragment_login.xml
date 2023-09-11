@@ -6,6 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".ui.login.LoginFragment">
 
+    <TextView
+        android:id="@+id/accessTokenTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="AccessToken : "
+        android:textSize="24sp"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/refreshTokenTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="RefreshToken : "
+        android:textSize="24sp"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accessTokenTextView" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/fragment_login_kakao_button"
         android:layout_marginBottom="40dp"
