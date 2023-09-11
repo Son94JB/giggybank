@@ -1,10 +1,12 @@
 package com.d208.giggybank.config
 
 import android.app.Application
+import com.d208.giggybank.R
 import com.d208.giggybank.util.SharedPreferencesUtil
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.kakao.sdk.common.KakaoSdk
 import com.ssafy.template.config.AddCookiesInterceptor
 import com.ssafy.template.config.ReceivedCookiesInterceptor
 import com.ssafy.template.config.XAccessTokenInterceptor
@@ -32,7 +34,7 @@ class ApplicationClass : Application() {
 
         //서버 URL
 
-        const val API_URL = ""
+        const val API_URL = "http://localhost:8080/"
 
         // 화면 사이즈 정보
         var dpHeight = 0.0F
@@ -55,6 +57,9 @@ class ApplicationClass : Application() {
         val density = resources.displayMetrics.density
         dpHeight = resources.displayMetrics.heightPixels / density
         dpWidth = resources.displayMetrics.widthPixels / density
+        val appKey = getString(R.string.kakao_native_key)
+        // 카카오 로그인 관련
+        KakaoSdk.init(this, "$appKey")
     }
 
     private fun initRetrofitInstance() {
