@@ -1,4 +1,4 @@
-package com.d208.giggyapp.dto;
+package com.d208.giggyapp.dto.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignUpDto {
-    private String token;
+public class LoginDto {
+    private String accessToken;
+    private String refreshToken;
+    private String fcmToken;
 }
