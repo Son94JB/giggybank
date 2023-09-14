@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody LoginDto loginDto) {
         // 레디스에 액세스 토큰 저장
-        redisService.setToken(TokenDto.builder().
+        redisService.setAccessToken(TokenDto.builder().
                 accessToken(loginDto.getAccessToken()).
                 exist(1).
                 build());
@@ -65,4 +65,7 @@ public class UserController {
     public User getUUID(@PathVariable UUID uuid) {
         return userRepository.findById(uuid).orElse(null);
     }
+
+    @GetMapping("/key/{key}")
+    public boolean getKey(@PathVariable String key) { return redisService.getAccessToken(key); }
 }
