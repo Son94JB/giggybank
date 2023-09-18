@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.d103.asaf.common.config.BaseFragment
 import com.d208.giggybank.R
 import com.d208.giggybank.databinding.FragmentHomeBinding
@@ -104,7 +105,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
             // 소비 패턴 분석 화면
             fragmentHomeConsumptionAnalysisCardView.setOnClickListener {
-
+                findNavController().navigate(R.id.action_HomeFragment_to_ConsumeAnalysisFragment)
             }
             // 미니 게임 화면
             fragmentHomeMiniGameCardView.setOnClickListener {
@@ -112,7 +113,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             }
             // 커뮤니티 화면
             fragmentHomeCommunityCardView.setOnClickListener {
-
+                findNavController().navigate(R.id.action_HomeFragment_to_CommunityHomeFragment)
             }
             // 설정 화면
             fragmentHomeSettingCardView.setOnClickListener {

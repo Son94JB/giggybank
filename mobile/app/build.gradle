@@ -122,4 +122,14 @@ dependencies {
 
     //애니메이션
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
+
+    //그래프
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //spinner
+    implementation "com.github.skydoves:powerspinner:1.2.7"
+    implementation 'com.github.arcadefire:nice-spinner:1.4.4'
+
+    //search bar
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 }
