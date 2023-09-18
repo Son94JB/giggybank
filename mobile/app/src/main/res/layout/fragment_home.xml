@@ -32,7 +32,6 @@
             android:layout_marginTop="32dp"
             android:backgroundTint="@color/sub"
             app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"
@@ -69,8 +68,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:fontFamily="@font/the_jamsil_2_light"
                             android:gravity="center"
+                            android:fontFamily="@font/the_jamsil_3_regular"
                             android:text="거지 은행"
                             app:layout_constraintStart_toStartOf="@+id/fragment_home_bank_icon"
                             app:layout_constraintTop_toBottomOf="@+id/fragment_home_bank_icon" />
@@ -80,6 +79,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
+                            android:fontFamily="@font/the_jamsil_3_regular"
                             android:text="홍길동"
                             app:layout_constraintStart_toEndOf="@+id/fragment_home_bank_icon"
                             app:layout_constraintTop_toTopOf="@+id/fragment_home_bank_icon" />
@@ -91,6 +91,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:text="123,456,789 원"
+                            android:fontFamily="@font/the_jamsil_3_regular"
                             android:textSize="20sp"
                             app:layout_constraintStart_toStartOf="@+id/fragment_home_bank_user_name_text_view"
                             app:layout_constraintTop_toBottomOf="@+id/fragment_home_bank_user_name_text_view" />
@@ -107,12 +108,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/the_jamsil_3_regular"
                         android:text="목표 금액" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
+                        android:fontFamily="@font/the_jamsil_3_regular"
                         android:text="사용 금액" />
 
 
@@ -126,12 +129,14 @@
                         android:id="@+id/fragment_home_target_amount_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/the_jamsil_3_regular"
                         android:text="100,000원" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
+                        android:fontFamily="@font/the_jamsil_3_regular"
                         android:text="90, 000원" />
 
 
@@ -161,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="월간 목표 달성"
-
+                    android:fontFamily="@font/the_jamsil_3_regular"
                     />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -212,8 +217,10 @@
                         android:src="@drawable/consumption_analysis"
                         />
                     <TextView
+                        android:layout_marginTop="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/the_jamsil_3_regular"
                         android:text="소비 분석"
                         />
 
@@ -245,9 +252,11 @@
                         android:src="@drawable/minigame"
                         />
                     <TextView
+                        android:layout_marginTop="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="미니 게임"
+                        android:fontFamily="@font/the_jamsil_3_regular"
                         />
 
                 </LinearLayout>
@@ -279,9 +288,11 @@
                         android:src="@drawable/community"
                         />
                     <TextView
+                        android:layout_marginTop="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="커뮤니티"
+                        android:fontFamily="@font/the_jamsil_3_regular"
                         />
 
                 </LinearLayout>
@@ -312,9 +323,11 @@
                         android:src="@drawable/setting"
                         />
                     <TextView
+                        android:layout_marginTop="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="설정"
+                        android:fontFamily="@font/the_jamsil_3_regular"
                         />
 
                 </LinearLayout>

@@ -17,7 +17,9 @@
             />
         <action
             android:id="@+id/action_LoginFragment_to_HomeFragment"
-            app:destination="@id/HomeFragment" />
+            app:destination="@id/HomeFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_bottom" />
     </fragment>
     <fragment android:id="@+id/SignFragment"
         android:name="com.d208.giggybank.ui.signUp.SignUpFragment"
@@ -52,5 +54,33 @@
         android:label="home"
         tools:layout="@layout/fragment_home">
 
+        <action
+            android:id="@+id/action_HomeFragment_to_ConsumeAnalysisFragment"
+            app:destination="@id/ConsumeAnalysisFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_bottom" />
+        <action
+            android:id="@+id/action_HomeFragment_to_CommunityHomeFragment"
+            app:destination="@id/CommunityHomeFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/fade_out" />
     </fragment>
+
+    <fragment
+        android:id="@+id/ConsumeAnalysisFragment"
+        android:name="com.d208.giggybank.ui.consume.ConsumeAnalysisFragment"
+        android:label="consumeAnalysis"
+        tools:layout="@layout/fragment_consume_analysis"/>
+
+    <fragment
+        android:id="@+id/CommunityHomeFragment"
+        android:name="com.d208.giggybank.ui.community.CommunityHomeFragment"
+        android:label="communityHome"
+        tools:layout="@layout/fragment_community_home">
+
+
+
+    </fragment>
+
+
 </navigation>
