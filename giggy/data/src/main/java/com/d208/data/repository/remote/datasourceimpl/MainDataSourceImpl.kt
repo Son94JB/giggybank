@@ -1,5 +1,6 @@
 package com.d208.data.repository.remote.datasourceimpl
 
+import android.util.Log
 import com.d208.data.remote.api.LoginApi
 import com.d208.data.remote.model.LoginData
 import com.d208.data.remote.model.LoginUser
@@ -12,6 +13,7 @@ import retrofit2.Response
 
 import javax.inject.Inject
 
+private const val TAG = "MainDataSourceImpl giggy"
 class MainDataSourceImpl @Inject constructor(
     private val loginApi: LoginApi,
 
@@ -21,7 +23,7 @@ class MainDataSourceImpl @Inject constructor(
         return safeApiCall(remoteErrorEmitter){
             val data = LoginData(accessToken = accessToken, refreshToken= refreshToken, fcmToken = fcmToken)
             loginApi.login(data)
-        ?.body()}
+        ?.body() }
     }
 
 

@@ -16,7 +16,9 @@ import com.d208.presentation.viewmodel.HomeFragmentViewModel
 import com.d208.presentation.viewmodel.MainActivityVIewModel
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home) {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -96,7 +98,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             }
             // 커뮤니티 화면
             fragmentHomeCommunityCardView.setOnClickListener {
-//                findNavController().navigate(R.id.action_HomeFragment_to_CommunityHomeFragment)
+                findNavController().navigate(R.id.action_HomeFragment_to_CommunityHomeFragment)
             }
             // 설정 화면
             fragmentHomeSettingCardView.setOnClickListener {

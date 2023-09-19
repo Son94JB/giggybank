@@ -2,7 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools   "
-    app:startDestination="@id/LoginFragment"
+    xmlns:tools1="http://schemas.android.com/tools"
+    app:startDestination="@id/HomeFragment"
     android:id="@+id/nav_graph">
 
 
@@ -17,6 +18,9 @@
         <action
             android:id="@+id/action_HomeFragment_to_ConsumeAnalysisFragment"
             app:destination="@id/ConsumeAnalysisFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_CommunityHomeFragment"
+            app:destination="@id/CommunityHomeFragment" />
     </fragment>
 
     <fragment
@@ -68,6 +72,15 @@
         android:name="com.d208.presentation.view.ConsumeAnalysisFragment"
         android:label="consumeAnalysis"
         tools:layout="@layout/fragment_consume_analysis">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/CommunityHomeFragment"
+        android:name="com.d208.presentation.view.CommunityHomeFragment"
+        android:label="communityHome"
+        tools1:layout="@layout/fragment_community_home">
+
 
     </fragment>
 

@@ -61,7 +61,7 @@ dependencies {
     implementation(com.d208.buildsrc.Library.LOTTIE)
     implementation(com.d208.buildsrc.Library.SEARCH_BAR)
     implementation(com.d208.buildsrc.AndroidX.FRAGMENT)
-//    implementation(com.d208.buildsrc.Library.DROPDOWN)
+    implementation(com.d208.buildsrc.Library.DROPDOWN)
 
     // LiveData
     implementation(com.d208.buildsrc.ViewModel.LIVEDATA)

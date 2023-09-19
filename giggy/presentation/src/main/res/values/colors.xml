@@ -15,5 +15,6 @@
     <color name="colorPink">#FAE3E0</color>
     <color name="colorPurple">#EBE5FD</color>
     <color name="colorSkyBlue">#E5EEFD</color>
-    \<color name="colorLightGreen">#E5FDE6</color>
+    <color name="colorLightGreen">#E5FDE6</color>
+    <color name='gray'>#C6C6C6</color>
 </resources>
