@@ -90,7 +90,7 @@ public class UserController {
     @PostMapping("/refresh")
     public ResponseEntity<String> refresh(@RequestHeader HttpHeaders header) {
         String refreshToken = header.getFirst("Authorization");
-        userService.issueAccessToken(refreshToken);
+        redisService.issueAccessToken(refreshToken);
 
         return ResponseEntity.ok("gg");
     }
