@@ -89,37 +89,6 @@ public class UserService {
         return userDto;
     }
 
-    // 리프레시 토큰을 조회해서 새로 액세스 토큰 발급하기
-    public String issueAccessToken(String refreshToken) {
 
-        // 리프레시 토큰으로 카카오 서버와 연동해서 accessToken 발급받기
-        String url = "https://kauth.kakao.com/oauth/token";
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/x-www-form-urlencoded;");
-
-        // 요청을 보낼 데이터 생성
-        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
-        requestBody.add("grant_type", "refresh_token");
-        requestBody.add("client_id", "3d8e6aac6079ec287090de67e9d97584"); // 환경 변수로 빼야함
-        requestBody.add("refresh_token", refreshToken);
-
-        // 요청 엔티티 생성
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
-        ResponseEntity<KakaoRefreshResponseDto> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, KakaoRefreshResponseDto.class);
-        KakaoRefreshResponseDto kakaoRefreshResponseDto = response.getBody();
-        String accessToken = kakaoRefreshResponseDto.getAccessToken();
-
-        // 레디스에 토큰 저장
-        redisService.setAccessToken(TokenDto.builder()
-                .accessToken(accessToken)
-                .exist(1)
-                .build());
-
-
-        // 클라이언트로 내려주기
-        return accessToken;
-    }
 }
 
