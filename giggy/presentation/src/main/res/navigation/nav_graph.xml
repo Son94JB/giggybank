@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/SignUpFragment"
+    android:id="@+id/nav_graph">
+
+
+
+    <fragment
+        android:id="@+id/HomeFragment"
+        android:name="com.d208.presentation.view.HomeFragment"
+        android:label="home"
+        tools:layout="@layout/fragment_home">
+
+
+        <action
+            android:id="@+id/action_HomeFragment_to_ConsumeAnalysisFragment"
+            app:destination="@id/ConsumeAnalysisFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/LoginFragment"
+        android:name="com.d208.presentation.view.LoginFragment"
+        android:label="login"
+        tools:layout="@layout/fragment_login">
+
+
+        <action
+            android:id="@+id/action_LoginFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            />
+        <action
+            android:id="@+id/action_LoginFragment_to_SignUpFragment"
+            app:destination="@id/SignUpFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/SignUpFragment"
+        android:name="com.d208.presentation.view.SignUpFragment"
+        android:label="signUp"
+        tools:layout="@layout/fragment_sign_up">
+
+
+        <action
+            android:id="@+id/action_SignUpFragment_to_SignUpCompleteFragment"
+            app:destination="@id/SignUpCompleteFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/SignUpCompleteFragment"
+        android:name="com.d208.presentation.view.SignUpCompleteFragment"
+        android:label="signUpComplete"
+        tools:layout="@layout/fragment_sign_up_complete">
+
+
+        <action
+            android:id="@+id/action_SignUpCompleteFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ConsumeAnalysisFragment"
+        android:name="com.d208.presentation.view.ConsumeAnalysisFragment"
+        android:label="consumeAnalysis"
+        tools:layout="@layout/fragment_consume_analysis">
+
+    </fragment>
+
+
+</navigation>
