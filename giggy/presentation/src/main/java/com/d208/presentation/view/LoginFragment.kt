@@ -31,11 +31,10 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 private const val TAG = "LoginFragment giggy"
+@AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::bind, R.layout.fragment_login) {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-    private val loginFragmentViewModel : LoginFragmentViewModel by viewModels()
+    private val loginFragmentViewModel by viewModels<LoginFragmentViewModel>()
     private val mainActivityViewModel : MainActivityVIewModel by activityViewModels()
     // 카카오 로그인
     // 카카오계정으로 로그인 공통 callback 구성
@@ -48,29 +47,17 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
             binding.accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
             binding.refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
-            findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
-//            findNavController().navigate(R.id.action_LoginFragment_to_SignFragment)
+            loginFragmentViewModel.login(token.accessToken,token.refreshToken, "")
         }
     }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
 
-//        loginFragmentViewModel.loginSuccess.observe(viewLifecycleOwner){
-//            if(it){
-//                if(loginFragmentViewModel.user.nickname.isNullOrEmpty()){
-//
-//                }
-//            }
-//
-//        }
+    }
+    fun init(){
 
         with(binding) {
             fragmentLoginKakaoButton.setOnClickListener {
@@ -95,7 +82,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
                             accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
                             refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
-                            findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
+                            loginFragmentViewModel.login(token.accessToken,token.refreshToken, "")
+
                         }
                     }
                 } else {
@@ -105,10 +93,17 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
 
             }
         }
+        loginFragmentViewModel.loginSuccess.observe(viewLifecycleOwner){
+            if(!it.email.isNullOrEmpty()){
+                Log.d(TAG, "init: $it")
+                findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
+            }
+            else{
+                findNavController().navigate(R.id.action_LoginFragment_to_SignUpFragment)
+            }
 
-
+        }
     }
-
 
     companion object {
         /**
