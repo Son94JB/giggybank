@@ -1,0 +1,13 @@
+package com.d208.data.remote.model
+
+import java.util.UUID
+
+data class LoginUser(
+    val email: String = "",
+    val fcmToken: String = "",
+    val id: UUID? = null,
+    val leftLife: Int = 0,
+    val nickname: String = "",
+    val refreshToken: String = "",
+    val targetAmount: Int = 0,
+)
