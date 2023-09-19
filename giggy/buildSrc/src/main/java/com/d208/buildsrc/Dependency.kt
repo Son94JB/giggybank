@@ -28,7 +28,7 @@ object KTX {
 }
 
 object Google {
-    const val MATERIAL = "com.google.android.material:material:1.5.0"
+    const val MATERIAL = "com.google.android.material:material:1.9.0"
 }
 
 object Test {
@@ -98,7 +98,7 @@ object Library{
     const val SEARCH_BAR = "com.github.mancj:MaterialSearchBar:0.8.5"
     const val LOADING_SPINEER = "com.github.ybq:Android-SpinKit:1.4.0"
     const val LOADING = "androidx.legacy:legacy-support-v4:1.0.0"
-    const val DROPDOWN = "implementation 'com.github.arcadefire:nice-spinner:1.4.4'"
+    const val DROPDOWN = "com.github.jaredrummler:material-spinner:1.0.8"
 }
 
 object KaKao{

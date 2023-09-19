@@ -94,13 +94,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
             }
         }
         loginFragmentViewModel.loginSuccess.observe(viewLifecycleOwner){
-            if(!it.email.isNullOrEmpty()){
-                Log.d(TAG, "init: $it")
-                findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
+            if(it.email.isNullOrEmpty()){
+                showSnackbar("통신 실패")
             }
             else{
-                findNavController().navigate(R.id.action_LoginFragment_to_SignUpFragment)
+                if(!it.nickname.isNullOrEmpty()){
+                    Log.d(TAG, "init: $it")
+                    findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
+                }
+                else{
+                    findNavController().navigate(R.id.action_LoginFragment_to_SignUpFragment)
+                }
             }
+
 
         }
     }
