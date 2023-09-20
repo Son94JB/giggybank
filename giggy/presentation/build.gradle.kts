@@ -6,6 +6,7 @@ plugins {
     id ("kotlin-kapt")
     id ("dagger.hilt.android.plugin")
 
+
 }
 
 android {
@@ -95,6 +96,15 @@ dependencies {
 
     //kakao
     implementation(com.d208.buildsrc.KaKao.KAKAO_LOGIN)
+
+    //FCM
+
+//    implementation(com.d208.buildsrc.Firebase.FIREBASE_ANALYTICS)
+//    implementation(com.d208.buildsrc.Firebase.FIREBASE_MESSAING)
+//    implementation(com.d208.buildsrc.Firebase.FIREBASE_MESSAGING_KTX)
+//    implementation(com.d208.buildsrc.Firebase.FIREBASE_BOM_KTX)
+
+
 
 
 

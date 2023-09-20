@@ -3,14 +3,14 @@ package com.d208.presentation.view
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.d208.presentation.R
 import com.d208.presentation.base.BaseFragment
 import com.d208.presentation.databinding.FragmentSignUpBinding
+import com.d208.presentation.viewmodel.MainActivityViewModel
 import com.d208.presentation.viewmodel.SignUpFragmentViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,10 +23,9 @@ import com.d208.presentation.viewmodel.SignUpFragmentViewModel
  */
 private const val TAG = "SignUpFragment giggy"
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding::bind, R.layout.fragment_sign_up) {
-    // TODO: Rename and change types of parameters
 
     private val signUpFragmentViewModel : SignUpFragmentViewModel by viewModels()
-
+    private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +35,14 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
         with(binding) {
             // 등록 후 홈 화면 이동
             fragmentSignUpButton.setOnClickListener {
-                findNavController().navigate(R.id.action_SignUpFragment_to_SignUpNextFragment)
+
+                if(fragmentSignUpNickNameEditText.text.isNullOrEmpty()){
+                    showSnackbar("닉네임을 입력해주세요")
+                }
+                else{
+                    signUpFragmentViewModel.duplicateNickNameCheck(fragmentSignUpNickNameEditText.text.toString())
+                }
+
             }
             fragmentSignUpTargetAmountSlider.addOnChangeListener { slider, value, fromUser ->
                 // Slider의 값이 변경되면 EditText에 업데이트합니다.
@@ -45,6 +51,21 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
             }
             // 금액 설정
 
+        }
+        signUpFragmentViewModel.checkSuccess.observe(viewLifecycleOwner){
+            if(it.duplicate != null){
+                if(it.duplicate == true){
+                    showSnackbar("이미 사용 중인 닉네임 입니다.")
+                }
+                else{
+                    mainActivityViewModel.user.nickname = binding.fragmentSignUpNickNameEditText.text.toString()
+                    mainActivityViewModel.user.targetAmount = binding.fragmentSignUpTargetAmountSlider.value.toInt() * 10000
+                    findNavController().navigate(R.id.action_SignUpFragment_to_SignUpNextFragment)
+                }
+            }
+            else{
+                showSnackbar("통신 오류가 발생했습니다.")
+            }
         }
     }
 

@@ -2,6 +2,7 @@ package com.d208.giggy.di
 
 
 import com.d208.data.remote.api.LoginApi
+import com.d208.data.remote.api.UserApi
 import com.d208.giggy.utils.Utils.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -54,8 +55,8 @@ object NetworkModule {
     @Provides
     @Singleton
     //LoveCalculatorApi interface 의존성 주입
-    fun provideLoginApiService(retrofit: Retrofit): LoginApi {
-        return retrofit.create(LoginApi::class.java)
+    fun provideUserApiService(retrofit: Retrofit): UserApi {
+        return retrofit.create(UserApi::class.java)
     }
 
     private fun getLoggingInterceptor(): HttpLoggingInterceptor =

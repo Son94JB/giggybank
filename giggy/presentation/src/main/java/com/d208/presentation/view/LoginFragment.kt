@@ -3,9 +3,7 @@ package com.d208.presentation.view
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,7 +11,7 @@ import com.d208.presentation.R
 import com.d208.presentation.base.BaseFragment
 import com.d208.presentation.databinding.FragmentLoginBinding
 import com.d208.presentation.viewmodel.LoginFragmentViewModel
-import com.d208.presentation.viewmodel.MainActivityVIewModel
+import com.d208.presentation.viewmodel.MainActivityViewModel
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -35,7 +33,7 @@ private const val TAG = "LoginFragment giggy"
 class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::bind, R.layout.fragment_login) {
     // TODO: Rename and change types of parameters
     private val loginFragmentViewModel by viewModels<LoginFragmentViewModel>()
-    private val mainActivityViewModel : MainActivityVIewModel by activityViewModels()
+    private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
     // 카카오 로그인
     // 카카오계정으로 로그인 공통 callback 구성
     // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
@@ -98,6 +96,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                 showSnackbar("통신 실패")
             }
             else{
+                mainActivityViewModel.user = it
                 if(!it.nickname.isNullOrEmpty()){
                     Log.d(TAG, "init: $it")
                     findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
@@ -111,23 +110,5 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
         }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LoginFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LoginFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }

@@ -23,7 +23,7 @@
         />
     <TextView
         android:layout_marginTop="12dp"
-        android:id="@+id/fragment_sing_up_sub_text_view"
+        android:id="@+id/fragment_sign_up_sub_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/the_jamsil_2_light"
@@ -41,12 +41,12 @@
         android:textSize="16dp"
         android:textColor="@color/main"
         android:text="닉네임"
-        app:layout_constraintStart_toStartOf="@+id/fragment_sing_up_sub_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_sing_up_sub_text_view"
+        app:layout_constraintStart_toStartOf="@+id/fragment_sign_up_sub_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_sign_up_sub_text_view"
         />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/fragment_sing_up_nick_name_edit_text"
+        android:id="@+id/fragment_sign_up_nick_name_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -66,8 +66,8 @@
         android:textSize="16dp"
         android:textColor="@color/main"
         android:text="목표 소비액 설정"
-        app:layout_constraintStart_toStartOf="@+id/fragment_sign_up_nick_name_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_sing_up_nick_name_edit_text"
+        app:layout_constraintStart_toStartOf="@+id/fragment_sign_up_nick_name_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_sign_up_nick_name_edit_text"
         />
 
     <com.google.android.material.slider.Slider

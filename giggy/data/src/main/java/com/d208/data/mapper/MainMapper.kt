@@ -1,7 +1,9 @@
 package com.d208.data.mapper
 
 import android.util.Log
+import com.d208.data.remote.model.DuplicateCheck
 import com.d208.data.remote.model.LoginUser
+import com.d208.domain.model.DomainDuplicateCheck
 import com.d208.domain.model.DomainUser
 
 private const val TAG = "MainMapper giggy"
@@ -25,6 +27,16 @@ object MainMapper {
                 leftLife = response.leftLife,
             )
 
+        } else response
+    }
+
+    fun duplicateCheckMapper(
+        response: Boolean?
+    ) : DomainDuplicateCheck? {
+        return if(response != null){
+            DomainDuplicateCheck(
+                duplicate = response,
+            )
         } else response
     }
 }

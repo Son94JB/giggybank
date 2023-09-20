@@ -1,5 +1,6 @@
 package com.d208.data.repository.remote.datasource
 
+import com.d208.data.remote.model.DuplicateCheck
 import com.d208.data.remote.model.LoginUser
 import com.d208.data.remote.model.User
 import com.d208.domain.utils.RemoteErrorEmitter
@@ -12,4 +13,9 @@ interface MainDataSource {
         refreshToken : String,
         fcmToken : String,
         ): LoginUser?
+
+    suspend fun duplicateCheck(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        checkText : String,
+    ) : Boolean?
 }

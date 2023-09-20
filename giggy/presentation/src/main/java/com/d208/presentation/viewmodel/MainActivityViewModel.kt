@@ -1,11 +1,12 @@
 package com.d208.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.d208.domain.model.DomainUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MainActivityVIewModel @Inject constructor() :  ViewModel(){
+class MainActivityViewModel @Inject constructor() :  ViewModel(){
 
-//    val user = User()
+    var user = DomainUser()
 }
