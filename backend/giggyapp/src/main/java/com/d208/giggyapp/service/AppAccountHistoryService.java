@@ -45,7 +45,7 @@ public class AppAccountHistoryService {
 
         BankHistoryDTO requestBody = BankHistory;
         HttpEntity<BankHistoryDTO> requestEntity = new HttpEntity<>(requestBody, headers);
-        ResponseEntity<AppAccountHistoryDto> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, NewAppAccountHistoryDTO.class);
+        ResponseEntity<AppAccountHistoryDto> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, AppAccountHistoryDto.class);
         AppAccountHistoryDto responseBody = response.getBody();
         return responseBody;
     }
