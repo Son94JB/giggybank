@@ -2,10 +2,7 @@ package com.d208.giggyapp.service;
 
 import com.d208.giggyapp.dto.AppAccountHistory.AppAccountHistoryDto;
 import com.d208.giggyapp.dto.AppAccountHistory.BankHistoryDTO;
-import com.d208.giggyapp.dto.AppAccountHistory.NewAppAccountHistoryDTO;
 import com.d208.giggyapp.repository.AppAccountHistoryRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -45,7 +42,7 @@ public class AppAccountHistoryService {
 
         BankHistoryDTO requestBody = BankHistory;
         HttpEntity<BankHistoryDTO> requestEntity = new HttpEntity<>(requestBody, headers);
-        ResponseEntity<AppAccountHistoryDto> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, NewAppAccountHistoryDTO.class);
+        ResponseEntity<AppAccountHistoryDto> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, AppAccountHistoryDto.class);
         AppAccountHistoryDto responseBody = response.getBody();
         return responseBody;
     }

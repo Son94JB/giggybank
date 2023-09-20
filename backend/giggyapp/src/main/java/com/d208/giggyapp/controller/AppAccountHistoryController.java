@@ -1,12 +1,9 @@
 package com.d208.giggyapp.controller;
 
-import com.d208.giggyapp.domain.AppAccountHistory;
 import com.d208.giggyapp.dto.AppAccountHistory.AppAccountHistoryDto;
 import com.d208.giggyapp.dto.AppAccountHistory.BankHistoryDTO;
-import com.d208.giggyapp.dto.AppAccountHistory.NewAppAccountHistoryDTO;
 import com.d208.giggyapp.repository.AppAccountHistoryRepository;
 import com.d208.giggyapp.service.AppAccountHistoryService;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
