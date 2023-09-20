@@ -1,8 +1,10 @@
 package com.d208.presentation.view
 
+import android.content.ContentValues
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -14,11 +16,13 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.d208.presentation.R
 import com.d208.presentation.base.BaseActivity
 import com.d208.presentation.databinding.ActivityMainBinding
+import com.d208.presentation.viewmodel.MainActivityViewModel
 import com.kakao.sdk.common.util.Utility
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+    private val mainActivityViewModel : MainActivityViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //
@@ -30,6 +34,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         // 액티비티를 세로모드로 고정
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setupNavHost()
+
+
+//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+//            if (!task.isSuccessful) {
+//                Log.w(ContentValues.TAG, "Fetching FCM registration token failed", task.exception)
+//                return@OnCompleteListener
+//            }
+//
+//            // Get new FCM registration token
+//            val token = task.result
+//
+//            // Log and toast
+//
+//            if (token != null) {
+//                mainActivityViewModel.user.fcmToken = token
+//                Log.d(ContentValues.TAG, "토큰 생성: ${mainActivityViewModel.user.fcmToken}")
+//            }
+////            Log.d(TAG, msg)1111
+////            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+//        })
+//        initDynamicLink()
     }
 
     private fun setupNavHost() {
@@ -37,5 +62,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         val navController = navHostFragment.navController
+    }
+    private fun initDynamicLink() {
+        val dynamicLinkData = intent.extras
+        if (dynamicLinkData != null) {
+            var dataStr = "DynamicLink 수신받은 값\n"
+            for (key in dynamicLinkData.keySet()) {
+                dataStr += "key: $key / value: ${dynamicLinkData.getString(key)}\n"
+            }
+
+            Log.d(ContentValues.TAG, "알림: $dataStr")
+        }
     }
 }

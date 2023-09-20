@@ -1,6 +1,8 @@
 package com.d208.giggy.di
 
 import com.d208.data.remote.api.LoginApi
+import com.d208.data.remote.api.SignUpApi
+import com.d208.data.remote.api.UserApi
 import com.d208.data.repository.remote.datasource.MainDataSource
 import com.d208.data.repository.remote.datasourceimpl.MainDataSourceImpl
 import dagger.Module
@@ -17,11 +19,10 @@ class DataSourceModule {
     @Provides
     @Singleton
     fun provideMainDataSource(
-        loginApi: LoginApi,
-
+        userApi: UserApi,
     ) : MainDataSource {
         return MainDataSourceImpl(
-            loginApi
-        )
+            userApi,
+            )
     }
 }

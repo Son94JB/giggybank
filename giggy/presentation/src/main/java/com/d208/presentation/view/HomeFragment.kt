@@ -2,10 +2,7 @@ package com.d208.presentation.view
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,7 +10,7 @@ import com.d208.presentation.R
 import com.d208.presentation.base.BaseFragment
 import com.d208.presentation.databinding.FragmentHomeBinding
 import com.d208.presentation.viewmodel.HomeFragmentViewModel
-import com.d208.presentation.viewmodel.MainActivityVIewModel
+import com.d208.presentation.viewmodel.MainActivityViewModel
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +21,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
     private var param1: String? = null
     private var param2: String? = null
     private val homeFragmentViewModel : HomeFragmentViewModel by viewModels()
-    private val mainActivityViewModel : MainActivityVIewModel by activityViewModels()
+    private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
     private var amountPercent = 0
 
 
