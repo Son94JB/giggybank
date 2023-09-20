@@ -8,8 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="main">#FFB800</color>
-    <color name="sub">#FCEFAB</color>
-    <color name="background">#26FFF8A6</color>
+    <color name="sub">#F8EFC1</color>
+    <color name="background">#FDFBEF</color>
     <color name="banklayoutcolor">#80FFB800</color>
     <color name="colorRed">#FF0000</color>
     <color name="colorPink">#FAE3E0</color>

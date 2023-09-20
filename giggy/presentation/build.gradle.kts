@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
     id ("dagger.hilt.android.plugin")
+
 }
 
 android {
@@ -94,6 +95,8 @@ dependencies {
 
     //kakao
     implementation(com.d208.buildsrc.KaKao.KAKAO_LOGIN)
+
+
 
 
 }
