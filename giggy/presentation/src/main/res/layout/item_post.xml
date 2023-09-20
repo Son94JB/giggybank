@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -39,10 +40,9 @@
     <androidx.appcompat.widget.AppCompatImageButton
         android:layout_marginTop="4dp"
         android:id="@+id/item_post_like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_heart_color"
-        android:background="@color/background"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/heart_transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/item_post_writer_name"
         app:layout_constraintTop_toTopOf="parent"
@@ -59,7 +59,7 @@
         />
 
     <View
-        android:layout_marginTop="12dp"
+        android:layout_marginVertical="8dp"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/gray"

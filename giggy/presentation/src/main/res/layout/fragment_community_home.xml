@@ -89,6 +89,7 @@
 
     </com.google.android.material.tabs.TabLayout>
 
+
     <HorizontalScrollView
         android:id="@+id/fragment_community_home_chip_scroll"
         android:layout_width="match_parent"
@@ -103,7 +104,7 @@
         <com.google.android.material.chip.ChipGroup
             android:layout_marginStart="8dp"
             android:id="@+id/fragment_community_home_chip_group"
-            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:singleLine="true">
@@ -112,9 +113,8 @@
                 android:id="@+id/fragment_community_home_food_chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:chipBackgroundColor="@color/gray"
                 android:text="식비"
-                app:chipStrokeColor="@color/background"
+                app:chipBackgroundColor="#FDFBEF"
                 app:chipIconEnabled="true"
                 app:rippleColor="@color/main"
                 style="@style/Widget.Material3.Chip.Filter"
@@ -127,10 +127,9 @@
                 android:id="@+id/fragment_community_home_traffic_chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:chipStrokeColor="@color/background"
-                android:background="@color/main"
-                app:chipBackgroundColor="@color/gray"
+                app:chipBackgroundColor="#FDFBEF"
                 android:text="교통"
+                app:chipIconEnabled="true"
                 style="@style/Widget.Material3.Chip.Filter"
                 app:rippleColor="@color/main"
                 app:chipIconSize="28dp"
@@ -141,10 +140,9 @@
                 android:id="@+id/fragment_community_home_leisure_chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:chipStrokeColor="@color/background"
-                android:background="@color/main"
-                app:chipBackgroundColor="@color/gray"
+                app:chipBackgroundColor="#FDFBEF"
                 android:text="여가"
+                app:chipIconEnabled="true"
                 style="@style/Widget.Material3.Chip.Filter"
                 app:rippleColor="@color/main"
                 app:chipIconSize="28dp"
@@ -155,10 +153,9 @@
                 android:id="@+id/fragment_community_home_shopping_chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:chipStrokeColor="@color/background"
-                android:background="@color/main"
                 android:text="쇼핑"
-                app:chipBackgroundColor="@color/gray"
+                app:chipIconEnabled="true"
+                app:chipBackgroundColor="#FDFBEF"
                 style="@style/Widget.Material3.Chip.Filter"
                 app:rippleColor="@color/main"
                 app:chipIconSize="28dp"
@@ -169,31 +166,28 @@
                 android:id="@+id/fragment_community_home_etc_chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:chipStrokeColor="@color/background"
-                android:background="@color/main"
-                app:chipBackgroundColor="@color/gray"
+                app:chipBackgroundColor="#FDFBEF"
                 android:text="기타"
+                app:chipIconEnabled="true"
                 style="@style/Widget.Material3.Chip.Filter"
                 app:rippleColor="@color/main"
                 app:chipIconSize="28dp"
                 />
 
-
-
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:layout_marginEnd="16dp"
-        android:id="@+id/fragment_community_home_nice_spinner"
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:id="@+id/fragment_community_home_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/background"
+        app:ms_background_color="#FDFBEF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_chip_scroll"
         />
-
-
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="16dp"
         android:id="@+id/fragment_community_home_recycler_view"
@@ -201,8 +195,21 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_nice_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_spinner"
         tools:listitem="@layout/item_post"
+        />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_marginBottom="16dp"
+        style="?attr/floatingActionButtonSmallStyle"
+        android:id="@+id/fragment_community_home_FAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_post_add"
+        android:backgroundTint="@color/background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

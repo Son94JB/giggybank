@@ -36,7 +36,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
         with(binding) {
             // 등록 후 홈 화면 이동
             fragmentSignUpButton.setOnClickListener {
-                findNavController().navigate(R.id.action_SignUpFragment_to_SignUpCompleteFragment)
+                findNavController().navigate(R.id.action_SignUpFragment_to_SignUpNextFragment)
             }
             fragmentSignUpTargetAmountSlider.addOnChangeListener { slider, value, fromUser ->
                 // Slider의 값이 변경되면 EditText에 업데이트합니다.
