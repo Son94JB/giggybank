@@ -27,8 +27,12 @@ public class ApiFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        // 리퀘스트의 헤더에서 토큰을 추출한다.
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String accessToken = httpRequest.getHeader("Authorization");
+
         // 레디스에 토큰이 존재하는지 확인한다.
-        if (!redisService.getAccessToken("bQwcQ08Jqt0vnIFi2e27qIFJdmjX22pgt1UPDZqhCj1y6gAAAYql4yfl")) {
+        if (!redisService.getAccessToken(accessToken)) {
             tokenExpired(request, response, chain);
         } else // 다음 필터 또는 요청 핸들러로 제어를 넘김
             chain.doFilter(request, response);
