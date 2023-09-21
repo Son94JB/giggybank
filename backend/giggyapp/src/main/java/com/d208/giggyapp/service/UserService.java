@@ -166,7 +166,7 @@ public class UserService {
     public ResponseEntity<Boolean> checkNickname(UserDto userDto) {
         // 닉네임 중복체크
         User user = userRepository.findByNickname(userDto.getNickname()).orElse(null);
-        if (user != null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(true);
+        if (user != null) return ResponseEntity.ok(true);
 
         return ResponseEntity.ok(false);
     }
