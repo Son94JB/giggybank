@@ -21,31 +21,31 @@ public class BankController {
 
     private final BankService bankService;
 
-    @PostMapping("/add-transaction")
-    public ResponseEntity<?> addTransaction(@RequestBody UserTransactionInfoDto userTransactionInfoDto) {
-        String accountNumber = userTransactionInfoDto.getAccountNumber();
-
-        bankService.addTransactionService(userTransactionInfoDto);
-
-        return new ResponseEntity<>("저장", HttpStatus.OK);
-//        return new ResponseEntity<>("저장실패",HttpStatus.UNAUTHORIZED);
-    }
-
-    @PostMapping("/search-transaction")
-    public ResponseEntity<?> searchTransaction(@RequestBody UserAccountNumberDto userAccountNumberDto) {
-        List<AccountHistoryDto> accountHistoryDtos =  bankService.searchTransactionService(userAccountNumberDto);
-
-        // 데이터 없으면
-        if(accountHistoryDtos.isEmpty()) {
-//            return ResponseEntity.notFound().build();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("계좌 내역이 없습니다.");
-        }
-        else{
-            return ResponseEntity.ok(accountHistoryDtos);
-        }
-
-    }
+//    @PostMapping("/add-transaction")
+//    public ResponseEntity<?> addTransaction(@RequestBody UserTransactionInfoDto userTransactionInfoDto) {
+//        String accountNumber = userTransactionInfoDto.getAccountNumber();
+//
+//        bankService.addTransactionService(userTransactionInfoDto);
+//
+//        return new ResponseEntity<>("저장", HttpStatus.OK);
+////        return new ResponseEntity<>("저장실패",HttpStatus.UNAUTHORIZED);
+//    }
+//
+//    @PostMapping("/search-transaction")
+//    public ResponseEntity<?> searchTransaction(@RequestBody UserAccountNumberDto userAccountNumberDto) {
+//        List<AccountHistoryDto> accountHistoryDtos =  bankService.searchTransactionService(userAccountNumberDto);
+//
+//        // 데이터 없으면
+//        if(accountHistoryDtos.isEmpty()) {
+////            return ResponseEntity.notFound().build();
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                    .body("계좌 내역이 없습니다.");
+//        }
+//        else{
+//            return ResponseEntity.ok(accountHistoryDtos);
+//        }
+//
+//    }
 
 
 }
