@@ -3,22 +3,16 @@ package com.d208.giggyapp.service;
 import com.d208.giggyapp.domain.AppAccountHistory;
 import com.d208.giggyapp.domain.User;
 import com.d208.giggyapp.dto.AppAccountHistory.AppAccountHistoryDto;
-import com.d208.giggyapp.dto.AppAccountHistory.BankAccountDTO;
-import com.d208.giggyapp.dto.AppAccountHistory.BankHistoryDTO;
 import com.d208.giggyapp.repository.AppAccountHistoryRepository;
 import com.d208.giggyapp.repository.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
