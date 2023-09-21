@@ -5,6 +5,7 @@ from django.http import JsonResponse
 import fasttext
 from django.views.decorators.csrf import csrf_exempt
 from PyKomoran import *
+import requests
 
 # Create your views here.
 def preprocessing(data):
@@ -26,10 +27,28 @@ def analysis(data):
 @csrf_exempt
 def receive(request):
     if request.method == 'POST':
-        history_data = json.loads(request.body)
-        analysis_data = preprocessing(history_data)
-        print(analysis_data)
-        return JsonResponse({"status" : "success", "data" : analysis_data})
+        try:
+            request_data = json.loads(request.body.decode('utf-8'))
+            # JSON 데이터를 파이썬 객체로 파싱
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON in request body'}, status=400)
+        url = "http://192.168.100.52:8082/api/v1/bank/search-transaction"
+        data = {
+                'accountNumber' : request_data['accountNumber'],
+                'startDate' : request_data['startDate'],
+                'endDate' : request_data['endDate']    
+            }
+        print(data)
+        headers = {'Content-Type': 'application/json'}
+        response = requests.post(url, data=json.dumps(data), headers=headers)
+        print(response)
+        if response.status_code == 200:
+            history_data = response.json()
+            analysis_data = preprocessing(history_data)
+            print(analysis_data)
+            return JsonResponse({"status" : "success", "data" : analysis_data})
+        else:
+            print(f"요청 실패: {response.status_code}")
     
     else:
         return JsonResponse({"status" : "fail", "error" : "Only Post"})
