@@ -21,23 +21,55 @@ public class User {
 
     @Id
     @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name="uuid2", strategy = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
     private String email;
 
+    @Column(columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String nickname;
 
     private String fcmToken;
 
     private String refreshToken;
 
+    private String accountNumber;
+
+    private String birthday;
+
     private int targetAmount;
+
+    private int currentAmount;
 
     private int leftLife;
 
     public void updateFcmToken(String fcmToken) {
         this.fcmToken = fcmToken;
+    }
+
+    public void updateTargetAmount(int targetAmount) {
+        this.targetAmount = targetAmount;
+    }
+
+    public void incraseLife(int life) {
+        this.leftLife += life;
+    }
+
+    public Boolean decreaseLife() {
+        if (this.leftLife - 1 >= 0) {
+            this.leftLife -= 1;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void initLife() {
+        this.leftLife = 3;
+    }
+
+    public void incraseCurrentAmount(int amount) {
+        this.currentAmount += amount;
     }
 }

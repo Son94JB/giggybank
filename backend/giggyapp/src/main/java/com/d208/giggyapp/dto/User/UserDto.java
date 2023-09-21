@@ -13,6 +13,7 @@ public class UserDto {
     private String nickname;
     private String fcmToken;
     private String refreshToken;
+    private String birthday;
     private int targetAmount;
     private int leftLife;
 }

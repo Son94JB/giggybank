@@ -11,8 +11,16 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAccountNumberDto {
-    private String accountNumber;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+public class AuthResponseDto {
+    private int amount;
+    private LocalDateTime transactionDate;
+
+    private String transactionType;
+
+    private int deposit;
+
+    private int withdraw;
+
+    private String content;
+
 }
