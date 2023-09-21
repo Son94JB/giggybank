@@ -108,4 +108,8 @@ public class UserController {
         return userService.getLife(userDto);
     }
 
+    // UUID로 정보 조회
+    @PostMapping("/info")
+    public ResponseEntity<UserDto> getUser(@RequestBody UserDto userDto) { return userService.getUser(userDto);}
+
 }

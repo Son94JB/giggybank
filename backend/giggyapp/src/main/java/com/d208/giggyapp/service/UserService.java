@@ -171,5 +171,21 @@ public class UserService {
 
         return ResponseEntity.ok(false);
     }
+
+    public ResponseEntity<UserDto> getUser(UserDto userDto) {
+        User user = userRepository.findById(userDto.getId()).orElse(null);
+
+        if (user == null) return ResponseEntity.ok(null);
+
+        return ResponseEntity.ok(UserDto.builder()
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .fcmToken(user.getFcmToken())
+                .currentAmount(user.getCurrentAmount())
+                .refreshToken(user.getRefreshToken())
+                .birthday(user.getBirthday())
+                .targetAmount(user.getTargetAmount())
+                .leftLife(user.getLeftLife()).build());
+    }
 }
 
