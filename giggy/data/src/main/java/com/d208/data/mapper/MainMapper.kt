@@ -1,7 +1,7 @@
 package com.d208.data.mapper
 
 import android.util.Log
-import com.d208.data.remote.model.DuplicateCheck
+import com.d208.data.remote.model.AccountAuthResponse
 import com.d208.data.remote.model.LoginUser
 import com.d208.domain.model.DomainDuplicateCheck
 import com.d208.domain.model.DomainUser
@@ -25,6 +25,7 @@ object MainMapper {
                 fcmToken = response.fcmToken,
                 refreshToken = response.refreshToken,
                 leftLife = response.leftLife,
+                birthday = response.birthday,
             )
 
         } else response
@@ -41,10 +42,15 @@ object MainMapper {
     }
 
     fun signUpMapper(
-        response: String?
+        response: Boolean?
+    ) : Boolean? {
+        return response ?: false
+    }
+
+    fun accountAuthMapper(response: AccountAuthResponse
     ) : String? {
-        return if(response != null){
-            response
+        return if(response.type == 2){
+            response.content
         } else "서버 오류"
     }
 }

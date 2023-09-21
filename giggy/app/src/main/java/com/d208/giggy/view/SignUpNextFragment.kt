@@ -2,14 +2,20 @@ package com.d208.giggy.view
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentSignUpNextBinding
+import com.d208.giggy.viewmodel.MainActivityViewModel
+import com.d208.giggy.viewmodel.SignUpNextFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -22,38 +28,67 @@ private const val ARG_PARAM2 = "param2"
  * Use the [SignUpNextFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+private const val TAG = "SignUpNextFragment giggy"
+@AndroidEntryPoint
 class SignUpNextFragment : BaseFragment<FragmentSignUpNextBinding>(FragmentSignUpNextBinding::bind, R.layout.fragment_sign_up_next) {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private var countDownTimer: CountDownTimer? = null
-
+    private val signUpNextFragmentViewModel : SignUpNextFragmentViewModel by viewModels()
+    private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
     }
 
     fun init(){
         with(binding){
             fragmentSignUpNextCheckButton.setOnClickListener {
+                Log.d(TAG, "init: ${mainActivityViewModel.user.fcmToken}")
                 if(!fragmentSignUpNextAccountEditText.text.toString().isNullOrEmpty()){
                     startTimer()
                     fragmentSignUpNextTimerTextView.visibility  = View.VISIBLE
+                    signUpNextFragmentViewModel.accountAuth(binding.fragmentSignUpNextAccountEditText.text.toString(), mainActivityViewModel.fcmToken,  mainActivityViewModel.user.birthday!!)
                 }
             }
             fragmentSignUpNextCompleteButton.setOnClickListener {
 
-                if(fragmentSignUpNextTimerTextView.text == "0:00"){
+                if(fragmentSignUpNextTimerTextView.text == "00:00"){
                     showSnackbar("시간이 초과되었습니다. 다시 인증 요청을 해주세요")
                 }
                 else if(fragmentSignUpNextAccountCheckEditText.text.isNullOrEmpty()){
                     showSnackbar("인증 문자를 입력해주세요")
                 }
                 else{
-                    /**만약 인증이 맞다면 => 추가 구현해야함*/
-                    findNavController().navigate(R.id.action_SignUpNextFragment_to_SignUpCompleteFragment)
+                    Log.d(TAG, "init: ${signUpNextFragmentViewModel.password}")
+                    if(fragmentSignUpNextAccountCheckEditText.text.toString() == signUpNextFragmentViewModel.password){
+                        mainActivityViewModel.user.fcmToken = mainActivityViewModel.fcmToken
+                        signUpNextFragmentViewModel.signUp(mainActivityViewModel.user, mainActivityViewModel.accessToken, mainActivityViewModel.refreshToken, fragmentSignUpNextAccountEditText.text.toString())
+
+                    }
+                    else{
+                        showSnackbar("인증 문자가 일치하지 않습니다.")
+                    }
+
                 }
 
+            }
+        }
+        signUpNextFragmentViewModel.accountAuthSuccess.observe(viewLifecycleOwner){
+            if(it){
 
+            }
+            else{
+                showSnackbar("일치하는 계좌가 없습니다.")
+            }
+        }
+        signUpNextFragmentViewModel.signUpSuccess.observe(viewLifecycleOwner){
+            if(it){
+                findNavController().navigate(R.id.action_SignUpNextFragment_to_SignUpCompleteFragment)
+            }
+            else{
+                showSnackbar("오류 발생")
             }
         }
 

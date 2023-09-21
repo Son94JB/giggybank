@@ -22,9 +22,12 @@ class SignUpFragmentViewModel @Inject constructor(
     var apiErrorType = ErrorType.UNKNOWN
     var errorMessage = "none"
 
+
     private val _checkSuccess = MutableLiveData<DomainDuplicateCheck> ()
 
     val checkSuccess : LiveData<DomainDuplicateCheck> get() = _checkSuccess
+
+
 
     fun duplicateNickNameCheck(user : DomainUser, nickname: String){
         viewModelScope.launch {

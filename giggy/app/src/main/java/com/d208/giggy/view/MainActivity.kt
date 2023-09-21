@@ -56,8 +56,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             // Log and toast
 
             if (token != null) {
-                mainActivityViewModel.user.fcmToken = token
-                Log.d(ContentValues.TAG, "토큰 생성: ${mainActivityViewModel.user.fcmToken}")
+                mainActivityViewModel.fcmToken = token
+                Log.d(ContentValues.TAG, "토큰 생성: ${mainActivityViewModel.fcmToken}")
             }
 //            Log.d(TAG, msg)1111
 //            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()

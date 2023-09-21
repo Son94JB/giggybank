@@ -10,11 +10,14 @@ import androidx.navigation.fragment.findNavController
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentLoginBinding
+import com.d208.giggy.di.App
 import com.d208.giggy.viewmodel.LoginFragmentViewModel
 import com.d208.giggy.viewmodel.MainActivityViewModel
+import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
+import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +37,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
     // TODO: Rename and change types of parameters
     private val loginFragmentViewModel : LoginFragmentViewModel by viewModels()
     private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
+    private lateinit var mActivity : MainActivity
     // 카카오 로그인
     // 카카오계정으로 로그인 공통 callback 구성
     // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
@@ -45,17 +49,22 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
             binding.accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
             binding.refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
-            loginFragmentViewModel.login(token.accessToken,token.refreshToken, "")
+            mainActivityViewModel.accessToken = token.accessToken
+            mainActivityViewModel.refreshToken = token.refreshToken
+            loginFragmentViewModel.login(token.accessToken,token.refreshToken, mainActivityViewModel.fcmToken!!)
         }
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mActivity = requireActivity() as MainActivity
         init()
 
     }
     fun init(){
+
+
 
         with(binding) {
             fragmentLoginKakaoButton.setOnClickListener {
@@ -80,7 +89,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
                             accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
                             refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
-                            loginFragmentViewModel.login(token.accessToken,token.refreshToken, "")
+                            mainActivityViewModel.accessToken = token.accessToken
+                            mainActivityViewModel.refreshToken = token.refreshToken
+
+                            loginFragmentViewModel.login(token.accessToken,token.refreshToken, mainActivityViewModel.fcmToken)
 
                         }
                     }
@@ -91,7 +103,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
 
             }
         }
+
+
+
+
         loginFragmentViewModel.loginSuccess.observe(viewLifecycleOwner){
+
             if(it.email.isNullOrEmpty()){
                 showSnackbar("통신 실패")
             }
@@ -99,6 +116,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                 mainActivityViewModel.user = it
                 if(!it.nickname.isNullOrEmpty()){
                     Log.d(TAG, "init: $it")
+
                     findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
                 }
                 else{
