@@ -44,5 +44,12 @@ class MainRepositoryImpl @Inject constructor(
             ?.let { MainMapper.accountAuthMapper(it) }
     }
 
+    override suspend fun getUserData(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        user: DomainUser
+    ): DomainUser? {
+        return MainMapper.getUseDataMapper(mainDataSource.getUserData(remoteErrorEmitter, user))
+    }
+
 
 }

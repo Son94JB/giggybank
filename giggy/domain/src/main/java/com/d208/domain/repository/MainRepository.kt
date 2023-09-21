@@ -13,4 +13,6 @@ interface MainRepository {
     suspend fun signUp(remoteErrorEmitter: RemoteErrorEmitter, user : SignUpUser) : Boolean?
 
     suspend fun accountAuth(remoteErrorEmitter: RemoteErrorEmitter, accountNumber: String, fcmToken: String, birthday : String) : String?
+
+    suspend fun getUserData(remoteErrorEmitter: RemoteErrorEmitter, user : DomainUser) : DomainUser?
 }

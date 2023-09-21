@@ -31,6 +31,26 @@ object MainMapper {
         } else response
     }
 
+    fun getUseDataMapper(
+        response: LoginUser?
+    ) : DomainUser? {
+        Log.d(TAG, "getUseDataMapper: $response")
+        return if (response != null ) {
+            Log.d(TAG, "loginMapper: null 아님")
+            DomainUser(
+                id = response.id,
+                email = response.email,
+                nickname = response.nickname,
+                targetAmount = response.targetAmount,
+                fcmToken = response.fcmToken,
+                refreshToken = response.refreshToken,
+                leftLife = response.leftLife,
+                birthday = response.birthday,
+                currentAmount = response.currentAmount
+            )
+        } else response
+    }
+
     fun duplicateCheckMapper(
         response: Boolean?
     ) : DomainDuplicateCheck? {

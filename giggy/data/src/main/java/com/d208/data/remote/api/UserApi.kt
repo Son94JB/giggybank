@@ -42,4 +42,9 @@ interface UserApi {
     suspend fun accountAuth(
         @Body data : AccountAuthData,
     ) : Response<AccountAuthResponse>
+
+    @POST("user/info")
+    suspend fun getUserInfo(
+        @Body data : DomainUser,
+    ) : Response<LoginUser>
 }

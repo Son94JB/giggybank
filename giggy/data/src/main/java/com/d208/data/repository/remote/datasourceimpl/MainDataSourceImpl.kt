@@ -60,6 +60,14 @@ class MainDataSourceImpl @Inject constructor(
 
     }
 
+    override suspend fun getUserData(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        user: DomainUser
+    ): LoginUser? {
+        return safeApiCall(remoteErrorEmitter){
+            userApi.getUserInfo(user)
+                ?.body() }
+    }
 
 
 }
