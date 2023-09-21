@@ -47,6 +47,7 @@ object DaggerHilt {
     const val DAGGER_HILT_COMPILER = "com.google.dagger:hilt-android-compiler:2.47"
     const val DAGGER_HILT_ANDROIDX_COMPILER = "androidx.hilt:hilt-compiler:1.0.0"
     const val DAGGER_HILT_JAVAX = "javax.inject:javax.inject:1"
+    const val DAGGER_HILT_SUPPORT = "com.google.dagger:dagger-android-support:2.47"
 }
 
 object Retrofit {

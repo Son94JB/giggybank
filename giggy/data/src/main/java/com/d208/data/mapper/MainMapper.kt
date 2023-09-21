@@ -39,4 +39,12 @@ object MainMapper {
             )
         } else response
     }
+
+    fun signUpMapper(
+        response: String?
+    ) : String? {
+        return if(response != null){
+            response
+        } else "서버 오류"
+    }
 }

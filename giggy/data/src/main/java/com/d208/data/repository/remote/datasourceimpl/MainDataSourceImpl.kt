@@ -10,6 +10,7 @@ import com.d208.data.remote.model.LoginUser
 import com.d208.data.remote.model.User
 import com.d208.data.repository.remote.datasource.MainDataSource
 import com.d208.data.utils.base.BaseDataSource
+import com.d208.domain.model.DomainUser
 import com.d208.domain.utils.RemoteErrorEmitter
 import retrofit2.Response
 
@@ -30,10 +31,16 @@ class MainDataSourceImpl @Inject constructor(
 
     override suspend fun duplicateCheck(
         remoteErrorEmitter: RemoteErrorEmitter,
-        checkText: String
+        user: DomainUser
     ): Boolean? {
         return safeApiCall(remoteErrorEmitter){
-            userApi.duplicateNickNameCheck(checkText)?.body()
+            userApi.duplicateNickNameCheck(user)?.body()
+        }
+    }
+
+    override suspend fun signUp(remoteErrorEmitter: RemoteErrorEmitter, user: DomainUser): String? {
+        return safeApiCall(remoteErrorEmitter){
+            userApi.signUp(user)?.body()
         }
     }
 
