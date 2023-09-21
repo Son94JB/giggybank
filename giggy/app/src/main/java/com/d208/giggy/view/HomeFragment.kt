@@ -114,6 +114,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             fragmentHomeSettingCardView.setOnClickListener {
 
             }
+            // 내 거래내역 조회
+            fragmentHomeMyAccountCardView.setOnClickListener {
+                findNavController().navigate(R.id.action_HomeFragment_to_TransactionHistoryFragment)
+            }
 
             ObjectAnimator.ofInt(fragmenthomeProgressBar, "progress", amountPercent.toInt())
                 .setDuration(500)

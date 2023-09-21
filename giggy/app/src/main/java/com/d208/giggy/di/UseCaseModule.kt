@@ -1,8 +1,10 @@
 package com.d208.giggy.di
 
+import com.d208.domain.repository.BankRepository
 import com.d208.domain.repository.MainRepository
 import com.d208.domain.usecase.DuplicateCheckUsecase
 import com.d208.domain.usecase.LoginUsecase
+import com.d208.domain.usecase.TransactionUsecase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +23,8 @@ class UseCaseModule {
     @Provides
     @Singleton
     fun provideDuplicateUseCase(repository : MainRepository) =  DuplicateCheckUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideTransactionUseCase(repository: BankRepository) = TransactionUsecase(repository)
 }
