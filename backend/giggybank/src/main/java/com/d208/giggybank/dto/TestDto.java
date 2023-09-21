@@ -5,14 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAccountNumberDto {
+public class TestDto {
+    private String name;
+
+    private String birthday;
+
     private String accountNumber;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+
+    private int balance;
 }
