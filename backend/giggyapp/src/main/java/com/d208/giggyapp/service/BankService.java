@@ -3,6 +3,7 @@ package com.d208.giggyapp.service;
 import com.d208.giggyapp.dto.Auth1RequestDto;
 import com.d208.giggyapp.dto.Auth1ResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +20,12 @@ import java.util.Map;
 public class BankService {
     private final UserService userService;
 
+    @Value("${server.url.bank}")
+    private String bankBaseUrl;
+
     public Auth1ResponseDto oneAuthRequest(Auth1RequestDto auth1RequestDto) {
         // 은행에다가 해당 정보를 전달한다.
-        String url = "http://192.168.100.52:8082/api/v1/bank/auth";
+        String url = bankBaseUrl + "/auth";
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -35,6 +39,7 @@ public class BankService {
 
         // RestTemplate을 사용하여 HTTP POST 요청 보내기
         ResponseEntity<Auth1ResponseDto> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Auth1ResponseDto.class);
+
         // 응답 처리
         Auth1ResponseDto auth1ResponseDto = responseEntity.getBody();
 

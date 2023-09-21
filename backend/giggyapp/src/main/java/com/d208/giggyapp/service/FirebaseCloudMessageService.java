@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class FirebaseCloudMessageService {
-    private final String API_URL = "https://fcm.googleapis.com/v1/projects/prefin-87140/messages:send";
+    private final String API_URL = "https://fcm.googleapis.com/v1/projects/giggy-28e48/messages:send";
     private final ObjectMapper objectMapper;
 
     public void sendMessageTo(String targetToken, String title, String body) throws IOException {
@@ -53,7 +53,7 @@ public class FirebaseCloudMessageService {
     }
 
     private String getAccessToken() throws IOException {
-        String firebaseConfigPath = "firebase/giggy_key.json";
+        String firebaseConfigPath = "firebase/giggy-key.json";
         GoogleCredentials googleCredentials = GoogleCredentials
                 .fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())
                 .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
