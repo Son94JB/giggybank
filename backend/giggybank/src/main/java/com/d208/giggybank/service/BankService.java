@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BankService {
 
-    private final BankAccountRepository bankAccountRepository;
-    private final BankAccountHistoryRepository bankAccountHistoryRepository;
+//    private final BankAccountRepository bankAccountRepository;
+//    private final BankAccountHistoryRepository bankAccountHistoryRepository;
 //    public BankService(BankAccountRepository bankAccountRepository,BankAccountHistoryRepository bankAccountHistoryRepository) {
 //        this.bankAccountRepository = bankAccountRepository;
 //        this.bankAccountHistoryRepository = bankAccountHistoryRepository;
