@@ -27,6 +27,7 @@ public class User {
 
     private String email;
 
+    @Column(columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String nickname;
 
     private String fcmToken;
@@ -38,6 +39,8 @@ public class User {
     private String birthday;
 
     private int targetAmount;
+
+    private int currentAmount;
 
     private int leftLife;
 
@@ -64,5 +67,9 @@ public class User {
 
     public void initLife() {
         this.leftLife = 3;
+    }
+
+    public void incraseCurrentAmount(int amount) {
+        this.currentAmount += amount;
     }
 }
