@@ -31,6 +31,8 @@ public class KakaoResponseDto {
         @JsonProperty("email")
         private String email;
 
+        @JsonProperty("birthday")
+        private String birthday;
     }
 }
 
