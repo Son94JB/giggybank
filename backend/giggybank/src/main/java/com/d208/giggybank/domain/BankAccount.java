@@ -21,7 +21,7 @@ public class BankAccount {
     @JoinColumn(name="CUSTOMER_ID")
     private Customer customer;
 
-    @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "bankAccount", fetch = FetchType.LAZY)
     private List<BankAccountHistory> bankAccountHistories = new ArrayList<>();
 
 
