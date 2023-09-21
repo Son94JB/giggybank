@@ -9,11 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserTransactionInfoDto {
+public class AuthDto {
+    private String accountNumber;
 
-    String accountNumber;
-    String transactionType;
-    Integer dwamount;
-    String content;
-
+    private String birthday;
 }
