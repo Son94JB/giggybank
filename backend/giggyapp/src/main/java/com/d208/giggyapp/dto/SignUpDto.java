@@ -16,6 +16,8 @@ public class SignUpDto {
 
     private String refreshToken;
 
+    private String fcmToken;
+
     private String accountNumber;
 
     private Integer targetAmount;

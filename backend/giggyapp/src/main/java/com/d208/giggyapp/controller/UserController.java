@@ -49,7 +49,7 @@ public class UserController {
 
     // 넘어온 회원 Dto를 가지고 회원 정보를 저장한다.
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody SignUpDto signUpDto) {
+    public ResponseEntity<Boolean> signUp(@RequestBody SignUpDto signUpDto) {
         return userService.signUp(signUpDto);
     }
 

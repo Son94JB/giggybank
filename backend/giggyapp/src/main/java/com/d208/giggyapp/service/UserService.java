@@ -144,13 +144,14 @@ public class UserService {
         return ResponseEntity.ok(Integer.toString(user.getLeftLife()));
     }
 
-    public ResponseEntity<String> signUp(SignUpDto signUpDto) {
+    public ResponseEntity<Boolean> signUp(SignUpDto signUpDto) {
         // 카카오와 통신해서 이메일, 생일을 받아온다.
         KakaoResponseDto kaKaoInfo = this.getKaKaoInfo(signUpDto.getAccessToken());
 
         User newUser = User.builder().
                 email(kaKaoInfo.getKakaoAccount().getEmail()).
                 nickname(signUpDto.getNickname()).
+                fcmToken(signUpDto.getFcmToken()).
                 refreshToken(signUpDto.getRefreshToken()).
                 accountNumber(signUpDto.getAccountNumber()).
                 birthday(kaKaoInfo.getKakaoAccount().getBirthday()).
@@ -159,7 +160,7 @@ public class UserService {
                 build();
 
         userRepository.save(newUser);
-        return ResponseEntity.ok("회원이 등록되었습니다.");
+        return ResponseEntity.ok(true);
     }
 
 
