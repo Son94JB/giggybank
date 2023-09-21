@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentSignUpNextBinding
+import com.d208.giggy.di.App
 import com.d208.giggy.viewmodel.MainActivityViewModel
 import com.d208.giggy.viewmodel.SignUpNextFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,7 +78,7 @@ class SignUpNextFragment : BaseFragment<FragmentSignUpNextBinding>(FragmentSignU
         }
         signUpNextFragmentViewModel.accountAuthSuccess.observe(viewLifecycleOwner){
             if(it){
-
+                App.sharedPreferences.addAccount(binding.fragmentSignUpNextAccountEditText.text.toString())
             }
             else{
                 showSnackbar("일치하는 계좌가 없습니다.")
@@ -85,6 +86,7 @@ class SignUpNextFragment : BaseFragment<FragmentSignUpNextBinding>(FragmentSignU
         }
         signUpNextFragmentViewModel.signUpSuccess.observe(viewLifecycleOwner){
             if(it){
+
                 findNavController().navigate(R.id.action_SignUpNextFragment_to_SignUpCompleteFragment)
             }
             else{
@@ -126,23 +128,4 @@ class SignUpNextFragment : BaseFragment<FragmentSignUpNextBinding>(FragmentSignU
         stopTimer()
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SignUpNextFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SignUpNextFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

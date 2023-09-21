@@ -26,6 +26,11 @@ class SharedPreferencesUtil(context: Context) {
        editor.putString("id", id)
        editor.apply()
    }
+    fun addAccount(account : String){
+        val editor = preferences.edit()
+        editor.putString("account", account)
+        editor.apply()
+    }
 
 
 

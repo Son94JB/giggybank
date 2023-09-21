@@ -34,7 +34,7 @@
         <item name="fontFamily">@font/the_jamsil_3_regular</item>
     </style>
 
-
+    <style name="CreateProfileTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar"></style>
 
 
 
