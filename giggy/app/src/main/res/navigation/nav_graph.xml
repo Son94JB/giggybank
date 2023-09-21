@@ -44,11 +44,8 @@
         <action
             android:id="@+id/action_LoginFragment_to_HomeFragment"
             app:destination="@id/HomeFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right"
-            />
+            app:popUpTo="@id/LoginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_LoginFragment_to_SignUpFragment"
             app:destination="@id/SignUpFragment"

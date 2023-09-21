@@ -1,8 +1,12 @@
 package com.d208.data.remote.api
 
+import android.accounts.Account
+import com.d208.data.remote.model.AccountAuthData
+import com.d208.data.remote.model.AccountAuthResponse
 import com.d208.data.remote.model.LoginData
 import com.d208.data.remote.model.LoginUser
 import com.d208.domain.model.DomainUser
+import com.d208.domain.model.SignUpUser
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -27,10 +31,15 @@ interface UserApi {
         @Body data : DomainUser,
     ) : Response<String>
     //회원가입
-    @POST("user/signUp")
+    @POST("user/signup")
     suspend fun signUp(
-        @Body data : DomainUser,
+        @Body data : SignUpUser,
 
-    ) : Response<String>
+    ) : Response<Boolean>
 
+    //계좌 인증
+    @POST("bank/auth")
+    suspend fun accountAuth(
+        @Body data : AccountAuthData,
+    ) : Response<AccountAuthResponse>
 }

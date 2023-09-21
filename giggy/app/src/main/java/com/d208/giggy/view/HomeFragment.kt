@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.d208.domain.utils.StringFormatUtil
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentHomeBinding
@@ -80,8 +81,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
 
             //닉네임
-//            fragmentHomeNickNameTextView.text = "${mainActivityViewModel.user.nickname} 님"
-
+            fragmentHomeNickNameTextView.text = "${mainActivityViewModel.user.nickname} 님"
+//            fragmentHomeBankMoneyTextView.text = StringFormatUtil.moneyToWon(mainActivityViewModel.user.currentAmount)
+            fragmentHomeTargetAmountTextView.text = StringFormatUtil.moneyToWon(mainActivityViewModel.user.targetAmount)
+            fragmentHomeCurrentAmountTextView.text = StringFormatUtil.moneyToWon(mainActivityViewModel.user.currentAmount)
+            amountPercent = (100f - (mainActivityViewModel.user.currentAmount.toFloat() / mainActivityViewModel.user.targetAmount) * 100f).toInt()
 
             //은행 정보
 

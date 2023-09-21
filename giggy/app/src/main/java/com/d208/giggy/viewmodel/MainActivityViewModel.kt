@@ -9,4 +9,11 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor() :  ViewModel(){
 
     var user = DomainUser()
+
+    var fcmToken = ""
+
+    var accessToken = ""
+
+    var refreshToken = ""
+
 }

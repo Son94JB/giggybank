@@ -133,6 +133,7 @@
                         android:text="100,000원" />
 
                     <TextView
+                        android:id="@+id/fragment_home_current_amount_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"

@@ -77,6 +77,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         for(key in remoteMessage.data.keys){
             intent.putExtra(key, remoteMessage.data.getValue(key))
         }
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // Activity Stack 을 경로만 남김(A-B-C-D-B => A-B)
 
         //23.05.22 Android 최신버전 대응 (FLAG_MUTABLE, FLAG_IMMUTABLE)
