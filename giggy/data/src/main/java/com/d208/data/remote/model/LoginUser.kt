@@ -11,4 +11,5 @@ data class LoginUser(
     val refreshToken: String = "",
     val targetAmount: Int = 0,
     val birthday : String,
+    val currentAmount : Int = 0
 )

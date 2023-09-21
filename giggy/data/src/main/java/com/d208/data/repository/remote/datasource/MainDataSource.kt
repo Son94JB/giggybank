@@ -33,4 +33,9 @@ interface MainDataSource {
         fcmToken : String,
         birthday : String,
     ) : AccountAuthResponse?
+
+    suspend fun getUserData(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        user : DomainUser
+    ) : LoginUser?
 }

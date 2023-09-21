@@ -63,7 +63,38 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
 
     }
     fun init(){
-
+        if (AuthApiClient.instance.hasToken()) {
+            UserApiClient.instance.accessTokenInfo { _, error ->
+                if (error != null) {
+                    if (error is KakaoSdkError && error.isInvalidTokenError() == true) {
+                        //로그인 필요
+                    }
+                    else {
+                        //기타 에러
+                    }
+                }
+                else {
+                    //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
+                    UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+                        if (error != null) {
+                            Log.e(TAG, "토큰 정보 보기 실패", error)
+                        }
+                        else if (tokenInfo != null) {
+                            Log.i(TAG, "토큰 정보 보기 성공" +
+                                    "\n회원번호: ${tokenInfo.id}" +
+                                    "\n만료시간: ${tokenInfo.expiresIn} 초")
+                            if(tokenInfo.expiresIn > 0){
+                                Log.d(TAG, "init: ${App.sharedPreferences.getString("id")}")
+                                findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            //로그인 필요
+        }
 
 
         with(binding) {
@@ -84,16 +115,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                             // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
                             UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
                         } else if (token != null) {
-
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Access ${token.accessToken}")
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
                             accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
                             refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
                             mainActivityViewModel.accessToken = token.accessToken
                             mainActivityViewModel.refreshToken = token.refreshToken
-
                             loginFragmentViewModel.login(token.accessToken,token.refreshToken, mainActivityViewModel.fcmToken)
-
                         }
                     }
                 } else {
@@ -116,7 +144,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                 mainActivityViewModel.user = it
                 if(!it.nickname.isNullOrEmpty()){
                     Log.d(TAG, "init: $it")
-
+                    App.sharedPreferences.addId(it.id.toString())
+                    Log.d(TAG, "initID: ${App.sharedPreferences.getString("id")}")
                     findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
                 }
                 else{

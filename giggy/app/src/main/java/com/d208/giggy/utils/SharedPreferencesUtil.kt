@@ -21,33 +21,13 @@ class SharedPreferencesUtil(context: Context) {
     }
 
 
-    fun addAccessToken(access : String){
-        val editor = preferences.edit()
-        editor.putString("accessToken", access)
-        editor.apply()
-    }
+   fun addId(id : String){
+       val editor = preferences.edit()
+       editor.putString("id", id)
+       editor.apply()
+   }
 
-    fun addRefreshToken(refresh : String){
-        val editor = preferences.edit()
-        editor.putString("refreshToken", refresh)
-        editor.apply()
-    }
 
-    fun addFCMToken(fcm : String){
-        val editor = preferences.edit()
-        editor.putString("fcmToken", fcm)
-        editor.apply()
-    }
-
-    fun addFCMFlag(flag : Boolean){
-        val editor = preferences.edit()
-        editor.putBoolean("fcmFlag", flag)
-        editor.apply()
-    }
-
-    fun getBoolean(key : String) : Boolean {
-        return preferences.getBoolean(key, true)
-    }
 
 
 }
