@@ -16,14 +16,14 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/v1/bank")
+@RequestMapping(value = "/api/v1")
 public class BankController {
 
     private final BankService bankService;
     // 테스트용
     private final CustomerService customerService;
 
-    @PostMapping("/add-transaction")
+    @PostMapping("/bank/add-transaction")
     public ResponseEntity<?> addTransaction(@RequestBody UserTransactionInfoDto userTransactionInfoDto) {
         String accountNumber = userTransactionInfoDto.getAccountNumber();
 
@@ -34,7 +34,7 @@ public class BankController {
     }
 
 
-    @PostMapping("/search-transaction")
+    @PostMapping("/bank/search-transaction")
     public ResponseEntity<List<AccountHistoryDto>> searchTransaction(@RequestBody UserAccountNumberDto userAccountNumberDto) {
         List<AccountHistoryDto> accountHistoryDtos =  bankService.searchTransactionService(userAccountNumberDto);
         System.out.println(accountHistoryDtos);
@@ -75,14 +75,14 @@ public class BankController {
 //
 //    }
 
-    @PostMapping("/auth")
+    @PostMapping("/bank/auth")
     public AuthResponseDto checkAuth(@RequestBody AuthDto authDto){
         return bankService.checkAuth(authDto);
     }
 
 
     // 테스트용
-    @PostMapping("/test")
+    @PostMapping("/bank/test")
     public void insertTest(@RequestBody TestDto testDto) {
         customerService.testService(testDto);
     }
