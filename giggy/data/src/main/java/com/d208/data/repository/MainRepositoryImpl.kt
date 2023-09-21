@@ -24,9 +24,13 @@ class MainRepositoryImpl @Inject constructor(
 
     override suspend fun duplicateCheck(
         remoteErrorEmitter: RemoteErrorEmitter,
-        checkText: String
+        user: DomainUser
     ): DomainDuplicateCheck? {
-        return MainMapper.duplicateCheckMapper(mainDataSource.duplicateCheck(remoteErrorEmitter, checkText))
+        return MainMapper.duplicateCheckMapper(mainDataSource.duplicateCheck(remoteErrorEmitter, user))
+    }
+
+    override suspend fun signUp(remoteErrorEmitter: RemoteErrorEmitter, user: DomainUser): String? {
+        return MainMapper.signUpMapper(mainDataSource.signUp(remoteErrorEmitter, user))
     }
 
 
