@@ -1,16 +1,16 @@
 package com.d208.giggybank.ui.login
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.d103.asaf.common.config.BaseFragment
-import com.d208.giggybank.MainActivity
 import com.d208.giggybank.R
 import com.d208.giggybank.databinding.FragmentLoginBinding
+import com.d208.giggybank.ui.MainActivityVIewModel
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -34,7 +34,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    private val loginFragmentViewModel : LoginFragmentViewModel by viewModels()
+    private val mainActivityViewModel : MainActivityVIewModel by activityViewModels()
     // 카카오 로그인
     // 카카오계정으로 로그인 공통 callback 구성
     // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
@@ -46,6 +47,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
             binding.accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
             binding.refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
+            findNavController().navigate(R.id.action_LoginFragment_to_SignFragment)
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +60,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        loginFragmentViewModel.loginSuccess.observe(viewLifecycleOwner){
+            if(it){
+                if(loginFragmentViewModel.user.nickname.isNullOrEmpty()){
+
+                }
+            }
+
+        }
 
         with(binding) {
             fragmentLoginKakaoButton.setOnClickListener {
@@ -77,10 +88,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                             // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
                             UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
                         } else if (token != null) {
+
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Access ${token.accessToken}")
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
                             accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
                             refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
+                            findNavController().navigate(R.id.action_LoginFragment_to_SignFragment)
                         }
                     }
                 } else {

@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class AccountHistoryDto {
     private int amount;
     private LocalDateTime transactionDate;
