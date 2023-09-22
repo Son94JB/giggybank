@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/v1")
+@RequestMapping(value = "/api/v1/bank")
 public class BankController {
 
     private final BankService bankService;
@@ -48,7 +48,7 @@ public class BankController {
 //        }
 //
 //    }
-    @PostMapping("/bank/add-transaction")
+    @PostMapping("/add-transaction")
     public ResponseEntity<?> addTransaction(@RequestBody UserTransactionInfoDto userTransactionInfoDto) {
         String accountNumber = userTransactionInfoDto.getAccountNumber();
 
@@ -59,7 +59,7 @@ public class BankController {
     }
 
 
-    @PostMapping("/bank/search-transaction")
+    @PostMapping("/search-transaction")
     public ResponseEntity<List<AccountHistoryDto>> searchTransaction(@RequestBody UserAccountNumberDto userAccountNumberDto) {
         List<AccountHistoryDto> accountHistoryDtos =  bankService.searchTransactionService(userAccountNumberDto);
         System.out.println(accountHistoryDtos);
@@ -76,38 +76,15 @@ public class BankController {
 
     }
 
-//    private BankAccountRepository bankAccountRepository;
-//    @PostMapping("/auth")
-//    public ResponseEntity<?> oneAuthResponse(@RequestBody AuthDto authDto) {
-//
-//        // 클라이언트 서버에서 받은 Dto에서 계좌번호, 생일 가져오기
-//        String accountNumber = authDto.getAccountNumber();
-//        String birthday = authDto.getBirthday();
-//
-//        Optional<BankAccount> bankAccount = bankAccountRepository.findByAccountNumber(accountNumber);
-//
-//        if (bankAccount == null){
-//            return
-//        }
-//
-//        // 결과 DTO로 반환
-//        AuthDto authDto = AuthDto.builder()
-//                .accountNumber(accountNumberToCheck)
-//                .birthday(birthday)
-//                .build();
-//
-//        return authDto;
-//
-//    }
 
-    @PostMapping("/bank/auth")
+    @PostMapping("/auth")
     public AuthResponseDto checkAuth(@RequestBody AuthDto authDto){
         return bankService.checkAuth(authDto);
     }
 
 
     // 테스트용
-    @PostMapping("/bank/test")
+    @PostMapping("/test")
     public void insertTest(@RequestBody TestDto testDto) {
         customerService.testService(testDto);
     }
