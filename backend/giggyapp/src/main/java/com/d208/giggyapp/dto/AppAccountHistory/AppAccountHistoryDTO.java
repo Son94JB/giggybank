@@ -1,7 +1,6 @@
 package com.d208.giggyapp.dto.AppAccountHistory;
 
 import lombok.*;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AppAccountHistoryDto {
+public class AppAccountHistoryDTO {
     private String status;
     private List<DataBody> data;
     @Getter
