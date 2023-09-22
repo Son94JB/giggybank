@@ -130,7 +130,7 @@ public class BankService {
                 BankAccountHistory bankAccountHistory = BankAccountHistory.builder()
                         .amount(bankAccountOptional.getBalance() + 1)
                         .transactionType("입금")
-                        .withdraw(1)
+                        .deposit(1)
                         .content(generateRandomContent())
                         .transactionDate(LocalDateTime.now())
                         .bankAccount(bankAccountOptional)
@@ -141,8 +141,7 @@ public class BankService {
 
                 return AuthResponseDto.builder()
                         .amount(1)
-                        .withdraw(1)
-                        .deposit(0)
+                        .deposit(1)
                         .transactionDate(LocalDateTime.now())
                         .transactionType("입금")
                         .content(generateRandomContent())
