@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -43,6 +44,8 @@ public class User {
     private int currentAmount;
 
     private int leftLife;
+
+    private LocalDateTime registerDate;
 
     public void updateFcmToken(String fcmToken) {
         this.fcmToken = fcmToken;

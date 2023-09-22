@@ -5,14 +5,15 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Builder
 @Data
-public class BankHistoryDTO {
+@Builder
+public class AccountHistoryDTO {
     private Long id;
     private int amount;
     private String content;
-    private LocalDateTime transactionDate;
+    private Long transactionDate;
     private String transactionType;
+    private String category;
     private int deposit;
     private int withdraw;
 }
