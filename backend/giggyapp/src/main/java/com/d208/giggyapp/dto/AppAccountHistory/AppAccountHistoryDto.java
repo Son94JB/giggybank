@@ -1,19 +1,32 @@
 package com.d208.giggyapp.dto.AppAccountHistory;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Builder
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class AppAccountHistoryDto {
-    private Long id;
-    private int amount;
-    private String content;
-    private LocalDateTime transactionDate;
-    private String transactionType;
-    private String category;
-    private int deposit;
-    private int withdraw;
+    private String status;
+    private List<DataBody> data;
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    public static class DataBody {
+        private Long id;
+        private int amount;
+        private String content;
+        private LocalDateTime transactionDate;
+        private String transactionType;
+        private String category;
+        private int deposit;
+        private int withdraw;
+    }
 }

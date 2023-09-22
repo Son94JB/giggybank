@@ -4,5 +4,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="main">#FFB800</color>
     <color name="sub">#FCEFAB</color>
-
+    <color name="background">#26FFF8A6</color>
+    <color name="banklayoutcolor">#80FFB800</color>
+    <color name="colorRed">#FF0000</color>
+    <color name="colorPink">#FAE3E0</color>
+    <color name="colorPurple">#EBE5FD</color>
+    <color name="colorSkyBlue">#E5EEFD</color>
+    \<color name="colorLightGreen">#E5FDE6</color>
 </resources>
