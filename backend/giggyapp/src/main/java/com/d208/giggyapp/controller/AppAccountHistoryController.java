@@ -14,16 +14,14 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/appaccounthistory")
+@RequestMapping("/api/v1/app")
 public class AppAccountHistoryController {
     private final AppAccountHistoryService appAccountHistoryService;
 
     private final AppAccountHistoryRepository appAccountHistoryRepository;
 
-    @PostMapping("")
-    public ResponseEntity<?> getAppAccountHistory(@RequestBody BankAccountDTO bankAccountDTO){
-        String accountNumber = bankAccountDTO.getAccountNumber();
-        UUID userId = bankAccountDTO.getUserId();
+    @PostMapping("/account-history")
+    public ResponseEntity<?> getAppAccountHistory(String accountNumber){
         // 은행으로부터 계좌거래내역 받아오기
         appAccountHistoryService.getAppAccountHistory(accountNumber, userId);
         // 분석한 내용 반환
