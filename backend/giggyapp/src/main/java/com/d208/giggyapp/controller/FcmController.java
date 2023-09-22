@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/app")
 public class FcmController {
     private final FirebaseCloudMessageService firebaseCloudMessageService;
 
