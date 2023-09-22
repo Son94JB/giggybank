@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface AppAccountHistoryRepository extends JpaRepository<AppAccountHistory, Long> {
-    Optional<AppAccountHistory> findFirstByUserOrderByTransactionDate(User user);
+    Optional<AppAccountHistory> findFirstByUserOrderByTransactionDateDesc(User user);
 }

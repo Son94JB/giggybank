@@ -44,15 +44,19 @@ public class AppAccountHistoryService {
         LocalDateTime endDate;
 
         // 거래내역이 있는지 확인
-        Optional<AppAccountHistory> optionalAppAccountHistory = appAccountHistoryRepository.findFirstByUserOrderByTransactionDate(user);
+        Optional<AppAccountHistory> optionalAppAccountHistory = appAccountHistoryRepository.findFirstByUserOrderByTransactionDateDesc(user);
         if(optionalAppAccountHistory.isPresent()){
             AppAccountHistory appAccountHistory = optionalAppAccountHistory.get();
+            System.out.println(appAccountHistory.getId());
             startDate = appAccountHistory.getTransactionDate();
             endDate = LocalDateTime.now();
         }else{
             startDate = LocalDateTime.now().withDayOfMonth(1);
             endDate = LocalDateTime.now();
         }
+        System.out.println(startDate);
+        System.out.println(endDate);
+
 
         // 은행 데이터 받아오고 분석
         String url = "http://127.0.0.1:8000/api/v1/analysis/receive";
@@ -90,7 +94,7 @@ public class AppAccountHistoryService {
                 tmpAmount = tmpAmount + data.getWithdraw();
                 appAccountHistoryRepository.save(appAccountHistory);
             }
-
+            user.incraseCurrentAmount(tmpAmount);
         }catch (Exception e) {
             System.out.println(e.toString());
         }
