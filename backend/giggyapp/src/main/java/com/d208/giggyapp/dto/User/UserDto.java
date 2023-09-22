@@ -15,5 +15,6 @@ public class UserDto {
     private String refreshToken;
     private String birthday;
     private int targetAmount;
+    private int currentAmount;
     private int leftLife;
 }
