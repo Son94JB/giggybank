@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/appaccounthistory")
+@RequestMapping("/api/v1/app")
 public class AppAccountHistoryController {
     private final AppAccountHistoryService appAccountHistoryService;
 
     private final AppAccountHistoryRepository appAccountHistoryRepository;
 
-    @PostMapping("/")
+    @PostMapping("/account-history")
     public ResponseEntity<?> getAppAccountHistory(String accountNumber){
         // 은행으로부터 계좌거래내역 받아오기
         BankHistoryDTO BankHistory = appAccountHistoryService.getAppAccountHistory(accountNumber);
