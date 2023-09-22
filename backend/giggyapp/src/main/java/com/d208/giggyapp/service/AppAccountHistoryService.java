@@ -96,55 +96,18 @@ public class AppAccountHistoryService {
         }
         return null;
     }
+    public AppAccountHistoryDto getMonthHistory(UUID userId, String month){
 
-    // 장고서버로 거래내역 전송후 분석한 데이터 받아옴
-//    public Void analysisAppAccountHistory(BankHistoryDTO BankHistory, UUID userId) {
-//        String url = "http://127.0.0.1:8000/api/v1/analysis/receive";
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//
-//        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url).build();
-//
-//        BankHistoryDTO requestBody = BankHistory;
-//        HttpEntity<?> requestEntity = new HttpEntity<>(requestBody, headers);
-//        try{
-//            ResponseEntity<AppAccountHistoryDto> response = restTemplate.exchange(uri.toString(), HttpMethod.POST, requestEntity, AppAccountHistoryDto.class);
-//            AppAccountHistoryDto appAccountHistoryDto = response.getBody();
-//            List<AppAccountHistoryDto.DataBody> dataList = appAccountHistoryDto.getData();
-//            System.out.println(dataList);
-//            Optional<User> optionalUser = userRepository.findById(userId);
-//            User user = optionalUser.get();
-//            // 정보 저장
-//            for(AppAccountHistoryDto.DataBody data : dataList){
-//                AppAccountHistory appAccountHistory = AppAccountHistory.builder().
-//                        transactionType(data.getTransactionType()).
-//                        transactionDate(data.getTransactionDate()).
-//                        content(data.getContent()).
-//                        category(data.getCategory()).
-//                        amount(data.getAmount()).
-//                        deposit(data.getDeposit()).
-//                        withdraw(data.getWithdraw()).
-//                        user(user).build();
-//                appAccountHistoryRepository.save(appAccountHistory);
-//            }
-//        }catch (Exception e) {
-//            System.out.println(e.toString());
-//        }
-//        return null;
-//    }
-//    public void SaveAppHistory(AppAccountHistoryDto appAccountHistoryDto){
-//        AppAccountHistory appAccountHistory = AppAccountHistory.builder().
-////                transactionDate(appAccountHistoryDto.getTransactionDate()).
-//                content(appAccountHistoryDto).
-//                transactionType(appAccountHistoryDto.getTransactionType()).
-//                category(appAccountHistoryDto.getCategory()).
-//                amount(appAccountHistoryDto.getAmount()).
-//                deposit(appAccountHistoryDto.getDeposit()).
-//                withdraw(appAccountHistoryDto.getWithdraw()).
-//                build();
-//        appAccountHistoryRepository.save(appAccountHistory);
-//    }
+        return null;
+    }
+    public Void updateCategory(Long id, String category){
+        Optional<AppAccountHistory> optionalAppAccountHistory = appAccountHistoryRepository.findById(id);
+        if(optionalAppAccountHistory.isPresent()){
+            AppAccountHistory appAccountHistory = optionalAppAccountHistory.get();
+            appAccountHistory.updateCategory(category);
+        }else {
+            System.out.println("존재하지 않는 거래내역입니다.")
+        }
+        return null;
+    }
 }
