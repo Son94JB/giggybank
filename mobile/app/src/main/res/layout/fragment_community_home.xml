@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:background="@color/background"
+    tools:context=".ui.community.CommunityHomeFragment">
+
+
+    <ImageView
+        android:layout_margin="16dp"
+        android:id="@+id/fragment_community_home_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:layout_marginTop="8dp"
+        android:id="@+id/fragment_community_home_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/the_jamsil_4_medium"
+        android:text="커뮤니티"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.mancj.materialsearchbar.MaterialSearchBar
+        android:layout_marginTop="16dp"
+        android:id="@+id/fragment_community_home_searchBar"
+        style="@style/MaterialSearchBarLight"
+        app:mt_speechMode="true"
+        app:mt_hint="Custom hint"
+        app:mt_maxSuggestionsCount="10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mt_roundedSearchBarEnabled="true"
+        app:mt_searchBarColor="@color/main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_title_text_view"
+         />
+
+
+
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/fragment_community_home_tab_layout"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/background"
+        app:tabIndicatorColor="@color/main"
+        app:tabTextColor="@color/black"
+        app:tabSelectedTextColor="@color/main"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_searchBar">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전체"
+            />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자유"
+            />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="꿀팁"
+            />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자랑"
+            />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/fragment_community_home_chip_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_tab_layout"
+        >
+
+
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_marginStart="8dp"
+        android:id="@+id/fragment_community_home_chip_group"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleLine="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/fragment_community_home_food_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="식비"
+            app:chipBackgroundColor="@color/grey"
+            app:chipStrokeColor="@color/background"
+            app:chipIconEnabled="true"
+            app:rippleColor="@color/main"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:checkable="true"
+            app:checkedIcon="@drawable/ic_food"
+            app:chipIconSize="28dp"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/fragment_community_home_traffic_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/grey"
+            app:chipStrokeColor="@color/background"
+            android:background="@color/main"
+            android:text="교통"
+            style="@style/Widget.Material3.Chip.Filter"
+            app:rippleColor="@color/main"
+            app:chipIconSize="28dp"
+            app:checkedIcon="@drawable/ic_traffic"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/fragment_community_home_leisure_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/grey"
+            app:chipStrokeColor="@color/background"
+            android:background="@color/main"
+            android:text="여가"
+            style="@style/Widget.Material3.Chip.Filter"
+            app:rippleColor="@color/main"
+            app:chipIconSize="28dp"
+            app:checkedIcon="@drawable/ic_leisure"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/fragment_community_home_shopping_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/grey"
+            app:chipStrokeColor="@color/background"
+            android:background="@color/main"
+            android:text="쇼핑"
+            style="@style/Widget.Material3.Chip.Filter"
+            app:rippleColor="@color/main"
+            app:chipIconSize="28dp"
+            app:checkedIcon="@drawable/ic_shopping"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/fragment_community_home_etc_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/grey"
+            app:chipStrokeColor="@color/background"
+            android:background="@color/main"
+            android:text="기타"
+            style="@style/Widget.Material3.Chip.Filter"
+            app:rippleColor="@color/main"
+            app:chipIconSize="28dp"
+            />
+
+
+
+    </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
+
+    <org.angmarch.views.NiceSpinner
+        android:layout_marginEnd="16dp"
+        android:id="@+id/fragment_community_home_nice_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_chip_scroll"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="16dp"
+        android:id="@+id/fragment_community_home_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_nice_spinner"
+        tools:listitem="@layout/item_post"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
