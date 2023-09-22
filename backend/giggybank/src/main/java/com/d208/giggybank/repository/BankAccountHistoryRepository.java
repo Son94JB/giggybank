@@ -17,7 +17,9 @@ public interface BankAccountHistoryRepository extends JpaRepository<BankAccountH
 
     List<BankAccountHistory> findByBankAccountId(Long bankAccountId);
 
-    @Query(value = "select bankAccountHistory from BankAccountHistory bankAccountHistory where bankAccountHistory.bankAccount = :bankAccount AND bankAccountHistory.transactionDate BETWEEN :startDate AND :endDate")
+    @Query(value = "select bankAccountHistory from BankAccountHistory bankAccountHistory " +
+            "where bankAccountHistory.bankAccount = :bankAccount AND " +
+            "bankAccountHistory.transactionDate BETWEEN :startDate AND :endDate")
     List<BankAccountHistory> findByBankAccountAndTransactionDateTimeBetween(
             @Param("bankAccount") BankAccount bankAccount,  @Param("startDate") LocalDateTime startDate,  @Param("endDate") LocalDateTime endDate);
 
