@@ -20,5 +20,5 @@ spring:
     host : localhost
     port : 6379
 
-profiles :
-  include : keys
+  profiles :
+    include : keys
