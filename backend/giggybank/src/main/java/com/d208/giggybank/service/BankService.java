@@ -9,6 +9,7 @@ import com.d208.giggybank.repository.BankAccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -125,20 +126,22 @@ public class BankService {
             int bankAccount = bankAccountOptional.getBalance();
             Customer customer = bankAccountOptional.getCustomer();
 
-            System.out.println(bankAccount);
-//            System.out.println("customer는"+customer);
-            System.out.println("ID는 " + customer.getId());
-            System.out.println(customer.getName());
-            System.out.println(customer.getBirthday());
-
-
 
             if (customer != null && customer.getBirthday().equals(birthday)) {
                 // 일치하는 생일 있을 경우
 
                 // 1원 이체(=1원추가)
-//                int updatedAmount = bankAccountOptional.getBalance() + 1;
-//                bankAccountOptional.updateBalance(updatedAmount);
+                BankAccountHistory bankAccountHistory = BankAccountHistory.builder()
+                        .amount(bankAccountOptional.getBalance() + 1)
+                        .transactionType("입금")
+                        .withdraw(1)
+                        .content(generateRandomContent())
+                        .transactionDate(LocalDateTime.now())
+                        .bankAccount(bankAccountOptional)
+                        .build();
+                bankAccountHistoryRepository.save(bankAccountHistory);
+                bankAccountOptional.updateBalance(bankAccountOptional.getBalance() + 1);
+                bankAccountRepository.save(bankAccountOptional);
 
                 return AuthResponseDto.builder()
                         .amount(1)
@@ -173,16 +176,5 @@ public class BankService {
         return randomWord.toString();
     }
 
-//    private char generateRandomChar() {
-//        Random random = new Random();
-//
-//        // 한국어 유니코드 (가 - 힣)
-//        int start = 0xAC00;
-//        int end = 0xD7A3;
-//
-//        int randomCode = start + random.nextInt(end-start+1);
-//
-//        return (char) randomCode;
-//    }
 
 }
