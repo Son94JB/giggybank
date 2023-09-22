@@ -21,7 +21,6 @@ public class HallOfBegger {
     private Long id;
 
     private int season;
-
     private UUID userId;
 
 }
