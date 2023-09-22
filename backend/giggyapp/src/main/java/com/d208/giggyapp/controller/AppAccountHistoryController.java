@@ -14,30 +14,18 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/appaccounthistory")
+@RequestMapping("/api/v1/app")
 public class AppAccountHistoryController {
     private final AppAccountHistoryService appAccountHistoryService;
 
     private final AppAccountHistoryRepository appAccountHistoryRepository;
 
-    @PostMapping("")
+    @PostMapping("/account-history")
     public ResponseEntity<?> getAppAccountHistory(@RequestBody BankAccountDTO bankAccountDTO){
+        // 은행으로부터 계좌거래내역 받아오기
         String accountNumber = bankAccountDTO.getAccountNumber();
         UUID userId = bankAccountDTO.getUserId();
-        // 은행으로부터 계좌거래내역 받아오기
         appAccountHistoryService.getAppAccountHistory(accountNumber, userId);
-//        BankHistoryDTO bankHistoryDTO = BankHistoryDTO.builder().
-//                id(0L).
-//                amount(1000).
-//                content("소고기").
-//                transactionDate("2023-01-01T00:00:00").
-//                transactionType("입금").
-//                deposit(1000).
-//                withdraw(1000).
-//                build();
-
-        // 장고로 거래내역을 보내고 분석한 데이터 받아오기
-//        appAccountHistoryService.analysisAppAccountHistory(bankHistoryDTO, userId);
         // 분석한 내용 반환
         return ResponseEntity.ok(true);
     }
@@ -49,7 +37,7 @@ public class AppAccountHistoryController {
         return ResponseEntity.ok(true);
     }
 
-    @PostMapping("/category/{id}")
+    @PutMapping("/category")
     public ResponseEntity<?> updateAccountHistory(@PathVariable Long id, @RequestBody String category){
         appAccountHistoryService.updateCategory(id, category);
         return ResponseEntity.ok().build();
