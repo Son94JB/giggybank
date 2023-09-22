@@ -1,6 +1,8 @@
 package com.d208.giggyapp.controller;
 
 
+import com.d208.giggyapp.dto.AppAccountHistory.BankAccountDTO;
+import com.d208.giggyapp.dto.AppAccountHistory.MonthDTO;
 import com.d208.giggyapp.repository.AppAccountHistoryRepository;
 import com.d208.giggyapp.service.AppAccountHistoryService;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +46,8 @@ public class AppAccountHistoryController {
 
     @PostMapping("/receive")
     public ResponseEntity<?> getMonthAccountHistory(@RequestBody MonthDTO monthDTO){
+        UUID userId = monthDTO.getUserId();
+        String month = monthDTO.getMonth();
 
 
         return ResponseEntity.ok(true);
