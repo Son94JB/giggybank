@@ -2,6 +2,7 @@ package com.d208.giggy.di
 
 import com.d208.domain.repository.BankRepository
 import com.d208.domain.repository.MainRepository
+import com.d208.domain.usecase.AnalysisUsecase
 import com.d208.domain.usecase.DuplicateCheckUsecase
 import com.d208.domain.usecase.GetMonthsUsecase
 import com.d208.domain.usecase.LoginUsecase
@@ -32,4 +33,8 @@ class UseCaseModule {
     @Provides
     @Singleton
     fun provideGetMonthsUseCase(repository: BankRepository) = GetMonthsUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGetAnalysisUsecase(repository: BankRepository) = AnalysisUsecase(repository)
 }

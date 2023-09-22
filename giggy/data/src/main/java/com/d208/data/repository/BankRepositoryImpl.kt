@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.d208.data.mapper.BankMapper
 import com.d208.data.repository.remote.datasource.BankDateSource
+import com.d208.domain.model.DomainAnalysisResponse
 import com.d208.domain.model.DomainTransaction
 import com.d208.domain.repository.BankRepository
 import com.d208.domain.utils.RemoteErrorEmitter
@@ -16,11 +17,11 @@ class BankRepositoryImpl @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun searchTransaction(
         remoteErrorEmitter: RemoteErrorEmitter,
-        accountNumber: String,
+        id: UUID,
         startDate: String,
         endDate: String
     ): MutableList<DomainTransaction>? {
-       return BankMapper.searchTransactionMapper(bankDateSource.searchTransaction(remoteErrorEmitter, accountNumber, startDate, endDate))
+       return BankMapper.searchTransactionMapper(bankDateSource.searchTransaction(remoteErrorEmitter, id, startDate, endDate))
     }
 
     override suspend fun searchMonths(
@@ -28,5 +29,13 @@ class BankRepositoryImpl @Inject constructor(
         id: UUID
     ): MutableList<String>? {
         return BankMapper.searchMonths(bankDateSource.searchMonths(remoteErrorEmitter, id))
+    }
+
+    override suspend fun getAnalysis(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        id: UUID,
+        date: String
+    ): MutableList<DomainAnalysisResponse>? {
+        return BankMapper.getAnalysis(bankDateSource.getAnalysis(remoteErrorEmitter, id, date))
     }
 }

@@ -10,6 +10,7 @@ import com.d208.domain.utils.ErrorType
 import com.d208.domain.utils.RemoteErrorEmitter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,9 +23,9 @@ class TransactionHistoryFragmentViewModel @Inject constructor(
     val transactionList : LiveData<MutableList<DomainTransaction>> get() =_transactionList
 
 
-    fun getTransactionData(accountNumber : String, startDate : String, endDate : String){
+    fun getTransactionData(id : UUID, startDate : String, endDate : String){
         viewModelScope.launch {
-            transactionUsecase.execute(this@TransactionHistoryFragmentViewModel, accountNumber, startDate, endDate).let{
+            transactionUsecase.execute(this@TransactionHistoryFragmentViewModel, id, startDate, endDate).let{
                 response ->
                 if(response != null && !response.isEmpty()){
                     _transactionList.value = response.sortedByDescending { it.transactionDate } as MutableList<DomainTransaction>

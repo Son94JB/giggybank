@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.d208.domain.model.DomainAnalysisResponse
+import com.d208.domain.usecase.AnalysisUsecase
 import com.d208.domain.usecase.GetMonthsUsecase
 import com.d208.domain.utils.ErrorType
 import com.d208.domain.utils.RemoteErrorEmitter
@@ -17,13 +19,16 @@ import javax.inject.Inject
 private const val TAG = "ConsumeAnalysisFragment giggy"
 @HiltViewModel
 class ConsumeAnalysisFragmentViewModel @Inject constructor(
-    private val searchMonthsUsecase: GetMonthsUsecase
+    private val searchMonthsUsecase: GetMonthsUsecase,
+    private val analysisUsecase: AnalysisUsecase,
 ) : ViewModel(), RemoteErrorEmitter{
     private val _monthList = MutableLiveData<MutableList<String>> ()
     val monthList : LiveData<MutableList<String>> get() = _monthList
-
+    private val _analysisList = MutableLiveData<MutableList<DomainAnalysisResponse>> ()
+    val analysisList : LiveData<MutableList<DomainAnalysisResponse>> get() = _analysisList
 
     fun searchMonths(){
+
         viewModelScope.launch {
             searchMonthsUsecase.execute(this@ConsumeAnalysisFragmentViewModel,
                 UUID.fromString(App.sharedPreferences.getString("id")!!)).let {
@@ -36,6 +41,22 @@ class ConsumeAnalysisFragmentViewModel @Inject constructor(
 
 
             }
+        }
+    }
+
+    fun getAnalysis(id : UUID, date : String){
+        viewModelScope.launch {
+            analysisUsecase.execute(this@ConsumeAnalysisFragmentViewModel, id, date).let {
+                response ->
+                    if(response != null){
+                        _analysisList.value = response
+                    }
+                else{
+                        _analysisList.value = mutableListOf()
+                    }
+                }
+
+
         }
     }
 

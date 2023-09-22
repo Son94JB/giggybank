@@ -3,7 +3,7 @@ package com.d208.domain.model
 import java.util.Date
 import java.util.UUID
 
-data class DomainTransaction(val id : UUID,
+data class DomainTransaction(val id : Long,
                              val content : String,
                              val transactionDate : Long,
                              val transactionType : String,

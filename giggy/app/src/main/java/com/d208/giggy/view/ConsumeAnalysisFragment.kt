@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentConsumeAnalysisBinding
+import com.d208.giggy.di.App
 
 import com.d208.giggy.viewmodel.ConsumeAnalysisFragmentViewModel
 
@@ -23,6 +24,7 @@ import com.github.mikephil.charting.utils.ColorTemplate.COLORFUL_COLORS
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Arrays
 import java.util.LinkedList
+import java.util.UUID
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -121,6 +123,46 @@ class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(
         }
         consumeAnalysisFragmentViewModel.monthList.observe(viewLifecycleOwner){
             binding.niceSpinner.setItems(it)
+            consumeAnalysisFragmentViewModel.getAnalysis(UUID.fromString(App.sharedPreferences.getString("id")), it[binding.niceSpinner.selectedIndex])
+        }
+        consumeAnalysisFragmentViewModel.analysisList.observe(viewLifecycleOwner){
+            var sum = 0f
+            for(data in it){
+                sum += data.price
+            }
+
+            val entries = ArrayList<PieEntry>()
+
+            for(data in it){
+                entries.add(PieEntry(data.price/sum *100f, "${data.categoryName}"))
+            }
+            val colorsItems = ArrayList<Int>()
+            for (c in ColorTemplate.VORDIPLOM_COLORS) colorsItems.add(c)
+            for (c in ColorTemplate.JOYFUL_COLORS) colorsItems.add(c)
+            for (c in COLORFUL_COLORS) colorsItems.add(c)
+            for (c in ColorTemplate.LIBERTY_COLORS) colorsItems.add(c)
+            for (c in ColorTemplate.PASTEL_COLORS) colorsItems.add(c)
+            for (c in ColorTemplate.MATERIAL_COLORS) colorsItems.add(c)
+            colorsItems.add(ColorTemplate.getHoloBlue())
+            val pieDataSet = PieDataSet(entries, "")
+
+
+            pieDataSet.apply {
+                colors = colorsItems
+                valueTextColor = Color.BLACK
+                valueTextSize = 32f
+            }
+            val pieData = PieData(pieDataSet)
+            binding.fragmentConsumeAnalysisChart.apply {
+                data = pieData
+                description.isEnabled = false
+                legend.isEnabled = false
+                centerText = "소비 패턴"
+                setCenterTextSize(32f)
+                setEntryLabelColor(Color.BLACK)
+                animateY(1400, Easing.EaseInOutQuad)
+                animate()
+            }
         }
 
     }
