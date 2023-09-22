@@ -21,8 +21,10 @@ public class AppAccountHistoryController {
     private final AppAccountHistoryRepository appAccountHistoryRepository;
 
     @PostMapping("/account-history")
-    public ResponseEntity<?> getAppAccountHistory(String accountNumber){
+    public ResponseEntity<?> getAppAccountHistory(@RequestBody BankAccountDTO bankAccountDTO){
         // 은행으로부터 계좌거래내역 받아오기
+        String accountNumber = bankAccountDTO.getAccountNumber();
+        UUID userId = bankAccountDTO.getUserId();
         appAccountHistoryService.getAppAccountHistory(accountNumber, userId);
         // 분석한 내용 반환
         return ResponseEntity.ok(true);
