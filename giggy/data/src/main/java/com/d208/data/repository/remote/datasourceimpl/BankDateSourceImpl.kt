@@ -1,6 +1,8 @@
 package com.d208.data.repository.remote.datasourceimpl
 
 import com.d208.data.remote.api.BankApi
+import com.d208.data.remote.model.AnalysisRequest
+import com.d208.data.remote.model.AnalysisResponse
 import com.d208.data.remote.model.TransactionRequest
 import com.d208.data.remote.model.TransactionResponse
 import com.d208.data.repository.remote.datasource.BankDateSource
@@ -14,12 +16,12 @@ class BankDateSourceImpl @Inject constructor(
 ) : BaseDataSource(), BankDateSource{
     override suspend fun searchTransaction(
         remoteErrorEmitter: RemoteErrorEmitter,
-        accountNumber: String,
+        id: UUID,
         startDate: String,
         endDate: String
-    ): MutableList<TransactionResponse>? {
+    ): List<TransactionResponse>? {
         return safeApiCall(remoteErrorEmitter){
-            val data = TransactionRequest(accountNumber, startDate, endDate)
+            val data = TransactionRequest(id, startDate, endDate)
             bankApi.searchTransaction(data)?.body()
         }
 
@@ -31,6 +33,17 @@ class BankDateSourceImpl @Inject constructor(
     ): MutableList<String>? {
         return safeApiCall(remoteErrorEmitter){
             bankApi.searchMonths(id)?.body()
+        }
+    }
+
+    override suspend fun getAnalysis(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        id: UUID,
+        date: String
+    ): MutableList<AnalysisResponse>? {
+        return safeApiCall(remoteErrorEmitter){
+            val request = AnalysisRequest(id, date)
+            bankApi.getAnalysis(request)?.body()
         }
     }
 }

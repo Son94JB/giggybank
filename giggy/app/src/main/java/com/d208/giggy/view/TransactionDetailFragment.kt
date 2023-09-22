@@ -37,12 +37,18 @@ class TransactionDetailFragment : BaseFragment<FragmentTransactionDetailBinding>
     }
     fun init() = with(binding){
         fragmentTransactionDetailCategoryChooseButton.setOnClickListener {
-            
+
         }
         fragmentTransactionDetailBack.setOnClickListener {
             findNavController().navigateUp()
         }
-        fragmentTransactionDetailAmountTextView.text = StringFormatUtil.moneyToWon(mainActivityViewModel.selectedTransaction!!.amount)
+        if(mainActivityViewModel.selectedTransaction!!.transactionType == "출금"){
+            fragmentTransactionDetailAmountTextView.text = " - ${StringFormatUtil.moneyToWon(mainActivityViewModel.selectedTransaction!!.withdraw)}"
+        }
+        else{
+            fragmentTransactionDetailAmountTextView.text = " + ${StringFormatUtil.moneyToWon(mainActivityViewModel.selectedTransaction!!.deposit)}"
+        }
+
         fragmentTransactionDetailCategoryTextView.text = mainActivityViewModel.selectedTransaction!!.category
         fragmentTransactionDetailContentTextView.text = mainActivityViewModel.selectedTransaction!!.content
         fragmentTransactionDetailTransactionDateTextView.text = StringFormatUtil.dateTimeToString(mainActivityViewModel.selectedTransaction!!.transactionDate)

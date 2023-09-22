@@ -51,13 +51,14 @@ class TransactionHistoryFragment : BaseFragment<FragmentTransactionHistoryBindin
     private lateinit var adapter : TransactionAdapater
     private val transactionHistoryFragmentViewModel : TransactionHistoryFragmentViewModel by viewModels()
     private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
-    private var startDate = StringFormatUtil.dateToString(mainActivityViewModel.user.registerDate!!)
+    private lateinit var startDate : String
     private var endDate = StringFormatUtil.dateToString(System.currentTimeMillis())
     private val testList = mutableListOf<DomainTransaction>()
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = TransactionAdapater(requireContext())
+        startDate = StringFormatUtil.dateToString(mainActivityViewModel.user.registerDate!!)
         init()
 //        test()
     }
@@ -123,7 +124,7 @@ class TransactionHistoryFragment : BaseFragment<FragmentTransactionHistoryBindin
         binding.fragmentTransactionHistoryBack.setOnClickListener {
             findNavController().navigateUp()
         }
-        transactionHistoryFragmentViewModel.getTransactionData(App.sharedPreferences.getString("account"), startDate, endDate)
+        transactionHistoryFragmentViewModel.getTransactionData(UUID.fromString(App.sharedPreferences.getString("id")), startDate, endDate)
         transactionHistoryFragmentViewModel.transactionList.observe(viewLifecycleOwner){
             if(it.isEmpty()){
                 showSnackbar("불러올 거래내역이 없습니다.")
@@ -157,7 +158,7 @@ class TransactionHistoryFragment : BaseFragment<FragmentTransactionHistoryBindin
                     calendar.timeInMillis = selection?.second ?: 0
                     endDate = SimpleDateFormat("yyyyMMdd").format(calendar.time).toString()
                     Log.d("end", endDate)
-                    transactionHistoryFragmentViewModel.getTransactionData(App.sharedPreferences.getString("account"), startDate, endDate)
+                    transactionHistoryFragmentViewModel.getTransactionData(UUID.fromString(App.sharedPreferences.getString("id")), startDate, endDate)
 
                 }
             })
@@ -179,21 +180,21 @@ class TransactionHistoryFragment : BaseFragment<FragmentTransactionHistoryBindin
     }
     fun test() {
         testList.clear()
-        testList.add(DomainTransaction(UUID.randomUUID(), "싸피 저녁", 1695186959, "출금", "식비", 7800, 5000, 0))
-        testList.add(DomainTransaction(UUID.randomUUID(), "김싸피", 1695186959, "입금", "기타", 7800, 0, 5000))
-        testList.add(DomainTransaction(UUID.randomUUID(), "9월 월세", 1695186959, "출금", "고정 지출", 300000, 0, 8000))
-        testList.add(DomainTransaction(UUID.randomUUID(), "티머니 시외 버스", 1695186959, "출금", "교통", 7800, 0 , 7000))
-        testList.add(DomainTransaction(UUID.randomUUID(), "게임", 1695186959, "출금", "여가", 27800, 0, 4000))
-        testList.add(DomainTransaction(UUID.randomUUID(), "싸피 저녁", 1695186959, "출금", "식비", 7800, 0, 5000))
-        testList.add(DomainTransaction(UUID.randomUUID(), "김싸피", 1695186959, "입금", "기타", 7800, 4000, 0))
-        testList.add(DomainTransaction(UUID.randomUUID(), "9월 월세", 1695186959, "출금", "고정 지출", 300000, 0, 300000))
-        testList.add(DomainTransaction(UUID.randomUUID(), "티머니 시외 버스", 1695186959, "출금", "교통", 7800, 0, 7800))
-        testList.add(DomainTransaction(UUID.randomUUID(), "게임", 1695186959, "출금", "여가", 27800, 0, 27800))
-        testList.add(DomainTransaction(UUID.randomUUID(), "싸피 저녁", 1695186959, "출금", "식비", 7800, 0, 7800 ))
-        testList.add(DomainTransaction(UUID.randomUUID(), "김싸피", 1695186959, "입금", "기타", 7800, 7800, 0))
-        testList.add(DomainTransaction(UUID.randomUUID(), "9월 월세", 1695186959, "출금", "고정 지출", 300000, 0, 30000))
-        testList.add(DomainTransaction(UUID.randomUUID(), "티머니 시외 버스", 1695186959, "출금", "교통", 7800, 0, 7800))
-        testList.add(DomainTransaction(UUID.randomUUID(), "게임", 1695186959, "출금", "여가", 27800, 0, 27800))
+        testList.add(DomainTransaction(0, "싸피 저녁", 1695186959, "출금", "식비", 7800, 5000, 0))
+        testList.add(DomainTransaction(1, "김싸피", 1695186959, "입금", "기타", 7800, 0, 5000))
+        testList.add(DomainTransaction(2, "9월 월세", 1695186959, "출금", "고정 지출", 300000, 0, 8000))
+        testList.add(DomainTransaction(3, "티머니 시외 버스", 1695186959, "출금", "교통", 7800, 0 , 7000))
+        testList.add(DomainTransaction(4, "게임", 1695186959, "출금", "여가", 27800, 0, 4000))
+        testList.add(DomainTransaction(5, "싸피 저녁", 1695186959, "출금", "식비", 7800, 0, 5000))
+        testList.add(DomainTransaction(6, "김싸피", 1695186959, "입금", "기타", 7800, 4000, 0))
+        testList.add(DomainTransaction(7, "9월 월세", 1695186959, "출금", "고정 지출", 300000, 0, 300000))
+        testList.add(DomainTransaction(8, "티머니 시외 버스", 1695186959, "출금", "교통", 7800, 0, 7800))
+        testList.add(DomainTransaction(9, "게임", 1695186959, "출금", "여가", 27800, 0, 27800))
+        testList.add(DomainTransaction(10, "싸피 저녁", 1695186959, "출금", "식비", 7800, 0, 7800 ))
+        testList.add(DomainTransaction(11, "김싸피", 1695186959, "입금", "기타", 7800, 7800, 0))
+        testList.add(DomainTransaction(12, "9월 월세", 1695186959, "출금", "고정 지출", 300000, 0, 30000))
+        testList.add(DomainTransaction(13, "티머니 시외 버스", 1695186959, "출금", "교통", 7800, 0, 7800))
+        testList.add(DomainTransaction(14, "게임", 1695186959, "출금", "여가", 27800, 0, 27800))
         adapter.submitList(testList)
     }
 
