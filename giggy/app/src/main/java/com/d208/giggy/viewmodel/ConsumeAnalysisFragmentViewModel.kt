@@ -1,40 +1,42 @@
 package com.d208.giggy.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.d208.domain.model.DomainTransaction
-import com.d208.domain.usecase.TransactionUsecase
+import com.d208.domain.usecase.GetMonthsUsecase
 import com.d208.domain.utils.ErrorType
 import com.d208.domain.utils.RemoteErrorEmitter
+import com.d208.giggy.di.App
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
+private const val TAG = "ConsumeAnalysisFragment giggy"
 @HiltViewModel
-class TransactionHistoryFragmentViewModel @Inject constructor(
-    private val transactionUsecase: TransactionUsecase
-) :  ViewModel(), RemoteErrorEmitter {
+class ConsumeAnalysisFragmentViewModel @Inject constructor(
+    private val searchMonthsUsecase: GetMonthsUsecase
+) : ViewModel(), RemoteErrorEmitter{
+    private val _monthList = MutableLiveData<MutableList<String>> ()
+    val monthList : LiveData<MutableList<String>> get() = _monthList
 
 
-    private val _transactionList = MutableLiveData<MutableList<DomainTransaction>>()
-    val transactionList : LiveData<MutableList<DomainTransaction>> get() =_transactionList
-
-
-    fun getTransactionData(accountNumber : String, startDate : String, endDate : String){
+    fun searchMonths(){
         viewModelScope.launch {
-            transactionUsecase.execute(this@TransactionHistoryFragmentViewModel, accountNumber, startDate, endDate).let{
-                response ->
-                if(response != null && !response.isEmpty()){
-                    _transactionList.value = response.sortedByDescending { it.transactionDate } as MutableList<DomainTransaction>
+            searchMonthsUsecase.execute(this@ConsumeAnalysisFragmentViewModel,
+                UUID.fromString(App.sharedPreferences.getString("id")!!)).let {
+                    response ->
+
+                    Log.d(TAG, "searchMonths: $response")
+                if (response != null) {
+                    _monthList.value = response.reversed() as MutableList<String>
                 }
-                else{
-                    _transactionList.value = mutableListOf()
-                }
+
+
             }
         }
-
     }
 
     var apiErrorType = ErrorType.UNKNOWN
@@ -42,6 +44,7 @@ class TransactionHistoryFragmentViewModel @Inject constructor(
 
     private val _exceptionHandler = MutableLiveData<Int>()
     val exceptionHandler : LiveData<Int> get() = _exceptionHandler
+
     override fun onError(msg: String) {
         errorMessage = msg
     }
@@ -52,7 +55,6 @@ class TransactionHistoryFragmentViewModel @Inject constructor(
         when (errorType) {
             ErrorType.NETWORK -> {
                 // 네트워크 에러 처리
-                _transactionList.value = mutableListOf()
                 _exceptionHandler.value = 0
             }
             ErrorType.SESSION_EXPIRED -> {
@@ -65,5 +67,4 @@ class TransactionHistoryFragmentViewModel @Inject constructor(
             }
         }
     }
-
 }

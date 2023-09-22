@@ -1,5 +1,6 @@
 package com.d208.data.remote.model
 
+import java.time.LocalDateTime
 import java.util.UUID
 
 data class LoginUser(
@@ -11,5 +12,6 @@ data class LoginUser(
     val refreshToken: String = "",
     val targetAmount: Int = 0,
     val birthday : String,
-    val currentAmount : Int = 0
+    val currentAmount : Int = 0,
+    val registerDate : Long
 )

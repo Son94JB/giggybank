@@ -8,12 +8,12 @@ class StringFormatUtil {
     companion object {
 
         fun dateToString(date: Long): String {
-            val dateFormat = SimpleDateFormat("yyyy/MM/dd ", Locale.KOREA)
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd ", Locale.KOREA)
             return dateFormat.format(date)
         }
 
         fun dateTimeToString(date: Long): String {
-            val dateFormat = SimpleDateFormat("yyyy/MM/dd/ HH:mm", Locale.KOREA)
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA)
             return dateFormat.format(date)
         }
 

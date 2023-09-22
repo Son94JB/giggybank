@@ -18,7 +18,7 @@ object BankMapper {
                 list.add(DomainTransaction(
                     id = data.id,
                     content = data.content,
-                    transactionDate = data.transactionDate.toEpochSecond(ZoneOffset.UTC),
+                    transactionDate = data.transactionDate,
                     transactionType = data.transactionType,
                     category = data.category,
                     amount = data.amount,
@@ -28,5 +28,11 @@ object BankMapper {
             }
             list
         } else mutableListOf()
+    }
+    fun searchMonths(
+        response : MutableList<String>?
+
+    ) : MutableList<String>? {
+        return response
     }
 }

@@ -41,13 +41,7 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
     private lateinit var adapter : PostAdapter
     private val communityHomeFragmentViewModel : CommunityHomeFragmentViewModel by viewModels()
     private var list = mutableListOf<DomainPost>()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
