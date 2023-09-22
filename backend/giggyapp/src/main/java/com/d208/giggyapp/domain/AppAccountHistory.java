@@ -36,4 +36,6 @@ public class AppAccountHistory {
     private int deposit;
 
     private int withdraw;
+
+    public void updateCategory(String category){ this.category = category; }
 }

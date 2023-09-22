@@ -2,11 +2,85 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/LoginFragment"
+    app:startDestination="@id/HomeFragment"
     android:id="@+id/nav_graph">
-<fragment android:id="@+id/LoginFragment"
-    android:name="com.d208.giggybank.ui.login.LoginFragment"
-    android:label="login"
-    tools:layout="@layout/fragment_login"
-    ></fragment>
+    <fragment android:id="@+id/LoginFragment"
+        android:name="com.d208.giggybank.ui.login.LoginFragment"
+        android:label="login"
+        tools:layout="@layout/fragment_login"
+        >
+        <action
+            android:id="@+id/action_LoginFragment_to_SignFragment"
+            app:destination="@id/SignFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/LoginFragment"
+            />
+        <action
+            android:id="@+id/action_LoginFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_bottom" />
+    </fragment>
+    <fragment android:id="@+id/SignFragment"
+        android:name="com.d208.giggybank.ui.signUp.SignUpFragment"
+        android:label="signUp"
+        tools:layout="@layout/fragment_sign_up"
+        >
+        <action
+            android:id="@+id/action_SignFragment_to_SignUpCompleteFragment"
+            app:destination="@id/SignUpCompleteFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/SignFragment"
+            />
+    </fragment>
+
+    <fragment android:id="@+id/SignUpCompleteFragment"
+        android:name="com.d208.giggybank.ui.signUp.SignUpCompleteFragment"
+        android:label="signUpComplete"
+        tools:layout="@layout/fragment_sign_up_complete">
+
+
+        <action
+            android:id="@+id/action_SignUpCompleteFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/SignUpCompleteFragment"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/HomeFragment"
+        android:name="com.d208.giggybank.ui.home.HomeFragment"
+        android:label="home"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_HomeFragment_to_ConsumeAnalysisFragment"
+            app:destination="@id/ConsumeAnalysisFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_bottom" />
+        <action
+            android:id="@+id/action_HomeFragment_to_CommunityHomeFragment"
+            app:destination="@id/CommunityHomeFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ConsumeAnalysisFragment"
+        android:name="com.d208.giggybank.ui.consume.ConsumeAnalysisFragment"
+        android:label="consumeAnalysis"
+        tools:layout="@layout/fragment_consume_analysis"/>
+
+    <fragment
+        android:id="@+id/CommunityHomeFragment"
+        android:name="com.d208.giggybank.ui.community.CommunityHomeFragment"
+        android:label="communityHome"
+        tools:layout="@layout/fragment_community_home">
+
+
+
+    </fragment>
+
+
 </navigation>

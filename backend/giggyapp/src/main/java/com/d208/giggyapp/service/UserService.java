@@ -160,6 +160,7 @@ public class UserService {
                 build();
 
         userRepository.save(newUser);
+        System.out.println(newUser.getId());
         return ResponseEntity.ok(true);
     }
 
