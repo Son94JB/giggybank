@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/app")
 public class UserController {
     private final UserService userService;
     private final RedisService redisService;
@@ -28,7 +28,7 @@ public class UserController {
     // 이메일을 통해 회원 정보를 DB에서 조회한다
     // 회원 O -> 회원 정보 반환
     // 회원 X -> 이메일만 담인 회원 반환
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     public ResponseEntity<UserDto> login(@RequestBody LoginDto loginDto) {
         // 카카오 정보 확인
         KakaoResponseDto kakaoResponseDto = userService.getKaKaoInfo(loginDto.getAccessToken());
@@ -48,30 +48,30 @@ public class UserController {
     }
 
     // 넘어온 회원 Dto를 가지고 회원 정보를 저장한다.
-    @PostMapping("/signup")
+    @PostMapping("/user/signup")
     public ResponseEntity<Boolean> signUp(@RequestBody SignUpDto signUpDto) {
         return userService.signUp(signUpDto);
     }
 
     // 회원 닉네임 중복 체크
-    @PostMapping("/nickname")
+    @PostMapping("/user/nickname")
     public ResponseEntity<Boolean> checkNickname(@RequestBody UserDto userDto) {
         return userService.checkNickname(userDto);
     }
 
-    @PostMapping("/uuid")
+    @PostMapping("/user/uuid")
     public User getUUID(@RequestBody UserDto userDto) {
         return userRepository.findById(userDto.getId()).orElse(null);
     }
 
     // 토큰이 만료됨을 보낸다.
-    @PostMapping("/expired")
+    @PostMapping("/user/expired")
     public ResponseEntity<String> expired() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰이 만료되었습니다");
     }
 
     // 토큰 재발급
-    @PostMapping("/refresh")
+    @PostMapping("/user/refresh")
     public ResponseEntity<String> refresh(@RequestHeader HttpHeaders header) {
         String refreshToken = header.getFirst("Authorization");
         redisService.issueAccessToken(refreshToken);
@@ -80,32 +80,36 @@ public class UserController {
     }
 
     // 목표 소비액 설정
-    @PutMapping("/targetamount")
+    @PutMapping("/user/targetamount")
     public ResponseEntity<String> setTargetAmount(@RequestBody UserDto userDto) {
         return userService.setTargetAmount(userDto);
     }
 
     // 게임 횟수 증가
-    @PutMapping("/life/increase")
+    @PutMapping("/user/life/increase")
     public ResponseEntity<String> increaseLife(@RequestBody UserDto userDto) {
         return userService.incraseLife(userDto);
     }
     // 게임 횟수 감소
-    @PutMapping("/life/decrease")
+    @PutMapping("/user/life/decrease")
     public ResponseEntity<String> decreaseLife(@RequestBody UserDto userDto) {
         return userService.decreaseLife(userDto);
     }
 
     // 게임 횟수 초기화
-    @PutMapping("/life/init")
+    @PutMapping("/user/life/init")
     public ResponseEntity<String> initLife(@RequestBody UserDto userDto) {
         return userService.initLife(userDto);
     }
 
     // 게임 횟수 조회
-    @PostMapping("/life")
+    @PostMapping("/user/life")
     public ResponseEntity<String> getLife(@RequestBody UserDto userDto) {
         return userService.getLife(userDto);
     }
+
+    // UUID로 정보 조회
+    @PostMapping("/info")
+    public ResponseEntity<UserDto> getUser(@RequestBody UserDto userDto) { return userService.getUser(userDto);}
 
 }
