@@ -5,12 +5,10 @@ import com.d208.giggyapp.dto.AppAccountHistory.BankAccountDTO;
 import com.d208.giggyapp.dto.AppAccountHistory.MonthDTO;
 import com.d208.giggyapp.repository.AppAccountHistoryRepository;
 import com.d208.giggyapp.service.AppAccountHistoryService;
+import jdk.jfr.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -44,12 +42,16 @@ public class AppAccountHistoryController {
         return ResponseEntity.ok(true);
     }
 
-    @PostMapping("/receive")
+    @PostMapping("/month")
     public ResponseEntity<?> getMonthAccountHistory(@RequestBody MonthDTO monthDTO){
         UUID userId = monthDTO.getUserId();
         String month = monthDTO.getMonth();
-
-
         return ResponseEntity.ok(true);
+    }
+
+    @PostMapping("/category/{id}")
+    public ResponseEntity<?> updateAccountHistory(@PathVariable Long id, @RequestBody String category){
+        appAccountHistoryService.updateCategory(id, category);
+        return ResponseEntity.ok().build();
     }
 }

@@ -106,7 +106,7 @@ public class AppAccountHistoryService {
             AppAccountHistory appAccountHistory = optionalAppAccountHistory.get();
             appAccountHistory.updateCategory(category);
         }else {
-            System.out.println("존재하지 않는 거래내역입니다.")
+            System.out.println("존재하지 않는 거래내역입니다.");
         }
         return null;
     }
