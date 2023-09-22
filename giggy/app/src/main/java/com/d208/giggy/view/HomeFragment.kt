@@ -84,18 +84,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
             homeFragmentViewModel.user.observe(viewLifecycleOwner){
                 Log.d(TAG, "init: $it")
-                fragmentHomeNickNameTextView.text = "${it.nickname} 님"
-                fragmentHomeTargetAmountTextView.text = StringFormatUtil.moneyToWon(it.targetAmount)
-                fragmentHomeCurrentAmountTextView.text = StringFormatUtil.moneyToWon(it.currentAmount)
-                amountPercent = (100f - (it.currentAmount.toFloat() / it.targetAmount) * 100f).toInt()
-                ObjectAnimator.ofInt(fragmenthomeProgressBar, "progress", amountPercent.toInt())
-                    .setDuration(500)
-                    .start()
+                if(it != null){
+                    mainActivityViewModel.user = it
+                    fragmentHomeNickNameTextView.text = "${it.nickname} 님"
+                    fragmentHomeTargetAmountTextView.text = StringFormatUtil.moneyToWon(it.targetAmount)
+                    fragmentHomeCurrentAmountTextView.text = StringFormatUtil.moneyToWon(it.currentAmount)
+                    amountPercent = (100f - (it.currentAmount.toFloat() / it.targetAmount) * 100f).toInt()
+                    fragmentHomeBankMoneyTextView.text =StringFormatUtil.moneyToWon(App.sharedPreferences.getInt("money"))
+                    ObjectAnimator.ofInt(fragmenthomeProgressBar, "progress", amountPercent.toInt())
+                        .setDuration(500)
+                        .start()
+                }
+                else{
+                    showSnackbar("불러올 정보가 없습니다")
+
+                }
+
             }
-
-            //닉네임
-
-            //은행 정보
 
 
             // 소비 패턴 분석 화면
@@ -122,6 +127,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             ObjectAnimator.ofInt(fragmenthomeProgressBar, "progress", amountPercent.toInt())
                 .setDuration(500)
                 .start()
+        }
+        homeFragmentViewModel.exceptionHandler.observe(viewLifecycleOwner){
+            when(it){
+                0 -> {
+                    showSnackbar("네트워크 오류")
+                    findNavController().navigate(R.id.action_HomeFragment_to_ErrorFragment)
+                }
+                401 ->{
+                    showSnackbar("토큰 값이 만료되었습니다.")
+                    findNavController().navigate(R.id.action_HomeFragment_to_ErrorFragment)
+                }
+            }
         }
 
     }

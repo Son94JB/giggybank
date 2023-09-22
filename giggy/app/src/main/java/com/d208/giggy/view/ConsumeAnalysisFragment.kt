@@ -6,10 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentConsumeAnalysisBinding
+
+import com.d208.giggy.viewmodel.ConsumeAnalysisFragmentViewModel
 
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.PieData
@@ -17,6 +20,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.ColorTemplate.COLORFUL_COLORS
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Arrays
 import java.util.LinkedList
 
@@ -30,11 +34,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ConsumeAnalysisFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(FragmentConsumeAnalysisBinding::bind, R.layout.fragment_consume_analysis) {
+@AndroidEntryPoint
+class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(
+    FragmentConsumeAnalysisBinding::bind, R.layout.fragment_consume_analysis) {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    private val consumeAnalysisFragmentViewModel : ConsumeAnalysisFragmentViewModel by viewModels()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,22 +94,35 @@ class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(Fra
             }
         }
     }
-    fun spinnerInit() {
-//        val niceSpinner = binding.niceSpinner
-//        val dataset: List<String> = LinkedList(Arrays.asList("2023.06", "2023.07", "2023.08", "2023.09", "2023.10"))
-//        niceSpinner.attachDataSource(dataset)
-//        niceSpinner.selectedIndex = 3
-    }
+
 
 
     fun init(){
-        spinnerInit()
+        consumeAnalysisFragmentViewModel.searchMonths()
         chartInit()
         with(binding){
             fragmentConsumeAnalysisBackButton.setOnClickListener {
                 findNavController().navigateUp()
             }
+            niceSpinner.setItems("없음")
         }
+        consumeAnalysisFragmentViewModel.exceptionHandler.observe(viewLifecycleOwner){
+            when(it){
+                0 -> {
+                    showSnackbar("네트워크 오류")
+                    findNavController().navigate(R.id.action_ConsumeAnalysisFragment_to_ErrorFragment)
+                }
+                401 ->{
+                    showSnackbar("토큰 값이 만료되었습니다.")
+                    findNavController().navigate(R.id.action_ConsumeAnalysisFragment_to_ErrorFragment)
+                }
+            }
+
+        }
+        consumeAnalysisFragmentViewModel.monthList.observe(viewLifecycleOwner){
+            binding.niceSpinner.setItems(it)
+        }
+
     }
 
 

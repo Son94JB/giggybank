@@ -16,6 +16,10 @@ class SharedPreferencesUtil(context: Context) {
         return preferences.getLong(key, -1)
     }
 
+    fun getInt(key : String) : Int {
+        return preferences.getInt(key, 0)
+    }
+
     fun removeUser() {
         preferences.edit().clear().apply()
     }
@@ -31,6 +35,13 @@ class SharedPreferencesUtil(context: Context) {
         editor.putString("account", account)
         editor.apply()
     }
+    fun updateMoney(money : Int){
+        val editor = preferences.edit()
+        editor.putInt("money", money)
+        editor.apply()
+    }
+
+
 
 
 

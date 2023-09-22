@@ -38,7 +38,10 @@ abstract class BaseDataSource {
                 Log.e("BaseRemoteRepo", "Call error: ${e.localizedMessage}", e.cause)
                 when(e){
                     is HttpException -> {
-                        if(e.code() == 401) emitter.onError(ErrorType.SESSION_EXPIRED)
+                        if(e.code() == 401) {
+                            emitter.onError(ErrorType.SESSION_EXPIRED)
+
+                        }
                         else {
                             val body = e.response()?.errorBody()
                             emitter.onError(getErrorMessage(body))
