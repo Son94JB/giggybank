@@ -2,20 +2,20 @@ package com.d208.giggyapp.service;
 
 import com.d208.giggyapp.domain.User;
 import com.d208.giggyapp.dto.SignUpDto;
-import com.d208.giggyapp.dto.User.*;
+import com.d208.giggyapp.dto.User.KakaoResponseDto;
+import com.d208.giggyapp.dto.User.LoginDto;
+import com.d208.giggyapp.dto.User.SendUserDTO;
+import com.d208.giggyapp.dto.User.UserDto;
 import com.d208.giggyapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.type.UUIDBinaryType;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @Service
 @Transactional
@@ -63,14 +63,14 @@ public class UserService {
     }
 
     // DB에서 이메일을 조회해서 유저가 있는지 확인
-    public UserDto userExist(KakaoResponseDto kakaoResponseDto, LoginDto loginDto) {
+    public SendUserDTO userExist(KakaoResponseDto kakaoResponseDto, LoginDto loginDto) {
         String email = kakaoResponseDto.getKakaoAccount().getEmail();
         String birthday = kakaoResponseDto.getKakaoAccount().getBirthday();
         User user = userRepository.findByEmail(email).orElse(null);
 
         // 유저가 없는 경우
         if (user == null) {
-            return UserDto.builder().
+            return SendUserDTO.builder().
                     email(email).
                     birthday(birthday).
                     build();
@@ -80,15 +80,16 @@ public class UserService {
         // FCM토큰 갱신
         user.updateFcmToken(loginDto.getFcmToken());
         userRepository.save(user);
-
-        UserDto userDto = UserDto.builder().
+        Long registerDateMillis = user.getRegisterDate().atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        SendUserDTO userDto = SendUserDTO.builder().
                 id(user.getId()).
                 email(user.getEmail()).
                 nickname(user.getNickname()).
                 targetAmount(user.getTargetAmount()).
                 fcmToken(user.getFcmToken()).
                 refreshToken(user.getRefreshToken()).
-                leftLife(user.getLeftLife()).build();
+                leftLife(user.getLeftLife()).
+                registerDate(registerDateMillis).build();
 
         return userDto;
     }
@@ -157,6 +158,7 @@ public class UserService {
                 birthday(kaKaoInfo.getKakaoAccount().getBirthday()).
                 targetAmount(signUpDto.getTargetAmount()).
                 leftLife(3).
+                registerDate(LocalDateTime.now()).
                 build();
 
         userRepository.save(newUser);
@@ -173,12 +175,13 @@ public class UserService {
         return ResponseEntity.ok(false);
     }
 
-    public ResponseEntity<UserDto> getUser(UserDto userDto) {
+    public ResponseEntity<SendUserDTO> getUser(UserDto userDto) {
         User user = userRepository.findById(userDto.getId()).orElse(null);
 
         if (user == null) return ResponseEntity.ok(null);
-
-        return ResponseEntity.ok(UserDto.builder()
+        Long registerDateMillis = user.getRegisterDate().atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        System.out.println("123123" + registerDateMillis);
+        return ResponseEntity.ok(SendUserDTO.builder()
                 .email(user.getEmail())
                 .nickname(user.getNickname())
                 .fcmToken(user.getFcmToken())
@@ -186,7 +189,9 @@ public class UserService {
                 .refreshToken(user.getRefreshToken())
                 .birthday(user.getBirthday())
                 .targetAmount(user.getTargetAmount())
-                .leftLife(user.getLeftLife()).build());
+                .leftLife(user.getLeftLife())
+                .registerDate(registerDateMillis)
+                .build());
     }
 }
 
