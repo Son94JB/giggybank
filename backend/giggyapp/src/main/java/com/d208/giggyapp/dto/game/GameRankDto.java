@@ -1,4 +1,4 @@
-package com.d208.giggyapp.dto;
+package com.d208.giggyapp.dto.game;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

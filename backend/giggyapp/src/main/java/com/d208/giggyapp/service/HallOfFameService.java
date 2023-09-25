@@ -1,8 +1,8 @@
 package com.d208.giggyapp.service;
 
-import com.d208.giggyrank.domain.game.HallOfFame;
-import com.d208.giggyrank.dto.GameRankDto;
-import com.d208.giggyrank.repository.HallOfFameRepository;
+import com.d208.giggyapp.domain.game.HallOfFame;
+import com.d208.giggyapp.dto.game.GameRankDto;
+import com.d208.giggyapp.repository.HallOfFameRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

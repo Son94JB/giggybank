@@ -58,7 +58,7 @@ public class User {
         this.targetAmount = targetAmount;
     }
 
-    public void incraseLife(int life) {
+    public void increaseLife(int life) {
         this.leftLife += life;
     }
 

@@ -1,7 +1,7 @@
 package com.d208.giggyapp.controller;
 
-import com.d208.giggyrank.dto.GameRankDto;
-import com.d208.giggyrank.service.HallOfFameService;
+import com.d208.giggyapp.dto.game.GameRankDto;
+import com.d208.giggyapp.service.HallOfFameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

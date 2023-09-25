@@ -110,7 +110,7 @@ public class UserService {
 
         if (user == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("존재하지 않는 회원입니다.");
 
-        user.incraseLife(2);
+        user.increaseLife(2);
         return ResponseEntity.ok("게임 목숨이 증가하였습니다.");
     }
 

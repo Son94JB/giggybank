@@ -1,6 +1,6 @@
 package com.d208.giggyapp.service;
 
-import com.d208.giggyrank.repository.HallOfBeggerRepository;
+import com.d208.giggyapp.repository.HallOfBeggerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
