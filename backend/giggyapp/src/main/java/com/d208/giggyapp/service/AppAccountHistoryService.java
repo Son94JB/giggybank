@@ -106,7 +106,7 @@ public class AppAccountHistoryService {
             LocalDateTime endDate = yearMonth.atEndOfMonth().atTime(23,59,59);
             List<AppAccountHistory> appAccountHistories = appAccountHistoryRepository.findByUserAndTransactionDateTimeBetween(user, startDate, endDate);
             // 항상 6가지 카테고리를 미리 정의
-            List<String> predefinedCategories = Arrays.asList("교통", "식품", "기타", "고정지출", "쇼핑", "자기계발");
+            List<String> predefinedCategories = Arrays.asList("교통", "식품", "기타", "고정지출", "쇼핑", "자기계발","여가");
 
             // 카테고리별 지출 합계를 저장할 맵 초기화
             Map<String, BigDecimal> categorySumMap = new HashMap<>();
