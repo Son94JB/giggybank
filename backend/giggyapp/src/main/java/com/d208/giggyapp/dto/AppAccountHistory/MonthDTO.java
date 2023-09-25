@@ -9,5 +9,5 @@ import java.util.UUID;
 @Builder
 public class MonthDTO {
     private String month;
-    private UUID userID;
+    private UUID userId;
 }
