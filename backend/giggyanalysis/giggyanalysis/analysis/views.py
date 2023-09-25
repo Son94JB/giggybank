@@ -18,11 +18,9 @@ def analysis(data):
     model = fasttext.load_model("fasttext_model/fasttext.bin")
     data["preprocess_content"] = data["content"].apply(lambda x: komoran.nouns(x))
     data["preprocess_content"] = " "+data["preprocess_content"].apply(lambda x: " ".join(x))
-    if data["transaction"] == "출금":
-        data["category"] = data["preprocess_content"].apply(lambda x: model.predict(x)[0][0].replace("__label__",""))
-        data["category"] = data["category"].apply(lambda x: x.replace(",",""))
-    else:
-        data["category"] = "기타"
+    data["category"] = data["preprocess_content"].apply(lambda x: model.predict(x)[0][0].replace("__label__",""))
+    data["category"] = data["category"].apply(lambda x: x.replace(",",""))
+    data.loc[data["deposit"].gt(0), "category"] = "기타"
     data = data.drop("preprocess_content", axis=1)
     analysis_data = data.to_dict(orient='records')
     return analysis_data

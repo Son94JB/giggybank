@@ -2,19 +2,25 @@ package com.d208.giggyapp.service;
 
 import com.d208.giggyapp.domain.AppAccountHistory;
 import com.d208.giggyapp.domain.User;
-import com.d208.giggyapp.dto.AppAccountHistory.AppAccountHistoryDto;
+import com.d208.giggyapp.dto.AppAccountHistory.*;
 import com.d208.giggyapp.repository.AppAccountHistoryRepository;
 import com.d208.giggyapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,18 +31,6 @@ public class AppAccountHistoryService {
 
     // 은행으로부터 거래내역 받아오기
     public Void getAppAccountHistory(String accountNumber, UUID userId){
-        //        String url = "http://127.0.0.1:8082/api/v1/bank/search-transaction";
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//
-//        String requestBody = "{\"accountNumber\" : \"" + accountNumber + "\"}";
-//        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-//
-//        ResponseEntity<BankHistoryDTO> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, BankHistoryDTO.class);
-//        BankHistoryDTO responseBody = response.getBody();
-
 
         Optional<User> optionalUser = userRepository.findById(userId);
         User user = optionalUser.get();
@@ -74,14 +68,14 @@ public class AppAccountHistoryService {
 
         HttpEntity<?> requestEntity = new HttpEntity<>(requestBody, headers);
         try{
-            ResponseEntity<AppAccountHistoryDto> response = restTemplate.exchange(uri.toString(), HttpMethod.POST, requestEntity, AppAccountHistoryDto.class);
-            AppAccountHistoryDto appAccountHistoryDto = response.getBody();
-            List<AppAccountHistoryDto.DataBody> dataList = appAccountHistoryDto.getData();
+            ResponseEntity<AppAccountHistoryDTO> response = restTemplate.exchange(uri.toString(), HttpMethod.POST, requestEntity, AppAccountHistoryDTO.class);
+            AppAccountHistoryDTO appAccountHistoryDto = response.getBody();
+            List<AppAccountHistoryDTO.DataBody> dataList = appAccountHistoryDto.getData();
             System.out.println(dataList);
 
             // 정보 저장
             int tmpAmount = 0;
-            for(AppAccountHistoryDto.DataBody data : dataList) {
+            for(AppAccountHistoryDTO.DataBody data : dataList) {
                 AppAccountHistory appAccountHistory = AppAccountHistory.builder().
                         transactionType(data.getTransactionType()).
                         transactionDate(data.getTransactionDate()).
@@ -100,10 +94,34 @@ public class AppAccountHistoryService {
         }
         return null;
     }
-    public AppAccountHistoryDto getMonthHistory(UUID userId, String month){
 
+    // 분석내역 조회
+    public List<AnalysisDTO> getAnalysis(MonthDTO monthDTO){
+        Optional<User> optionalUser = userRepository.findById(monthDTO.getUserID());
+        if(optionalUser.isPresent()){
+            User user = optionalUser.get();
+            YearMonth yearMonth = YearMonth.parse(monthDTO.getMonth());
+            LocalDateTime startDate = yearMonth.atDay(1).atStartOfDay();
+            LocalDateTime endDate = yearMonth.atEndOfMonth().atTime(23,59,59);
+            List<AppAccountHistory> appAccountHistories = appAccountHistoryRepository.findByUserAndTransactionDateTimeBetween(user, startDate, endDate);
+            Map<String, BigDecimal> categorySumMap = new HashMap<>();
+            for(AppAccountHistory appAccountHistory : appAccountHistories){
+                String category = appAccountHistory.getCategory();
+                int withdraw = appAccountHistory.getWithdraw();
+                BigDecimal bigwithdraw = new BigDecimal(withdraw);
+                if(categorySumMap.containsKey(category)){
+                    BigDecimal currentSum = categorySumMap.get(category);
+                    categorySumMap.put(category, currentSum.add(bigwithdraw));
+                }else{
+                    categorySumMap.put(category, bigwithdraw);
+                }
+            }
+            System.out.println(categorySumMap);
+        }
         return null;
     }
+
+    // 카테고리 업데이트
     public Void updateCategory(Long id, String category){
         Optional<AppAccountHistory> optionalAppAccountHistory = appAccountHistoryRepository.findById(id);
         if(optionalAppAccountHistory.isPresent()){
@@ -114,4 +132,62 @@ public class AppAccountHistoryService {
         }
         return null;
     }
+
+    // 페이지네이션을 위한 달 조회
+    public List<String> getMonth(UUID userId){
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(optionalUser.isPresent()){
+            User user = optionalUser.get();
+            LocalDateTime registerDate = user.getRegisterDate();
+            LocalDateTime currentDate = LocalDateTime.now();
+            List<String> yearMonths = new ArrayList<>();
+
+            while (!registerDate.isAfter(currentDate)){
+                YearMonth yearMonth = YearMonth.from(registerDate);
+                yearMonths.add(yearMonth.toString());
+                registerDate = registerDate.plusMonths(1);
+            }
+            return yearMonths;
+        }else {
+            return null;
+        }
+    }
+
+    // 거래내역 조회
+    public List<AccountHistoryDTO> getAppAccountHistory(@RequestBody DateDTO accountHistoryDateDTO){
+        System.out.println(accountHistoryDateDTO);
+        String startDate = accountHistoryDateDTO.getStartDate() + " 00:00:00";
+        String endDate = accountHistoryDateDTO.getEndDate() + " 23:59:59";
+//        String startDate = "2023-07-22" + " 00:00:00";
+//        String endDate = "2023-09-22" + " 23:59:59";
+        UUID userId = accountHistoryDateDTO.getUserId();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime start = LocalDateTime.parse(startDate, formatter);
+        LocalDateTime end = LocalDateTime.parse(endDate, formatter);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(optionalUser.isPresent()){
+            User user = optionalUser.get();
+            List<AppAccountHistory> appAccountHistories = appAccountHistoryRepository.findByUserAndTransactionDateTimeBetween(user, start, end);
+            List<AccountHistoryDTO> appAccountHistoryDTOs = appAccountHistories.stream()
+                    .map(history -> AccountHistoryDTO.builder().
+                            amount(history.getAmount()).
+                            transactionType(history.getTransactionType()).
+                            transactionDate(history.getTransactionDate().atZone(ZoneOffset.UTC).toInstant().toEpochMilli()).
+                            deposit(history.getDeposit()).
+                            withdraw(history.getWithdraw()).
+                            deposit(history.getDeposit()).
+                            content(history.getContent()).
+                            id(history.getId()).
+                            category(history.getCategory()).build())
+                    .collect(Collectors.toList());
+            System.out.println("123123123");
+            System.out.println(appAccountHistoryDTOs);
+            return appAccountHistoryDTOs;
+        }else {
+            System.out.println("존재하지않는 유저입니다.");
+            return null;
+        }
+    }
+
 }
