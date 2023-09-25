@@ -1,5 +1,6 @@
 package com.d208.giggyapp.controller;
 
+import com.d208.giggyapp.dto.Auth1MobileDto;
 import com.d208.giggyapp.dto.Auth1RequestDto;
 import com.d208.giggyapp.dto.Auth1ResponseDto;
 import com.d208.giggyapp.repository.UserRepository;

@@ -1,4 +1,4 @@
-package com.d208.giggyapp.domain.Board;
+package com.d208.giggyapp.domain.board;
 
 import com.d208.giggyapp.domain.User;
 import lombok.AllArgsConstructor;
@@ -7,15 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-
 
 @Entity
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Board {
+public class LikeComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,20 +22,8 @@ public class Board {
     @JoinColumn(name="USER_ID")
     private User user;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime modifiedAt;
-
-    private String title;
-
-    private String content;
-
-    private String picture;
-
-    private String postType;
-
-    private String category;
-
-    private int viewCount;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "COMMENT_ID")
+    private Comment comment;
 
 }

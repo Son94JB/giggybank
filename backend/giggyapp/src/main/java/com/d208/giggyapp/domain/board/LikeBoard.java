@@ -1,4 +1,5 @@
-package com.d208.giggyapp.domain.Board;
+package com.d208.giggyapp.domain.board;
+
 
 import com.d208.giggyapp.domain.User;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LikeComment {
+public class LikeBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +24,6 @@ public class LikeComment {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "COMMENT_ID")
-    private Comment comment;
-
+    @JoinColumn(name = "BOARD_ID")
+    private Board board;
 }

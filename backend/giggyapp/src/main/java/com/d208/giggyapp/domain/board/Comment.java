@@ -1,4 +1,4 @@
-package com.d208.giggyapp.domain.Board;
+package com.d208.giggyapp.domain.board;
 
 import com.d208.giggyapp.domain.User;
 import lombok.AllArgsConstructor;
