@@ -7,6 +7,7 @@ import com.d208.data.remote.model.TransactionRequest
 import com.d208.data.remote.model.TransactionResponse
 import com.d208.data.repository.remote.datasource.BankDateSource
 import com.d208.data.utils.base.BaseDataSource
+import com.d208.domain.model.DomainTransaction
 import com.d208.domain.utils.RemoteErrorEmitter
 import java.util.UUID
 import javax.inject.Inject
@@ -44,6 +45,24 @@ class BankDateSourceImpl @Inject constructor(
         return safeApiCall(remoteErrorEmitter){
             val request = AnalysisRequest(id, date)
             bankApi.getAnalysis(request)?.body()
+        }
+    }
+
+    override suspend fun getRecentData(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        id: UUID,
+    ): Boolean? {
+        return safeApiCall(remoteErrorEmitter){
+            bankApi.getRecentData(id)?.body()
+        }
+    }
+
+    override suspend fun updateCategory(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        data: DomainTransaction
+    ): Boolean? {
+        return safeApiCall(remoteErrorEmitter){
+            bankApi.updateCategory(data)?.body()
         }
     }
 }

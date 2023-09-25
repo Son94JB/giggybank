@@ -38,4 +38,18 @@ class BankRepositoryImpl @Inject constructor(
     ): MutableList<DomainAnalysisResponse>? {
         return BankMapper.getAnalysis(bankDateSource.getAnalysis(remoteErrorEmitter, id, date))
     }
+
+    override suspend fun getRecentData(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        id: UUID,
+    ): Boolean? {
+        return bankDateSource.getRecentData(remoteErrorEmitter, id)
+    }
+
+    override suspend fun updateCategory(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        data: DomainTransaction
+    ): Boolean? {
+        return bankDateSource.updateCategory(remoteErrorEmitter, data)
+    }
 }

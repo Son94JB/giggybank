@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.d208.domain.model.DomainAnalysisResponse
 import com.d208.domain.usecase.AnalysisUsecase
 import com.d208.domain.usecase.GetMonthsUsecase
+import com.d208.domain.usecase.GetRecentDataUsecase
 import com.d208.domain.utils.ErrorType
 import com.d208.domain.utils.RemoteErrorEmitter
 import com.d208.giggy.di.App
@@ -21,12 +22,27 @@ private const val TAG = "ConsumeAnalysisFragment giggy"
 class ConsumeAnalysisFragmentViewModel @Inject constructor(
     private val searchMonthsUsecase: GetMonthsUsecase,
     private val analysisUsecase: AnalysisUsecase,
+    private val getRecentDataUsecase: GetRecentDataUsecase,
 ) : ViewModel(), RemoteErrorEmitter{
     private val _monthList = MutableLiveData<MutableList<String>> ()
     val monthList : LiveData<MutableList<String>> get() = _monthList
     private val _analysisList = MutableLiveData<MutableList<DomainAnalysisResponse>> ()
     val analysisList : LiveData<MutableList<DomainAnalysisResponse>> get() = _analysisList
 
+    private val _updateSuccess = MutableLiveData<Boolean>()
+    val updateSuccess : LiveData<Boolean> get() = _updateSuccess
+    fun getRecentData() {
+        viewModelScope.launch {
+            getRecentDataUsecase.execute(this@ConsumeAnalysisFragmentViewModel,
+                UUID.fromString(App.sharedPreferences.getString("id")!!)
+                ).let {
+                    response ->
+                if(response != null){
+                    _updateSuccess.value = response
+                }
+            }
+        }
+    }
     fun searchMonths(){
 
         viewModelScope.launch {
@@ -68,11 +84,12 @@ class ConsumeAnalysisFragmentViewModel @Inject constructor(
 
     override fun onError(msg: String) {
         errorMessage = msg
+        Log.d(TAG, "onError: ${errorMessage} ")
     }
 
     override fun onError(errorType: ErrorType) {
         apiErrorType = errorType
-
+        Log.d(TAG, "onError: ${apiErrorType} ")
         when (errorType) {
             ErrorType.NETWORK -> {
                 // 네트워크 에러 처리

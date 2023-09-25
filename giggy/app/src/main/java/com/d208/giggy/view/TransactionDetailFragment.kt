@@ -1,6 +1,7 @@
 package com.d208.giggy.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.d208.giggy.viewmodel.MainActivityViewModel
 import com.d208.giggy.viewmodel.TransactionDetailFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+private const val TAG = "TransactionDetailFragme giggy"
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -37,7 +39,8 @@ class TransactionDetailFragment : BaseFragment<FragmentTransactionDetailBinding>
     }
     fun init() = with(binding){
         fragmentTransactionDetailCategoryChooseButton.setOnClickListener {
-
+            val categoryChooseDialog = CategoryChooseDialog(requireContext(), mainActivityViewModel.selectedTransaction!!.category, this@TransactionDetailFragment)
+            categoryChooseDialog.show()
         }
         fragmentTransactionDetailBack.setOnClickListener {
             findNavController().navigateUp()
@@ -52,11 +55,19 @@ class TransactionDetailFragment : BaseFragment<FragmentTransactionDetailBinding>
         fragmentTransactionDetailCategoryTextView.text = mainActivityViewModel.selectedTransaction!!.category
         fragmentTransactionDetailContentTextView.text = mainActivityViewModel.selectedTransaction!!.content
         fragmentTransactionDetailTransactionDateTextView.text = StringFormatUtil.dateTimeToString(mainActivityViewModel.selectedTransaction!!.transactionDate)
+
+
     }
 
-    fun updateCategory(id : Long, category : String){
-        transactionDetailFragmentViewModel.updateCategory(id, category)
-
+    fun updateCategory(category : String){
+        Log.d(TAG, "updateCategory: $category")
+        mainActivityViewModel.selectedTransaction!!.category = category
+        transactionDetailFragmentViewModel.updateCategory(mainActivityViewModel.selectedTransaction!!)
+        transactionDetailFragmentViewModel.updateSuccess.observe(viewLifecycleOwner){
+            if(it){
+                binding.fragmentTransactionDetailCategoryTextView.text = category
+            }
+        }
     }
 
 }

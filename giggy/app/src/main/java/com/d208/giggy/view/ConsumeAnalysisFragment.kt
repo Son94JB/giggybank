@@ -6,14 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.d208.domain.utils.StringFormatUtil
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentConsumeAnalysisBinding
 import com.d208.giggy.di.App
 
 import com.d208.giggy.viewmodel.ConsumeAnalysisFragmentViewModel
+import com.d208.giggy.viewmodel.MainActivityViewModel
 
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.PieData
@@ -43,6 +46,7 @@ class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(
     private var param1: String? = null
     private var param2: String? = null
     private val consumeAnalysisFragmentViewModel : ConsumeAnalysisFragmentViewModel by viewModels()
+    private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,7 +111,12 @@ class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(
                 findNavController().navigateUp()
             }
             niceSpinner.setItems("없음")
+            niceSpinner.setOnItemSelectedListener { view, position, id, item ->
+                consumeAnalysisFragmentViewModel.getAnalysis(UUID.fromString(App.sharedPreferences.getString("id")), item.toString())
+            }
         }
+
+
         consumeAnalysisFragmentViewModel.exceptionHandler.observe(viewLifecycleOwner){
             when(it){
                 0 -> {
@@ -123,18 +132,84 @@ class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(
         }
         consumeAnalysisFragmentViewModel.monthList.observe(viewLifecycleOwner){
             binding.niceSpinner.setItems(it)
-            consumeAnalysisFragmentViewModel.getAnalysis(UUID.fromString(App.sharedPreferences.getString("id")), it[binding.niceSpinner.selectedIndex])
+            consumeAnalysisFragmentViewModel.getRecentData()
+
+        }
+        consumeAnalysisFragmentViewModel.updateSuccess.observe(viewLifecycleOwner){
+            if(!consumeAnalysisFragmentViewModel.monthList.value.isNullOrEmpty()){
+                consumeAnalysisFragmentViewModel.getAnalysis(UUID.fromString(App.sharedPreferences.getString("id")), consumeAnalysisFragmentViewModel.monthList.value!![binding.niceSpinner.selectedIndex])
+            }
+
         }
         consumeAnalysisFragmentViewModel.analysisList.observe(viewLifecycleOwner){
             var sum = 0f
             for(data in it){
                 sum += data.price
             }
-
+            binding.fragmentConsumeAnalysisAmountTextView.text = StringFormatUtil.moneyToWon(sum.toInt())
             val entries = ArrayList<PieEntry>()
 
             for(data in it){
-                entries.add(PieEntry(data.price/sum *100f, "${data.categoryName}"))
+                if(data.price > 0){
+                    entries.add(PieEntry(data.price/sum *100f, "${data.categoryName}"))
+                    when(data.categoryName){
+                        "식품" -> {
+                            binding.fragmentConsumeAnalysisFoodAmountTextView.text = StringFormatUtil.moneyToWon(data.price)
+                            binding.fragmentConsumeAnalysisFoodAmountPercentTextView.text = "${data.price/sum * 100f} %"
+                        }
+                        "교통" -> {
+                            binding.fragmentConsumeAnalysisTrafficAmountTextView.text = StringFormatUtil.moneyToWon(data.price)
+                            binding.fragmentConsumeAnalysisTrafficAmountPercentTextView.text = "${data.price/sum * 100f} %"
+                        }
+                        "여가" -> {
+                            binding.fragmentConsumeAnalysisLeisureAmountTextView.text = StringFormatUtil.moneyToWon(data.price)
+                            binding.fragmentConsumeAnalysisLeisureAmountPercentTextView.text = "${data.price/sum * 100f} %"
+                        }
+                        "쇼핑" -> {
+                            binding.fragmentConsumeAnalysisShoppingAmountTextView.text = StringFormatUtil.moneyToWon(data.price)
+                            binding.fragmentConsumeAnalysisShoppingAmountPercentTextView.text = "${data.price/sum * 100f} %"
+
+                        }
+                        "고정지출" -> {
+                            binding.fragmentConsumeAnalysisFixedAmountTextView.text = StringFormatUtil.moneyToWon(data.price)
+                            binding.fragmentConsumeAnalysisFixedAmountPercentTextView.text = "${data.price/sum * 100f} %"
+                        }
+                        "기타" -> {
+                            binding.fragmentConsumeAnalysisEtcAmountTextView.text = StringFormatUtil.moneyToWon(data.price)
+                            binding.fragmentConsumeAnalysisEtcAmountPercentTextView.text = "${data.price/sum * 100f} %"
+                        }
+                    }
+                }
+                else{
+                    when(data.categoryName){
+                        "식품" -> {
+                            binding.fragmentConsumeAnalysisFoodAmountTextView.text = StringFormatUtil.moneyToWon(data.price)
+                            binding.fragmentConsumeAnalysisFoodAmountPercentTextView.text = "0%"
+                        }
+                        "교통" -> {
+                            binding.fragmentConsumeAnalysisTrafficAmountTextView.text = StringFormatUtil.moneyToWon(data.price)
+                            binding.fragmentConsumeAnalysisTrafficAmountPercentTextView.text = "0%"
+                        }
+                        "여가" -> {
+                            binding.fragmentConsumeAnalysisLeisureAmountTextView.text = StringFormatUtil.moneyToWon(data.price)
+                            binding.fragmentConsumeAnalysisLeisureAmountPercentTextView.text = "0%"
+                        }
+                        "쇼핑" -> {
+                            binding.fragmentConsumeAnalysisShoppingAmountTextView.text = StringFormatUtil.moneyToWon(data.price)
+                            binding.fragmentConsumeAnalysisShoppingAmountPercentTextView.text = "0%"
+
+                        }
+                        "고정지출" -> {
+                            binding.fragmentConsumeAnalysisFixedAmountTextView.text = StringFormatUtil.moneyToWon(data.price)
+                            binding.fragmentConsumeAnalysisFixedAmountPercentTextView.text = "0%"
+                        }
+                        "기타" -> {
+                            binding.fragmentConsumeAnalysisEtcAmountTextView.text = StringFormatUtil.moneyToWon(data.price)
+                            binding.fragmentConsumeAnalysisEtcAmountPercentTextView.text = "0%"
+                        }
+                    }
+                }
+
             }
             val colorsItems = ArrayList<Int>()
             for (c in ColorTemplate.VORDIPLOM_COLORS) colorsItems.add(c)
@@ -150,7 +225,7 @@ class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(
             pieDataSet.apply {
                 colors = colorsItems
                 valueTextColor = Color.BLACK
-                valueTextSize = 32f
+                valueTextSize = 12f
             }
             val pieData = PieData(pieDataSet)
             binding.fragmentConsumeAnalysisChart.apply {
@@ -164,6 +239,7 @@ class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(
                 animate()
             }
         }
+
 
     }
 

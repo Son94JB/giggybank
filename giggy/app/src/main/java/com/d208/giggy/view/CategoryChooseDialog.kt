@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.d208.giggy.R
 
-class CategoryChooseDialog(context : Context, var currentCategory : String, var id : Long, var fragment : Fragment) : Dialog(context) {
+class CategoryChooseDialog(context : Context, var currentCategory : String, var fragment : Fragment) : Dialog(context) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_category_choose)
@@ -29,22 +29,27 @@ class CategoryChooseDialog(context : Context, var currentCategory : String, var 
             "기타" -> etc.setBackgroundColor(Color.GREEN)
         }
         food.setOnClickListener {
-            (fragment as TransactionDetailFragment).updateCategory(id, "식품")
+            (fragment as TransactionDetailFragment).updateCategory("식품")
             dismiss()
         }
         traffic.setOnClickListener {
+            (fragment as TransactionDetailFragment).updateCategory("교통")
             dismiss()
         }
         leisure.setOnClickListener {
+            (fragment as TransactionDetailFragment).updateCategory("여가")
             dismiss()
         }
         shopping.setOnClickListener {
+            (fragment as TransactionDetailFragment).updateCategory("쇼핑")
             dismiss()
         }
         fixed.setOnClickListener {
+            (fragment as TransactionDetailFragment).updateCategory("고정지출")
             dismiss()
         }
         etc.setOnClickListener {
+            (fragment as TransactionDetailFragment).updateCategory("기타")
             dismiss()
         }
 
