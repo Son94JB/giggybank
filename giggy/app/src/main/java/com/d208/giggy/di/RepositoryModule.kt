@@ -3,10 +3,13 @@ package com.d208.giggy.di
 
 import com.d208.data.repository.BankRepositoryImpl
 import com.d208.data.repository.MainRepositoryImpl
+import com.d208.data.repository.PostRepositoryImpl
 import com.d208.data.repository.remote.datasourceimpl.BankDateSourceImpl
 import com.d208.data.repository.remote.datasourceimpl.MainDataSourceImpl
+import com.d208.data.repository.remote.datasourceimpl.PostDateSourceImpl
 import com.d208.domain.repository.BankRepository
 import com.d208.domain.repository.MainRepository
+import com.d208.domain.repository.PostRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,6 +37,16 @@ class RepositoryModule {
     ): BankRepository {
         return BankRepositoryImpl(
             bankDataSourceImpl
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun providePostRepository(
+        postDataSourceImpl : PostDateSourceImpl
+    ): PostRepository {
+        return PostRepositoryImpl(
+            postDataSourceImpl
         )
     }
 

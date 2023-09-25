@@ -12,4 +12,8 @@ interface BankRepository {
     suspend fun searchMonths(remoteErrorEmitter: RemoteErrorEmitter, id : UUID) : MutableList<String>?
 
     suspend fun getAnalysis(remoteErrorEmitter: RemoteErrorEmitter, id : UUID, date : String) : MutableList<DomainAnalysisResponse>?
+
+    suspend fun getRecentData(remoteErrorEmitter: RemoteErrorEmitter, id : UUID) : Boolean?
+
+    suspend fun updateCategory(remoteErrorEmitter: RemoteErrorEmitter, data : DomainTransaction) : Boolean?
 }

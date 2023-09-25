@@ -7,7 +7,7 @@ data class DomainTransaction(val id : Long,
                              val content : String,
                              val transactionDate : Long,
                              val transactionType : String,
-                             val category : String,
+                             var category : String,
                              val amount : Int,
                              val deposit :Int,
                              val withdraw : Int)

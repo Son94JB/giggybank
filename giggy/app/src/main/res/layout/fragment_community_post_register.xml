@@ -240,22 +240,15 @@
             app:layout_constraintTop_toBottomOf="@+id/fragment_community_post_register_content_edit_view"
             />
         
-        <ImageButton
-            android:id="@+id/fragment_community_post_register_image_add_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/image_add_button"
-            android:backgroundTint="@color/background"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_community_post_register_photo_text_view"
-            />
+
 
       <ImageView
+          android:layout_marginTop="16dp"
           android:id="@+id/fragment_community_post_register_image_view"
           android:layout_width="wrap_content"
-          android:layout_height="85dp"
-          android:visibility="gone"
-          app:layout_constraintStart_toEndOf="@+id/fragment_community_post_register_image_add_button"
+          android:layout_height="wrap_content"
+          android:src="@drawable/image_add_button"
+          app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@+id/fragment_community_post_register_photo_text_view"
           />
 
@@ -269,7 +262,7 @@
             android:text="작성 완료"
             android:textColor="@color/white"
             style="@style/Text.regular.Size20"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_community_post_register_image_add_button"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_community_post_register_image_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
