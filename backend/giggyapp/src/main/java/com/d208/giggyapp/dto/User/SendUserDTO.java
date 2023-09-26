@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Builder
 @Data
-public class UserDto {
+public class SendUserDTO {
     private UUID id;
     private String email;
     private String nickname;
@@ -18,5 +18,5 @@ public class UserDto {
     private int targetAmount;
     private int currentAmount;
     private int leftLife;
-    private LocalDateTime registerDate;
+    private Long registerDate;
 }
