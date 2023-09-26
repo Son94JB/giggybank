@@ -33,7 +33,7 @@ def receive(request):
             # JSON 데이터를 파이썬 객체로 파싱
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON in request body'}, status=400)
-        url = "http://192.168.100.52:8082/api/v1/bank/search-transaction"
+        url = "http://j9d208.p.ssafy.io:8082/api/v1/bank/search-transaction"
         data = {
                 'accountNumber' : request_data['accountNumber'],
                 'startDate' : request_data['startDate'],

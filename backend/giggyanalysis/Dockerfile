@@ -1,23 +1,21 @@
-FROM python:3.7
+# Ubuntu 20.04 기반 이미지를 사용합니다.
+FROM ubuntu:20.04
 
-# set work directory
-WORKDIR /code
+# 패키지 관리자 업데이트 및 Python 및 Java 11 설치
+ARG DEBIAN_FRONTEND=noninteractive
+RUN sed -i 's/archive.ubuntu.com/mirror.kakao.com/g' /etc/apt/sources.list && \
+    apt-get update && \
+    apt-get install -y python3 python3-pip openjdk-11-jdk
 
-# install dependencies
 RUN pip install --upgrade pip
-COPY requirements.txt /code/
+
+COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
-# copy project
-COPY . /code/
+COPY ./giggyanalysis /app
 
-# Install Java for PyKomoran
-# ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
-# RUN apt update -y && apt-get install -y software-properties-common && \
-#     apt-add-repository 'deb http://security.debian.org/debian-security stretch/updates main' && apt update -y && \
-#     apt-get install -y openjdk-8-jdk-headless
-#     # pip install --no-cache-dir -r requirements.txt && \
-#     # export JAVA_HOME && \
-#     # apt-get clean
+WORKDIR /app
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "stock.wsgi:application"]
+COPY ./entrypoint.sh /
+ENTRYPOINT [ "sh", "/entrypoint.sh" ]
+
