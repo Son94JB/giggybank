@@ -2,7 +2,7 @@ package com.d208.giggyapp.controller;
 
 import com.d208.giggyapp.domain.User;
 import com.d208.giggyapp.dto.SignUpDto;
-import com.d208.giggyapp.dto.User.*;
+import com.d208.giggyapp.dto.user.*;
 import com.d208.giggyapp.repository.UserRepository;
 import com.d208.giggyapp.service.RedisService;
 import com.d208.giggyapp.service.UserService;

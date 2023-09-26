@@ -2,10 +2,10 @@ package com.d208.giggyapp.service;
 
 import com.d208.giggyapp.domain.User;
 import com.d208.giggyapp.dto.SignUpDto;
-import com.d208.giggyapp.dto.User.KakaoResponseDto;
-import com.d208.giggyapp.dto.User.LoginDto;
-import com.d208.giggyapp.dto.User.SendUserDTO;
-import com.d208.giggyapp.dto.User.UserDto;
+import com.d208.giggyapp.dto.user.KakaoResponseDto;
+import com.d208.giggyapp.dto.user.LoginDto;
+import com.d208.giggyapp.dto.user.SendUserDTO;
+import com.d208.giggyapp.dto.user.UserDto;
 import com.d208.giggyapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;

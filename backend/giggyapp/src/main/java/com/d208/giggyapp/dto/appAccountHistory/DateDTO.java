@@ -1,4 +1,4 @@
-package com.d208.giggyapp.dto.AppAccountHistory;
+package com.d208.giggyapp.dto.appAccountHistory;
 
 import lombok.Builder;
 import lombok.Data;

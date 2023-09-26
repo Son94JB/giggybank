@@ -1,4 +1,4 @@
-package com.d208.giggyapp.dto.User;
+package com.d208.giggyapp.dto.user;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
