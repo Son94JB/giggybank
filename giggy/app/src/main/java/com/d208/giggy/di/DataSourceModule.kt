@@ -5,10 +5,10 @@ import com.d208.data.remote.api.PostApi
 import com.d208.data.remote.api.UserApi
 import com.d208.data.repository.remote.datasource.BankDateSource
 import com.d208.data.repository.remote.datasource.MainDataSource
-import com.d208.data.repository.remote.datasource.PostDateSource
+import com.d208.data.repository.remote.datasource.PostDataSource
 import com.d208.data.repository.remote.datasourceimpl.BankDateSourceImpl
 import com.d208.data.repository.remote.datasourceimpl.MainDataSourceImpl
-import com.d208.data.repository.remote.datasourceimpl.PostDateSourceImpl
+import com.d208.data.repository.remote.datasourceimpl.PostDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,8 +44,8 @@ class DataSourceModule {
     @Singleton
     fun providePostDateSource(
         postApi : PostApi,
-    ) : PostDateSource {
-        return PostDateSourceImpl(
+    ) : PostDataSource {
+        return PostDataSourceImpl(
             postApi,
         )
     }

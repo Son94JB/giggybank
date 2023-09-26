@@ -6,7 +6,7 @@ import com.d208.data.repository.MainRepositoryImpl
 import com.d208.data.repository.PostRepositoryImpl
 import com.d208.data.repository.remote.datasourceimpl.BankDateSourceImpl
 import com.d208.data.repository.remote.datasourceimpl.MainDataSourceImpl
-import com.d208.data.repository.remote.datasourceimpl.PostDateSourceImpl
+import com.d208.data.repository.remote.datasourceimpl.PostDataSourceImpl
 import com.d208.domain.repository.BankRepository
 import com.d208.domain.repository.MainRepository
 import com.d208.domain.repository.PostRepository
@@ -43,7 +43,7 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun providePostRepository(
-        postDataSourceImpl : PostDateSourceImpl
+        postDataSourceImpl : PostDataSourceImpl
     ): PostRepository {
         return PostRepositoryImpl(
             postDataSourceImpl

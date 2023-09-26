@@ -100,6 +100,8 @@ object Library{
     const val LOADING_SPINEER = "com.github.ybq:Android-SpinKit:1.4.0"
     const val LOADING = "androidx.legacy:legacy-support-v4:1.0.0"
     const val DROPDOWN = "com.github.jaredrummler:material-spinner:1.0.8"
+    const val GLIDE = "com.github.bumptech.glide:glide:4.9.0"
+    const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:4.16.0"
 }
 
 object KaKao{
