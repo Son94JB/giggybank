@@ -20,6 +20,7 @@ interface PostApi {
     @POST("app/post/{userId}")
     suspend fun getPosts(@Path("userId") id : UUID) : Response<List<PostResponse>>
 
+    //하나 조회
     @POST("app/post/{postId}/{userId}")
     suspend fun getOnePost(@Path("postId") id : Long, @Path("userId") userId : UUID) : Response<PostResponse>
 

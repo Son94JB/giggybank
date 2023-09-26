@@ -43,4 +43,14 @@ class PostDataSourceImpl @Inject constructor(
             postApi.pushLike(id, userId)
         }
     }
+
+    override suspend fun getOnePost(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        id: Long,
+        userId: UUID
+    ): PostResponse? {
+        return safeApiCall(remoteErrorEmitter){
+            postApi.getOnePost(id, userId).body()
+        }
+    }
 }

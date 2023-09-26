@@ -6,6 +6,7 @@ import com.d208.domain.repository.PostRepository
 import com.d208.domain.usecase.AnalysisUsecase
 import com.d208.domain.usecase.DuplicateCheckUsecase
 import com.d208.domain.usecase.GetMonthsUsecase
+import com.d208.domain.usecase.GetOnePostUsecase
 import com.d208.domain.usecase.GetPostsUsecase
 import com.d208.domain.usecase.LoginUsecase
 import com.d208.domain.usecase.RegisterPostUsecase
@@ -48,4 +49,8 @@ class UseCaseModule {
     @Provides
     @Singleton
     fun provideGetPostsUsecase(repository: PostRepository) = GetPostsUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGetOnePostUsecase(repository: PostRepository) = GetOnePostUsecase(repository)
 }
