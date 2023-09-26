@@ -93,6 +93,12 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
                 }
 
             }
+            itemHeartListener = object : PostAdapter.ItemClickListener{
+                override fun onClick(binding: ItemPostBinding, position: Int, data: DomainPost) {
+                   communityHomeFragmentViewModel.pushLike(data.id)
+                }
+
+            }
         }
     }
 

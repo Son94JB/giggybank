@@ -31,5 +31,9 @@ class PostRepositoryImpl @Inject constructor(
         return PostMapper.postsMapper(postDataSource.getPosts(remoteErrorEmitter, id))
     }
 
+    override suspend fun pushLike(remoteErrorEmitter: RemoteErrorEmitter, id: Long, userId: UUID): Unit? {
+        return postDataSource.pushLike(remoteErrorEmitter, id, userId)
+    }
+
 
 }

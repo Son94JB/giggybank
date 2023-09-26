@@ -16,4 +16,5 @@ interface BankRepository {
     suspend fun getRecentData(remoteErrorEmitter: RemoteErrorEmitter, id : UUID) : Boolean?
 
     suspend fun updateCategory(remoteErrorEmitter: RemoteErrorEmitter, data : DomainTransaction) : Boolean?
+
 }

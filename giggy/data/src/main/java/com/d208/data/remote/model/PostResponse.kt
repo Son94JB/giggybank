@@ -1,5 +1,6 @@
 package com.d208.data.remote.model
 
+import com.google.gson.annotations.SerializedName
 import java.util.UUID
 
 data class PostResponse(
@@ -14,5 +15,5 @@ data class PostResponse(
     val userId : UUID,
     val nickName : String,
     val createAt : Long,
-    val isLiked : Boolean,
+    @SerializedName("liked")val isLiked : Boolean,
 )
