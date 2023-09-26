@@ -2,6 +2,7 @@ package com.d208.giggy.di
 
 
 import com.d208.data.remote.api.BankApi
+import com.d208.data.remote.api.PostApi
 import com.d208.data.remote.api.UserApi
 import com.d208.giggy.utils.Utils.BASE_URL
 import dagger.Module
@@ -63,6 +64,12 @@ object NetworkModule {
     @Singleton
     fun provideBankApiService(retrofit: Retrofit) : BankApi{
         return retrofit.create(BankApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePostApiService(retrofit: Retrofit) : PostApi{
+        return retrofit.create(PostApi::class.java)
     }
 
     private fun getLoggingInterceptor(): HttpLoggingInterceptor =

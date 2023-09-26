@@ -44,7 +44,6 @@ android {
 dependencies {
     implementation (project (":data"))
     implementation (project (":domain"))
-//    implementation (project (":presentation"))
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     testImplementation 'junit:junit:4.13.2'
@@ -103,6 +102,8 @@ dependencies {
     implementation(com.d208.buildsrc.Library.SEARCH_BAR)
     implementation(com.d208.buildsrc.AndroidX.FRAGMENT)
     implementation(com.d208.buildsrc.Library.DROPDOWN)
+    implementation(com.d208.buildsrc.Library.GLIDE)
+
 
 
 }

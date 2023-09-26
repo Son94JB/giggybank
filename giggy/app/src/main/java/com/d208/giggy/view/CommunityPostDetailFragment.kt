@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentCommunityPostDetailBinding
@@ -26,8 +27,10 @@ class CommunityPostDetailFragment : BaseFragment<FragmentCommunityPostDetailBind
         init()
     }
 
-    fun init(){
-
+    fun init() = with(binding){
+        Glide.with(requireContext())
+            .load("https://giggyimages.s3.ap-northeast-2.amazonaws.com/noname.png")
+            .into(fragmentCommunityPostDetailImageView)
     }
 
 

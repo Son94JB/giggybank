@@ -3,18 +3,44 @@ package com.d208.giggy.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.d208.domain.usecase.RegisterPostUsecase
 import com.d208.domain.utils.ErrorType
 import com.d208.domain.utils.RemoteErrorEmitter
+import com.d208.giggy.di.App
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class CommunityPostRegisterFragmentViewModel @Inject constructor() : ViewModel(), RemoteErrorEmitter {
+class CommunityPostRegisterFragmentViewModel @Inject constructor(
+    private val registerPostUsecase: RegisterPostUsecase
+) : ViewModel(), RemoteErrorEmitter {
 
+    private val _registerSuccess = MutableLiveData<Boolean>()
+    val registerSuccess : LiveData<Boolean> get() = _registerSuccess
 
-
-    fun post() {
-
+    fun post(title : String, content : String, postType : String, category : String, file : MultipartBody.Part?) {
+        viewModelScope.launch {
+            registerPostUsecase.execute(this@CommunityPostRegisterFragmentViewModel, UUID.fromString(
+                App.sharedPreferences.getString("id")),
+                title,
+                content,
+                postType,
+                category,
+                file
+                ).let {
+                    response ->
+                if(response != null){
+                    _registerSuccess.value = true
+                }
+                else{
+                    _registerSuccess.value = false
+                }
+            }
+        }
     }
 
 

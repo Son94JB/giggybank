@@ -16,9 +16,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentCommunityPostRegisterBinding
+import com.d208.giggy.viewmodel.CommunityPostRegisterFragmentViewModel
+import com.google.android.material.chip.Chip
+import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -42,6 +47,9 @@ private const val TAG = "CommunityPostRegisterFr giggy"
 @AndroidEntryPoint
 class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegisterBinding>(FragmentCommunityPostRegisterBinding::bind, R.layout.fragment_community_post_register) {
 
+    private val communityPostRegisterFragmentViewModel : CommunityPostRegisterFragmentViewModel by viewModels()
+    private var postType = "FREE"
+    private var category = "FOOD"
     private var tempUri : Uri? = null
     private val STORAGE_PERMISSION_CODE = 1
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -58,6 +66,7 @@ class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegister
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        tabInit()
         init()
 
 
@@ -67,6 +76,23 @@ class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegister
         fragmentCommunityPostRegisterImageView.setOnClickListener{
             checkAndRequestStoragePermission()
         }
+        fragmentCommunityPostRegisterChipGroup.setOnCheckedChangeListener { group, checkedId ->
+            val selectedChip = group.findViewById<Chip>(checkedId)
+            if (selectedChip != null) {
+                // 선택한 칩의 텍스트를 가져와서 카테고리 변수를 업데이트합니다.
+                when(selectedChip.text.toString()) {
+                    "식비" -> category = "FOOD"
+                    "교통" -> category = "TRAFFIC"
+                    "여가" -> category = "LEISURE"
+                    "쇼핑" -> category = "SHOPPING"
+                    "자기계발" -> category = "SELFDEV"
+                    "고정지출" -> category = "FIXED"
+                    "기타" -> category = "ETC"
+                }
+
+            }
+        }
+
         fragmentCommunityPostRegisterPostButton.setOnClickListener {
             if(fragmentCommunityPostRegisterTitleEditView.text.toString().isNullOrEmpty()){
                 showSnackbar("제목을 입력해주세요")
@@ -78,15 +104,65 @@ class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegister
                 showSnackbar("카테고리를 선택해주세요")
             }
             else{
-                showSnackbar("${fragmentCommunityPostRegisterPostTabLayout.selectedTabPosition}")
                 // 게시글 등록
                 if(tempUri != null){
                     val imageMultiPart = createMultipartFromUri(requireContext(), tempUri!!)
+                    communityPostRegisterFragmentViewModel.post(
+                        fragmentCommunityPostRegisterTitleEditView.text.toString(),
+                        fragmentCommunityPostRegisterContentEditView.text.toString(),
+                        postType,
+                        category,
+                        imageMultiPart
+                    )
                 }
+                else{
+                    communityPostRegisterFragmentViewModel.post(
+                        fragmentCommunityPostRegisterTitleEditView.text.toString(),
+                        fragmentCommunityPostRegisterContentEditView.text.toString(),
+                        postType,
+                        category,
+                        null
+                    )
+                }
+
+
 
             }
         }
+        communityPostRegisterFragmentViewModel.registerSuccess.observe(viewLifecycleOwner){
+            if(it){
+                findNavController().navigateUp()
+            }
+            else{
+                showSnackbar("등록 되지 않았습니다. 다시 등록해주세요")
+            }
+        }
     }
+    fun tabInit() = with(binding){
+        fragmentCommunityPostRegisterPostTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                // Handle tab select
+                if (tab != null) {
+                  when(tab.text.toString()){
+                      "자유" -> postType = "FREE"
+                      "꿀팁" -> postType = "TIP"
+                      "자랑" -> postType = "BOAST"
+                  }
+                }
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // Handle tab reselect
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // Handle tab unselect
+            }
+        })
+
+    }
+
     private fun checkAndRequestStoragePermission() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -115,7 +191,6 @@ class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegister
         val file: File = getFileFromUri(context, uri) ?: return null
         // 파일을 가져오지 못한 경우 처리할 로직
         val requestFile: RequestBody = createRequestBodyFromFile(file)
-        Log.d(TAG, "createMultipartFromUri: ${file.name}")
         return MultipartBody.Part.createFormData("file", file.name, requestFile)
     }
     private fun getFileFromUri(context: Context, uri: Uri): File? {

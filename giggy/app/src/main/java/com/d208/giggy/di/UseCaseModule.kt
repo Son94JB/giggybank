@@ -2,10 +2,13 @@ package com.d208.giggy.di
 
 import com.d208.domain.repository.BankRepository
 import com.d208.domain.repository.MainRepository
+import com.d208.domain.repository.PostRepository
 import com.d208.domain.usecase.AnalysisUsecase
 import com.d208.domain.usecase.DuplicateCheckUsecase
 import com.d208.domain.usecase.GetMonthsUsecase
+import com.d208.domain.usecase.GetPostsUsecase
 import com.d208.domain.usecase.LoginUsecase
+import com.d208.domain.usecase.RegisterPostUsecase
 import com.d208.domain.usecase.TransactionUsecase
 import dagger.Module
 import dagger.Provides
@@ -37,4 +40,12 @@ class UseCaseModule {
     @Provides
     @Singleton
     fun provideGetAnalysisUsecase(repository: BankRepository) = AnalysisUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideRegisterPostUsecase(repository : PostRepository) = RegisterPostUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGetPostsUsecase(repository: PostRepository) = GetPostsUsecase(repository)
 }
