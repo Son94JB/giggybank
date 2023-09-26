@@ -109,7 +109,7 @@ public class UserController {
     }
 
     // UUID로 정보 조회
-    @PostMapping("/info")
+    @PostMapping("/user/info")
     public ResponseEntity<UserDto> getUser(@RequestBody UserDto userDto) { return userService.getUser(userDto);}
 
 }
