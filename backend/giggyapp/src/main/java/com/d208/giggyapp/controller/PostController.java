@@ -1,5 +1,7 @@
 package com.d208.giggyapp.controller;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.d208.giggyapp.domain.User;
 import com.d208.giggyapp.dto.Board.PostCreateDto;
 import com.d208.giggyapp.dto.Board.PostDto;
@@ -7,9 +9,13 @@ import com.d208.giggyapp.dto.Board.PostListDto;
 import com.d208.giggyapp.dto.Board.PostUpdateDto;
 import com.d208.giggyapp.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,13 +24,12 @@ import java.util.UUID;
 @RequestMapping("/api/v1/app")
 public class PostController {
 
-
         private final PostService postService;
 
         // 게시글
         @PostMapping("/post")
-        public ResponseEntity<?> createPost(@RequestBody PostCreateDto postCreateDto) {
-                Long result = postService.createPost(postCreateDto);
+        public ResponseEntity<?> createPost(@RequestPart(value = "file", required = false) MultipartFile file, @RequestPart PostCreateDto postCreateDto) {
+                Long result = postService.createPost(file, postCreateDto);
                 return ResponseEntity.status(201).body(result);
         }
 

@@ -1,5 +1,6 @@
 package com.d208.giggyapp.service;
 
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.d208.giggyapp.domain.Board.LikePost;
 import com.d208.giggyapp.domain.Board.Post;
 import com.d208.giggyapp.domain.User;
@@ -15,8 +16,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class PostService {
+    private final S3Service s3Service;
 
     private final UserRepository userRepository;
     private final PostRepository postRepository;
@@ -34,11 +38,16 @@ public class PostService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public Long createPost(PostCreateDto postCreateDto) {
+    public Long createPost(MultipartFile file, PostCreateDto postCreateDto) {
         User user = userRepository.findById(postCreateDto.getUserId()).orElse(null);
 
         if(user != null){
+            // 파일 저장
+            String imageUrl = s3Service.uploadFile(file).getBody();
+
+            // 회원 저장
             Post post = Post.toEntity(postCreateDto, user);
+            post.setImageUrl(imageUrl);
             postRepository.save(post);
 
             return post.getId();

@@ -62,5 +62,7 @@ public class Post extends BaseTimeEntity {
         this.category = postUpdateDto.getCategory();
     }
 
-
+    public void setImageUrl(String imageUrl) {
+        this.picture = imageUrl;
+    }
 }
