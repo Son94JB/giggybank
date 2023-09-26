@@ -12,7 +12,7 @@ spring:
       encoding: UTF-8
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       properties.hibernate.format_sql : true
     show-sql : true
 
