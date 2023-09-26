@@ -1,21 +1,21 @@
 package com.d208.giggyapp.domain.Board;
 
+
 import com.d208.giggyapp.domain.User;
+import com.d208.giggyapp.dto.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-
 
 @Entity
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Board {
+public class LikePost extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,20 +24,7 @@ public class Board {
     @JoinColumn(name="USER_ID")
     private User user;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime modifiedAt;
-
-    private String title;
-
-    private String content;
-
-    private String picture;
-
-    private String postType;
-
-    private String category;
-
-    private int viewCount;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "POST_ID")
+    private Post post;
 }
