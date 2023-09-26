@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="923a869a-a36f-402f-98a3-aea28c162d95" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/giggyanalysis/giggyanalysis/analysis/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/giggyanalysis/giggyanalysis/analysis/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/giggyanalysis/giggyanalysis/giggyanalysis/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/giggyanalysis/giggyanalysis/giggyanalysis/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/giggyanalysis/giggyanalysis/giggyanalysis/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/giggyanalysis/giggyanalysis/giggyanalysis/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,10 +12,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2VKmfdWb8k1irHLDQzbXQC9dSFp" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -28,7 +26,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "wook",
+    "git-widget-placeholder": "hyeonji",
     "last_opened_file_path": "C:/Users/SSAFY/Desktop/특화프로젝트/S09P22D208/backend/giggyapp",
     "vue.rearranger.settings.migration": "true"
   }
@@ -42,7 +40,11 @@
       <option name="presentableId" value="Default" />
       <updated>1694593251743</updated>
       <workItem from="1694593254762" duration="31000" />
+      <workItem from="1695364029622" duration="4000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>
