@@ -37,4 +37,10 @@ class PostDataSourceImpl @Inject constructor(
             postApi.getPosts(id).body()
         }
     }
+
+    override suspend fun pushLike(remoteErrorEmitter: RemoteErrorEmitter, id: Long, userId: UUID) : Unit? {
+        return safeApiCall(remoteErrorEmitter){
+            postApi.pushLike(id, userId)
+        }
+    }
 }

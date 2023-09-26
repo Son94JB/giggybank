@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d208.domain.model.DomainPost
 import com.d208.domain.usecase.GetPostsUsecase
+import com.d208.domain.usecase.PushLikeUsecase
 import com.d208.domain.utils.ErrorType
 import com.d208.domain.utils.RemoteErrorEmitter
 import com.d208.giggy.di.App
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CommunityHomeFragmentViewModel @Inject constructor(
-    private val getPostsUsecase: GetPostsUsecase
+    private val getPostsUsecase: GetPostsUsecase,
+    private val pushLikeUsecase: PushLikeUsecase,
 ) : ViewModel(), RemoteErrorEmitter {
 
     private val _postList = MutableLiveData<MutableList<DomainPost>>()
@@ -32,6 +34,11 @@ class CommunityHomeFragmentViewModel @Inject constructor(
                     _postList.value = mutableListOf()
                 }
             }
+        }
+    }
+    fun pushLike(id : Long) {
+        viewModelScope.launch {
+            pushLikeUsecase.execute(this@CommunityHomeFragmentViewModel, id, UUID.fromString(App.sharedPreferences.getString("id")) )
         }
     }
 

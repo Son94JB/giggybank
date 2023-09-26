@@ -17,9 +17,12 @@ interface PostApi {
     @POST("app/post")
     suspend fun registerPost(@Part("postCreateDto") data : PostRequest, @Part file : MultipartBody.Part?) : Response<Long>
 
-    @GET("app/post/{userId}")
+    @POST("app/post/{userId}")
     suspend fun getPosts(@Path("userId") id : UUID) : Response<List<PostResponse>>
 
-    @GET("app/post/{postId}/{userId}")
+    @POST("app/post/{postId}/{userId}")
     suspend fun getOnePost(@Path("postId") id : Long, @Path("userId") userId : UUID) : Response<PostResponse>
+
+    @POST("app/post/{postId}/like")
+    suspend fun pushLike(@Path("postId") id : Long, @Body userId : UUID)
 }
