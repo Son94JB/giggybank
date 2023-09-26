@@ -21,4 +21,6 @@ interface PostDataSource {
     suspend fun getPosts(remoteErrorEmitter: RemoteErrorEmitter, id : UUID) : List<PostResponse>?
 
     suspend fun pushLike(remoteErrorEmitter: RemoteErrorEmitter, id : Long, userId : UUID) : Unit?
+
+    suspend fun getOnePost(remoteErrorEmitter: RemoteErrorEmitter, id : Long, userId : UUID) : PostResponse?
 }

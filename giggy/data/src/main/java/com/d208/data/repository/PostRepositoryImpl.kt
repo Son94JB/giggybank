@@ -3,6 +3,7 @@ package com.d208.data.repository
 import com.d208.data.mapper.PostMapper
 import com.d208.data.repository.remote.datasource.PostDataSource
 import com.d208.domain.model.DomainPost
+import com.d208.domain.model.DomainPostDetail
 import com.d208.domain.repository.PostRepository
 import com.d208.domain.utils.RemoteErrorEmitter
 import okhttp3.MultipartBody
@@ -33,6 +34,14 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun pushLike(remoteErrorEmitter: RemoteErrorEmitter, id: Long, userId: UUID): Unit? {
         return postDataSource.pushLike(remoteErrorEmitter, id, userId)
+    }
+
+    override suspend fun getOnePost(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        id: Long,
+        userId: UUID
+    ): DomainPostDetail? {
+        return PostMapper.onePostMapper(postDataSource.getOnePost(remoteErrorEmitter, id, userId))
     }
 
 
