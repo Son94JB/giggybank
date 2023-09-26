@@ -1,6 +1,7 @@
 package com.d208.giggyapp.domain.board;
 
 import com.d208.giggyapp.domain.User;
+import com.d208.giggyapp.dto.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LikeComment {
+public class LikeComment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

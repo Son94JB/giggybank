@@ -2,6 +2,7 @@ package com.d208.giggyapp.domain.board;
 
 
 import com.d208.giggyapp.domain.User;
+import com.d208.giggyapp.dto.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LikeBoard {
+public class LikePost extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +25,6 @@ public class LikeBoard {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BOARD_ID")
-    private Board board;
+    @JoinColumn(name = "POST_ID")
+    private Post post;
 }
