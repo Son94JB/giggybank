@@ -15,9 +15,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,10 +31,10 @@ public class AppAccountHistoryService {
     private final UserRepository userRepository;
 
     // 은행으로부터 거래내역 받아오기
-    public Void getAppAccountHistory(String accountNumber, UUID userId){
-
+    public Void getBankAccountHistory(UUID userId){
         Optional<User> optionalUser = userRepository.findById(userId);
         User user = optionalUser.get();
+        String accountNumber = user.getAccountNumber();
         LocalDateTime startDate;
         LocalDateTime endDate;
 
@@ -97,26 +98,46 @@ public class AppAccountHistoryService {
 
     // 분석내역 조회
     public List<AnalysisDTO> getAnalysis(MonthDTO monthDTO){
-        Optional<User> optionalUser = userRepository.findById(monthDTO.getUserID());
+        Optional<User> optionalUser = userRepository.findById(monthDTO.getUserId());
         if(optionalUser.isPresent()){
             User user = optionalUser.get();
             YearMonth yearMonth = YearMonth.parse(monthDTO.getMonth());
             LocalDateTime startDate = yearMonth.atDay(1).atStartOfDay();
             LocalDateTime endDate = yearMonth.atEndOfMonth().atTime(23,59,59);
             List<AppAccountHistory> appAccountHistories = appAccountHistoryRepository.findByUserAndTransactionDateTimeBetween(user, startDate, endDate);
+            // 항상 6가지 카테고리를 미리 정의
+            List<String> predefinedCategories = Arrays.asList("교통", "식품", "기타", "고정지출", "쇼핑", "자기계발","여가");
+
+            // 카테고리별 지출 합계를 저장할 맵 초기화
             Map<String, BigDecimal> categorySumMap = new HashMap<>();
-            for(AppAccountHistory appAccountHistory : appAccountHistories){
+            for (String category : predefinedCategories) {
+                categorySumMap.put(category, BigDecimal.ZERO);
+            }
+
+            for (AppAccountHistory appAccountHistory : appAccountHistories) {
                 String category = appAccountHistory.getCategory();
                 int withdraw = appAccountHistory.getWithdraw();
                 BigDecimal bigwithdraw = new BigDecimal(withdraw);
-                if(categorySumMap.containsKey(category)){
+
+                if (predefinedCategories.contains(category)) {
                     BigDecimal currentSum = categorySumMap.get(category);
                     categorySumMap.put(category, currentSum.add(bigwithdraw));
-                }else{
-                    categorySumMap.put(category, bigwithdraw);
                 }
             }
-            System.out.println(categorySumMap);
+
+            List<AnalysisDTO> analysisDTOS = new ArrayList<>();
+            for (String key : predefinedCategories) {
+                BigDecimal value = categorySumMap.get(key);
+                BigDecimal roundedValue = value.setScale(0, RoundingMode.HALF_UP); // 반올림
+                Integer integerValue = roundedValue.intValue();
+                AnalysisDTO analysisDTO = AnalysisDTO.builder()
+                        .categoryName(key)
+                        .price(integerValue)
+                        .build();
+                analysisDTOS.add(analysisDTO);
+            }
+
+            return analysisDTOS;
         }
         return null;
     }
@@ -173,7 +194,7 @@ public class AppAccountHistoryService {
                     .map(history -> AccountHistoryDTO.builder().
                             amount(history.getAmount()).
                             transactionType(history.getTransactionType()).
-                            transactionDate(history.getTransactionDate().atZone(ZoneOffset.UTC).toInstant().toEpochMilli()).
+                            transactionDate(history.getTransactionDate().atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli()).
                             deposit(history.getDeposit()).
                             withdraw(history.getWithdraw()).
                             deposit(history.getDeposit()).
@@ -181,7 +202,6 @@ public class AppAccountHistoryService {
                             id(history.getId()).
                             category(history.getCategory()).build())
                     .collect(Collectors.toList());
-            System.out.println("123123123");
             System.out.println(appAccountHistoryDTOs);
             return appAccountHistoryDTOs;
         }else {
