@@ -5,19 +5,13 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@Data
+@Builder
 public class AppAccountHistoryDTO {
     private String status;
     private List<DataBody> data;
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @ToString
+    @Data
+    @Builder
     public static class DataBody {
         private Long id;
         private int amount;
