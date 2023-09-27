@@ -21,7 +21,9 @@ public class GameHistory {
     private int round;
     private int score;
 
+
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
+
 }
