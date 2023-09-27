@@ -1,4 +1,4 @@
-package com.d208.giggyapp.dto.User;
+package com.d208.giggyapp.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

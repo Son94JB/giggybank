@@ -1,14 +1,13 @@
-package com.d208.giggyapp.dto.User;
+package com.d208.giggyapp.dto.user;
 
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
 @Data
-public class UserDto {
+public class SendUserDTO {
     private UUID id;
     private String email;
     private String nickname;
@@ -18,5 +17,5 @@ public class UserDto {
     private int targetAmount;
     private int currentAmount;
     private int leftLife;
-    private LocalDateTime registerDate;
+    private Long registerDate;
 }

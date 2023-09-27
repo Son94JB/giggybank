@@ -1,16 +1,19 @@
-package com.d208.giggyapp.dto.User;
+package com.d208.giggyapp.dto.game;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginDto {
-    private String accessToken;
-    private String refreshToken;
-    private String fcmToken;
+public class GameRankDto {
+
+    private UUID userId;
+    private int score;
+
 }

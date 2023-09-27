@@ -33,11 +33,11 @@ public class PostListDto {
     public PostListDto(Post post, int likeCnt, int commentCnt, boolean isLiked) {
         this.id = post.getId();
         this.userId = post.getUser().getId();
-        this.nickName = post.getUser().getNickname();
         this.title = post.getTitle();
         this.content = post.getContent();
         this.postType = post.getPostType();
         this.category = post.getCategory();
+        this.nickName = post.getUser().getNickname();
         this.viewCount = post.getViewCount();
         this.likeCnt = likeCnt;
         this.commentCnt = commentCnt;

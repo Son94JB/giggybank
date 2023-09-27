@@ -1,4 +1,4 @@
-package com.d208.giggyapp.controller;
+package com.d208.giggyapp.dto;
 
 import lombok.Builder;
 import lombok.Getter;
