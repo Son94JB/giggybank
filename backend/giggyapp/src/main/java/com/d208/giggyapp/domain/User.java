@@ -1,16 +1,16 @@
 package com.d208.giggyapp.domain;
 
+import com.d208.giggyapp.domain.game.GameHistory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -47,6 +47,9 @@ public class User {
 
     private LocalDateTime registerDate;
 
+    @OneToMany(mappedBy = "user")
+    private List<GameHistory> gameHistory = new ArrayList<>();
+
     public void updateFcmToken(String fcmToken) {
         this.fcmToken = fcmToken;
     }
@@ -55,7 +58,7 @@ public class User {
         this.targetAmount = targetAmount;
     }
 
-    public void incraseLife(int life) {
+    public void increaseLife(int life) {
         this.leftLife += life;
     }
 

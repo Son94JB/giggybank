@@ -1,7 +1,7 @@
 package com.d208.giggyapp.service;
 
-import com.d208.giggyapp.dto.User.KakaoRefreshResponseDto;
-import com.d208.giggyapp.dto.User.TokenDto;
+import com.d208.giggyapp.dto.user.KakaoRefreshResponseDto;
+import com.d208.giggyapp.dto.user.TokenDto;
 import com.d208.giggyapp.repository.UserRedisRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

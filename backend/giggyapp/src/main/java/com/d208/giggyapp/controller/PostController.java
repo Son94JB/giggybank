@@ -1,10 +1,9 @@
 package com.d208.giggyapp.controller;
 
-import com.d208.giggyapp.domain.User;
-import com.d208.giggyapp.dto.Board.PostCreateDto;
-import com.d208.giggyapp.dto.Board.PostDto;
-import com.d208.giggyapp.dto.Board.PostListDto;
-import com.d208.giggyapp.dto.Board.PostUpdateDto;
+import com.d208.giggyapp.dto.board.PostCreateDto;
+import com.d208.giggyapp.dto.board.PostDto;
+import com.d208.giggyapp.dto.board.PostListDto;
+import com.d208.giggyapp.dto.board.PostUpdateDto;
 import com.d208.giggyapp.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
