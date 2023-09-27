@@ -4,7 +4,7 @@ import com.d208.giggyapp.domain.User;
 import com.d208.giggyapp.dto.SignUpDto;
 import com.d208.giggyapp.dto.user.KakaoResponseDto;
 import com.d208.giggyapp.dto.user.LoginDto;
-import com.d208.giggyapp.dto.user.SendUserDTO;
+import com.d208.giggyapp.dto.user.SendUserDto;
 import com.d208.giggyapp.dto.user.UserDto;
 import com.d208.giggyapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -63,14 +63,14 @@ public class UserService {
     }
 
     // DB에서 이메일을 조회해서 유저가 있는지 확인
-    public SendUserDTO userExist(KakaoResponseDto kakaoResponseDto, LoginDto loginDto) {
+    public SendUserDto userExist(KakaoResponseDto kakaoResponseDto, LoginDto loginDto) {
         String email = kakaoResponseDto.getKakaoAccount().getEmail();
         String birthday = kakaoResponseDto.getKakaoAccount().getBirthday();
         User user = userRepository.findByEmail(email).orElse(null);
 
         // 유저가 없는 경우
         if (user == null) {
-            return SendUserDTO.builder().
+            return SendUserDto.builder().
                     email(email).
                     birthday(birthday).
                     build();
@@ -81,7 +81,7 @@ public class UserService {
         user.updateFcmToken(loginDto.getFcmToken());
         userRepository.save(user);
         Long registerDateMillis = user.getRegisterDate().atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
-        SendUserDTO userDto = SendUserDTO.builder().
+        SendUserDto userDto = SendUserDto.builder().
                 id(user.getId()).
                 email(user.getEmail()).
                 nickname(user.getNickname()).
@@ -175,13 +175,13 @@ public class UserService {
         return ResponseEntity.ok(false);
     }
 
-    public ResponseEntity<SendUserDTO> getUser(UserDto userDto) {
+    public ResponseEntity<SendUserDto> getUser(UserDto userDto) {
         User user = userRepository.findById(userDto.getId()).orElse(null);
 
         if (user == null) return ResponseEntity.ok(null);
         Long registerDateMillis = user.getRegisterDate().atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
         System.out.println("123123" + registerDateMillis);
-        return ResponseEntity.ok(SendUserDTO.builder()
+        return ResponseEntity.ok(SendUserDto.builder()
                 .email(user.getEmail())
                 .nickname(user.getNickname())
                 .fcmToken(user.getFcmToken())
