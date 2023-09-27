@@ -1,15 +1,12 @@
-package com.d208.giggyapp.repository.Board;
+package com.d208.giggyapp.repository.board;
 
-import com.d208.giggyapp.domain.Board.Post;
+import com.d208.giggyapp.domain.board.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 

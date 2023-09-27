@@ -24,7 +24,7 @@ public class S3Service {
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
             String fileName= file.getOriginalFilename();
-            String fileUrl= "https://" + bucket + "/test" +fileName;
+            String fileUrl= "https://" + bucket + ".s3.ap-northeast-2.amazonaws.com/" +fileName;
             ObjectMetadata metadata= new ObjectMetadata();
             metadata.setContentType(file.getContentType());
             metadata.setContentLength(file.getSize());
