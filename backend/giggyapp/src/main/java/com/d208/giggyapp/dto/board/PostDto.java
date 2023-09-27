@@ -33,7 +33,7 @@ public class PostDto {
 
     private int viewCount;
 
-    private Boolean isLiked;
+    private boolean isLiked;
 
     private int likeCnt;
 
@@ -41,9 +41,10 @@ public class PostDto {
 
     private Long createdAt;
 
-    private String postPicture;
+    private String picture;
 
-    public PostDto(Post post, int likeCnt, Boolean isLiked){
+
+    public PostDto(Post post, int likeCnt, boolean isLiked, int commentCnt){
         this.id = post.getId();
         this.userId = post.getUser().getId();
         this.nickName = post.getUser().getNickname();
@@ -55,6 +56,8 @@ public class PostDto {
         this.createdAt = post.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
         this.isLiked = isLiked;
         this.likeCnt = likeCnt;
+        this.commentCnt = commentCnt;
+        this.picture = post.getPicture();
 
     }
 
