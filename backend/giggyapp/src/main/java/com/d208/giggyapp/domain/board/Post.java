@@ -30,8 +30,6 @@ public class Post extends BaseTimeEntity {
 
     private String content;
 
-    private String picture;
-
     @Enumerated(EnumType.STRING)
     private PostType postType;
 
@@ -40,9 +38,12 @@ public class Post extends BaseTimeEntity {
 
     private int viewCount;
 
+    private String picture;
+
     public void increaseViewCnt() {
         this.viewCount ++;
     }
+
 
 
     public static Post toEntity(PostCreateDto postCreateDto, User user){
@@ -52,6 +53,7 @@ public class Post extends BaseTimeEntity {
                 .content(postCreateDto.getContent())
                 .postType(postCreateDto.getPostType())
                 .category(postCreateDto.getCategory())
+                .picture(postCreateDto.getPicture())
                 .build();
     }
 
@@ -63,4 +65,7 @@ public class Post extends BaseTimeEntity {
     }
 
 
+    public void setImageUrl(String imageUrl) {
+        this.picture = imageUrl;
+    }
 }
