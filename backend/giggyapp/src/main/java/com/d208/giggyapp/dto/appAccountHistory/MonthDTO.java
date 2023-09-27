@@ -1,4 +1,4 @@
-package com.d208.giggyapp.dto.AppAccountHistory;
+package com.d208.giggyapp.dto.appAccountHistory;
 
 import lombok.Builder;
 import lombok.Data;
@@ -9,5 +9,5 @@ import java.util.UUID;
 @Builder
 public class MonthDTO {
     private String month;
-    private UUID userID;
+    private UUID userId;
 }

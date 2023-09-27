@@ -44,7 +44,7 @@ public class PostDto {
     private String picture;
 
 
-    public PostDto(Post post, int likeCnt, Boolean isLiked, int commentCnt){
+    public PostDto(Post post, int likeCnt, boolean isLiked, int commentCnt){
         this.id = post.getId();
         this.userId = post.getUser().getId();
         this.nickName = post.getUser().getNickname();
