@@ -3,25 +3,20 @@ package com.d208.giggyapp.service;
 import com.d208.giggyapp.domain.Board.LikePost;
 import com.d208.giggyapp.domain.Board.Post;
 import com.d208.giggyapp.domain.User;
-import com.d208.giggyapp.dto.Board.PostCreateDto;
-import com.d208.giggyapp.dto.Board.PostDto;
-import com.d208.giggyapp.dto.Board.PostListDto;
-import com.d208.giggyapp.dto.Board.PostUpdateDto;
-import com.d208.giggyapp.repository.Board.CommentRepository;
-import com.d208.giggyapp.repository.Board.LikePostRepository;
-import com.d208.giggyapp.repository.Board.PostRepository;
+import com.d208.giggyapp.dto.board.PostCreateDto;
+import com.d208.giggyapp.dto.board.PostDto;
+import com.d208.giggyapp.dto.board.PostListDto;
+import com.d208.giggyapp.dto.board.PostUpdateDto;
+import com.d208.giggyapp.repository.board.CommentRepository;
+import com.d208.giggyapp.repository.board.LikePostRepository;
+import com.d208.giggyapp.repository.board.PostRepository;
 import com.d208.giggyapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
