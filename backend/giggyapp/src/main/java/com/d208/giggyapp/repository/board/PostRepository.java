@@ -1,6 +1,6 @@
 package com.d208.giggyapp.repository.board;
 
-import com.d208.giggyapp.domain.Board.Post;
+import com.d208.giggyapp.domain.board.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
