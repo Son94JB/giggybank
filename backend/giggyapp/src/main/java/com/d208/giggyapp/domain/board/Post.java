@@ -1,9 +1,9 @@
-package com.d208.giggyapp.domain.Board;
+package com.d208.giggyapp.domain.board;
 
 import com.d208.giggyapp.domain.User;
 import com.d208.giggyapp.dto.BaseTimeEntity;
-import com.d208.giggyapp.dto.Board.PostCreateDto;
-import com.d208.giggyapp.dto.Board.PostUpdateDto;
+import com.d208.giggyapp.dto.board.PostCreateDto;
+import com.d208.giggyapp.dto.board.PostUpdateDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,8 +30,6 @@ public class Post extends BaseTimeEntity {
 
     private String content;
 
-    private String picture;
-
     @Enumerated(EnumType.STRING)
     private PostType postType;
 
@@ -40,9 +38,12 @@ public class Post extends BaseTimeEntity {
 
     private int viewCount;
 
+    private String picture;
+
     public void increaseViewCnt() {
         this.viewCount ++;
     }
+
 
 
     public static Post toEntity(PostCreateDto postCreateDto, User user){
@@ -52,6 +53,7 @@ public class Post extends BaseTimeEntity {
                 .content(postCreateDto.getContent())
                 .postType(postCreateDto.getPostType())
                 .category(postCreateDto.getCategory())
+                .picture(postCreateDto.getPicture())
                 .build();
     }
 
@@ -61,6 +63,7 @@ public class Post extends BaseTimeEntity {
         this.postType = postUpdateDto.getPostType();
         this.category = postUpdateDto.getCategory();
     }
+
 
     public void setImageUrl(String imageUrl) {
         this.picture = imageUrl;

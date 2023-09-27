@@ -1,14 +1,12 @@
-package com.d208.giggyapp.dto.Board;
+package com.d208.giggyapp.dto.board;
 
-import com.d208.giggyapp.domain.Board.Category;
-import com.d208.giggyapp.domain.Board.Post;
-import com.d208.giggyapp.domain.Board.PostType;
+import com.d208.giggyapp.domain.board.Category;
+import com.d208.giggyapp.domain.board.PostType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -26,6 +24,8 @@ public class PostCreateDto {
     private PostType postType;
 
     private Category category;
+
+    private String picture;
 
 
 

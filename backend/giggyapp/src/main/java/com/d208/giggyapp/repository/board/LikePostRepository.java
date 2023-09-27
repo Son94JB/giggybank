@@ -1,6 +1,6 @@
-package com.d208.giggyapp.repository.Board;
+package com.d208.giggyapp.repository.board;
 
-import com.d208.giggyapp.domain.Board.LikePost;
+import com.d208.giggyapp.domain.board.LikePost;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
