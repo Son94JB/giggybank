@@ -1,7 +1,7 @@
 package com.d208.giggyapp.service;
 
-import com.d208.giggyapp.domain.Board.LikePost;
-import com.d208.giggyapp.domain.Board.Post;
+import com.d208.giggyapp.domain.board.LikePost;
+import com.d208.giggyapp.domain.board.Post;
 import com.d208.giggyapp.domain.User;
 import com.d208.giggyapp.dto.board.PostCreateDto;
 import com.d208.giggyapp.dto.board.PostDto;
