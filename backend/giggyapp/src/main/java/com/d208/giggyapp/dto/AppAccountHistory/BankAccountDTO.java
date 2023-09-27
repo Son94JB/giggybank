@@ -1,16 +1,11 @@
 package com.d208.giggyapp.dto.AppAccountHistory;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
-@Getter
+@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class BankAccountDTO {
     private String accountNumber;
     private UUID userId;
