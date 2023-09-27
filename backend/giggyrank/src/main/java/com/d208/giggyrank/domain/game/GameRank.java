@@ -14,7 +14,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class HallOfFame {
+public class GameRank {
 
     @Id @GeneratedValue
     private Long id;
