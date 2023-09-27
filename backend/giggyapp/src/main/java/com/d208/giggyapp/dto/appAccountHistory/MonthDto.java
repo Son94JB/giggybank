@@ -7,8 +7,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class DateDTO {
+public class MonthDto {
+    private String month;
     private UUID userId;
-    private String startDate;
-    private String endDate;
 }
