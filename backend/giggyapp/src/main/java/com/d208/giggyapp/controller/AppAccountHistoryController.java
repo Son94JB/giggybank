@@ -1,7 +1,7 @@
 package com.d208.giggyapp.controller;
 
 
-import com.d208.giggyapp.dto.AppAccountHistory.*;
+import com.d208.giggyapp.dto.appAccountHistory.*;
 import com.d208.giggyapp.repository.AppAccountHistoryRepository;
 import com.d208.giggyapp.service.AppAccountHistoryService;
 import lombok.RequiredArgsConstructor;
