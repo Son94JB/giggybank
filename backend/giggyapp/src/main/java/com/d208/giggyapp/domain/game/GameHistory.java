@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import java.util.UUID;
 
 @Entity
@@ -23,5 +24,6 @@ public class GameHistory {
     private int round;
     private int score;
 
+    @JoinColumn(name = "USER_ID")
     private UUID userId;
 }
