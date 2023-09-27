@@ -2,10 +2,10 @@ package com.d208.giggyapp.service;
 
 import com.d208.giggyapp.domain.User;
 import com.d208.giggyapp.dto.SignUpDto;
-import com.d208.giggyapp.dto.User.KakaoResponseDto;
-import com.d208.giggyapp.dto.User.LoginDto;
-import com.d208.giggyapp.dto.User.SendUserDTO;
-import com.d208.giggyapp.dto.User.UserDto;
+import com.d208.giggyapp.dto.user.KakaoResponseDto;
+import com.d208.giggyapp.dto.user.LoginDto;
+import com.d208.giggyapp.dto.user.SendUserDTO;
+import com.d208.giggyapp.dto.user.UserDto;
 import com.d208.giggyapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
@@ -110,7 +110,7 @@ public class UserService {
 
         if (user == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("존재하지 않는 회원입니다.");
 
-        user.incraseLife(2);
+        user.increaseLife(2);
         return ResponseEntity.ok("게임 목숨이 증가하였습니다.");
     }
 
