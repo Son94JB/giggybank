@@ -1,34 +1,30 @@
 package com.d208.giggy.view
 
-import android.graphics.Color
+
+
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.d208.domain.model.DomainPost
-import com.d208.domain.model.DomainTransaction
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentCommunityHomeBinding
 import com.d208.giggy.databinding.ItemPostBinding
 
-
 import com.d208.giggy.viewmodel.CommunityHomeFragmentViewModel
 import com.d208.giggy.viewmodel.MainActivityViewModel
-
 import com.d208.presentation.adapter.PostAdapter
-import com.d208.presentation.adapter.TransactionAdapater
-import com.google.android.material.chip.Chip
-
-
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,6 +46,9 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
     private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
     private var list = mutableListOf<DomainPost>()
     private var filterList = mutableListOf<DomainPost>()
+    private var isFabOpen = false
+    private var fab_open: Animation? = null
+    private var fab_close:Animation? = null
     var foodChecked = false
     var trafficChecked = false
     var leisureChecked = false
@@ -61,6 +60,8 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainActivityViewModel.postUpdateData = null
+        fab_open = AnimationUtils.loadAnimation(requireContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(requireContext(), R.anim.fab_close);
         adapter = PostAdapter(requireContext())
         init()
     }
@@ -73,9 +74,23 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
 
         with(binding){
 
+            //fab
+
+            fragmentCommunityHomeMainFAB.setOnClickListener {
+                toggleFab()
+            }
+
             fragmentCommunityHomeFAB.setOnClickListener {
                 findNavController().navigate(R.id.action_CommunityHomeFragment_to_CommunityPostRegisterFragment)
             }
+            fragmentCommunityHomeSearchFAB.setOnClickListener {
+                if(fragmentCommunityHomeSearchBar.visibility == View.VISIBLE)
+                    fragmentCommunityHomeSearchBar.visibility = View.GONE
+                else
+                    fragmentCommunityHomeSearchBar.visibility = View.VISIBLE
+            }
+
+
             fragmentCommunityHomeFoodChip.setOnClickListener {
                 foodChecked = !foodChecked
                 categoryFilterList(foodChecked, "FOOD")
@@ -106,6 +121,8 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
             }
             // search bar
             fragmentCommunityHomeSearchBar.searchEditText.addTextChangedListener(searchWatcher)
+
+
         }
         communityHomeFragmentViewModel.getPosts()
         communityHomeFragmentViewModel.postList.observe(viewLifecycleOwner){
@@ -277,7 +294,25 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
             newList = filterList.filter { it -> it.title.contains(title) } as MutableList<DomainPost>
         adapter.submitList(newList)
     }
-
+    private fun toggleFab() {
+        if (isFabOpen) {
+            binding.fragmentCommunityHomeMainFAB.setImageResource(R.drawable.ic_post_fab)
+            binding.fragmentCommunityHomeSearchFAB.startAnimation(fab_close)
+            binding.fragmentCommunityHomeFAB.startAnimation(fab_close)
+            binding.fragmentCommunityHomeSearchFAB.setClickable(false)
+            binding.fragmentCommunityHomeFAB.setClickable(false)
+            binding.fragmentCommunityHomeSearchBar.searchEditText.setText("")
+            binding.fragmentCommunityHomeSearchBar.visibility = View.GONE
+            isFabOpen = false
+        } else {
+            binding.fragmentCommunityHomeMainFAB.setImageResource(R.drawable.ic_close)
+            binding.fragmentCommunityHomeSearchFAB.startAnimation(fab_open)
+            binding.fragmentCommunityHomeFAB.startAnimation(fab_open)
+            binding.fragmentCommunityHomeSearchFAB.setClickable(true)
+            binding.fragmentCommunityHomeFAB.setClickable(true)
+            isFabOpen = true
+        }
+    }
 
 
 
