@@ -83,7 +83,7 @@ public class PostController {
 
         @Operation(summary = "게시글 조회(postType별로 필터링)")
         @PostMapping("/post/{currentUserId}")
-        public List<PostListDto> getPostsListType(@RequestParam(value = "keyword", defaultValue = "") String keyword, @PathVariable UUID currentUserId, @RequestParam(value = "postType", required = false) String postType) {
+        public List<PostListDto> getPostsListType(@RequestParam(value = "keyword", defaultValue = "") String keyword, @PathVariable UUID currentUserId, @RequestParam(value = "postType", defaultValue = "") String postType) {
                 return postService.getPostListType(keyword, currentUserId, postType);
         }
 

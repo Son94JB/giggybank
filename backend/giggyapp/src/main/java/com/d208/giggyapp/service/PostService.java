@@ -213,14 +213,9 @@ public class PostService {
 
     @Transactional
     public List<PostListDto> getPostListType(String keyword, UUID currentUserId, String postType) {
-//        List<Post> posts = postRepository.findAllByTitleContainingIgnoreCaseAndpostTypeEqualsOrderByIdDesc(keyword, postType);
-        if (postType != null) {
 
-        }
-        PostType serverPostType = PostType.valueOf(postType);
-        List<Post> posts = postRepository.findAllByTitleAndpostType(keyword, serverPostType);
+        List<Post> posts = postRepository.findAllByTitleAndpostType(keyword, postType);
         List<PostListDto> postListDtos = new ArrayList<>();
-
 
         for(Post post : posts) {
             int likeCnt = likePostRepository.countByPostId(post.getId());
