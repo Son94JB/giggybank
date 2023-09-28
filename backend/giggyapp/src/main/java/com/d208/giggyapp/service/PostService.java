@@ -183,8 +183,8 @@ public class PostService {
         return new CommentListDto(
                 comment.getId(),
                 comment.getUser().getId(),
-                comment.getContent(),
                 comment.getUser().getNickname(),
+                comment.getContent(),
                 comment.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli()
         );
     }
