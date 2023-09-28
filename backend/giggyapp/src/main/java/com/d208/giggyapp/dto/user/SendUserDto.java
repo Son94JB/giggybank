@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Builder
 @Data
-public class SendUserDTO {
+public class SendUserDto {
     private UUID id;
     private String email;
     private String nickname;

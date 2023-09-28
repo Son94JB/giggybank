@@ -47,8 +47,8 @@ public class User {
 
     private LocalDateTime registerDate;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<GameHistory> gameHistory = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<GameHistory> gameHistory = new ArrayList<>();
 
     public void updateFcmToken(String fcmToken) {
         this.fcmToken = fcmToken;

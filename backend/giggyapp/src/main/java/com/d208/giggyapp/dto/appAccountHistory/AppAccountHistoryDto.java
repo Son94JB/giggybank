@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AppAccountHistoryDTO {
+public class AppAccountHistoryDto {
     private String status;
     private List<DataBody> data;
     @Getter
