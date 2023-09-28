@@ -102,11 +102,25 @@ public class PostService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물 없음"));
 
         post.update(postUpdateDto);
-
         String imageUrl = "";
-        if(file != null) {
+
+        // 생성 시 사진 첨부, 수정 시 새로운 사진으로 변경
+        if (post.getPicture() != null && file != null) {
             imageUrl = s3Service.uploadFile(file).getBody();
         }
+        // 생성 시 사진 첨부, 수정 시 사진 삭제
+        if (post.getPicture() != null && file == null) {
+            imageUrl = "";
+        }
+        // 생성 시 사진 없음, 수정 시 사진 첨부
+        if(post.getPicture() == null && file != null) {
+            imageUrl = s3Service.uploadFile(file).getBody();
+        }
+        // 생성 시 사진 없음, 수정 시에도 없음
+        if (post.getPicture() == null && file == null) {
+            imageUrl = "";
+        }
+
         post.setImageUrl(imageUrl);
 //        postRepository.save(post);
 
