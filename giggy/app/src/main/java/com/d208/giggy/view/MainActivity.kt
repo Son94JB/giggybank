@@ -4,10 +4,12 @@ import android.content.ContentValues
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -28,8 +30,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     private val mainActivityViewModel : MainActivityViewModel by viewModels()
-
-
+    private lateinit var navController: NavController
+    var waitTime = 0L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //
@@ -69,7 +71,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         // NavHostFragment를 가져와서 설정합니다.
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
     }
     private fun initDynamicLink() {
         val dynamicLinkData = intent.extras
@@ -82,6 +84,45 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             Log.d(ContentValues.TAG, "알림: $dataStr")
         }
     }
-
+    override fun onBackPressed() {
+        try {
+            if(navController.currentDestination?.id == R.id.HomeFragment){
+//                finishAffinity()
+                if (System.currentTimeMillis() - waitTime >= 1500) {
+                    waitTime = System.currentTimeMillis()
+                    Toast.makeText(
+                        this,
+                        "뒤로가기 버튼을 한번 더 누르면 종료됩니다",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    finishAffinity() // 액티비티 종료
+                }
+            }
+            else if (onBackPressedDispatcher.hasEnabledCallbacks()) {
+                super.onBackPressed()
+            } else {
+                when (navController.currentDestination?.id) {
+                    R.id.LoginFragment -> {
+                        finishAffinity()
+                        if (System.currentTimeMillis() - waitTime >= 1500) {
+                            waitTime = System.currentTimeMillis()
+                            Toast.makeText(
+                                this,
+                                "뒤로가기 버튼을 한번 더 누르면 종료됩니다",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            finishAffinity() // 액티비티 종료
+                        }
+                    }
+                    null -> super.onBackPressed()
+                    else -> super.onBackPressed()
+                }
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
 
 }
