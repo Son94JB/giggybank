@@ -17,20 +17,15 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByTitleContainingIgnoreCaseOrderByIdDesc(String keyword);
 
-    default List<Post> findAllByTitleAndpostType(String keyword, PostType postType) {
-        if (postType == null) {
+    default List<Post> findAllByTitleAndpostType(String keyword, String postType) {
+        if (postType.isEmpty()) {
             return findAllByTitleContainingIgnoreCaseOrderByIdDesc(keyword);
         } else {
             return findAllByTitleContainingIgnoreCaseAndpostTypeOrderByIdDesc(keyword, postType);
         }
     }
 
+    @Query(nativeQuery = true, value = "select * from post where title Like CONCAT('%', :keyword, '%') AND post_type = :postType order by id desc ")
+    List<Post> findAllByTitleContainingIgnoreCaseAndpostTypeOrderByIdDesc(@Param("keyword") String keyword, @Param("postType") String postType);
 
-    @Query(value = "select post from Post post where post.title LIKE  '%:keyword%' " +
-            "AND post.postType = :postType ")
-    List<Post> findAllByTitleContainingIgnoreCaseAndpostTypeOrderByIdDesc(@Param("keyword") String keyword, @Param("postType") PostType postType);
-
-//    @Query(value = "select appAccountHistory from AppAccountHistory appAccountHistory " +
-//            "where appAccountHistory.user = :user AND " +
-//            "appAccountHistory.transactionDate BETWEEN :startDate AND :endDate")
 }
