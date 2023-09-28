@@ -108,9 +108,9 @@ public class PostService {
         if (post.getPicture() != null && file != null) {
             imageUrl = s3Service.uploadFile(file).getBody();
         }
-        // 생성 시 사진 첨부, 수정 시 사진 삭제
+        // 생성 시 사진 첨부, 수정 시 기존 사진 그대로
         if (post.getPicture() != null && file == null) {
-            imageUrl = "";
+            imageUrl = post.getPicture();
         }
         // 생성 시 사진 없음, 수정 시 사진 첨부
         if(post.getPicture() == null && file != null) {
