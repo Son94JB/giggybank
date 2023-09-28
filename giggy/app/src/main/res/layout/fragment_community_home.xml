@@ -32,21 +32,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <com.mancj.materialsearchbar.MaterialSearchBar
-        android:layout_marginTop="16dp"
-        android:id="@+id/fragment_community_home_searchBar"
-        style="@style/MaterialSearchBarLight"
-        app:mt_speechMode="true"
-        app:mt_hint="Custom hint"
-        app:mt_maxSuggestionsCount="10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:mt_roundedSearchBarEnabled="true"
-        app:mt_searchBarColor="@color/main"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_title_text_view"
-        />
 
 
 
@@ -63,7 +48,7 @@
         app:tabIndicatorColor="@color/main"
         app:tabTextColor="@color/black"
         app:tabSelectedTextColor="@color/main"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_searchBar">
+        app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_title_text_view">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -99,12 +84,8 @@
         app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_tab_layout"
         >
 
-
-
         <com.google.android.material.chip.ChipGroup
-            android:layout_marginStart="8dp"
             android:id="@+id/fragment_community_home_chip_group"
-            android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:singleLine="true">
@@ -163,6 +144,32 @@
                 />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/fragment_community_home_fixed_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="#FDFBEF"
+                android:text="고정지출"
+                app:chipIconEnabled="true"
+                style="@style/Widget.Material3.Chip.Filter"
+                app:rippleColor="@color/main"
+                app:chipIconSize="28dp"
+                app:checkedIcon="@drawable/ic_fixed_expenses"
+                />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/fragment_community_home_selfdev_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="#FDFBEF"
+                android:text="자기계발"
+                app:chipIconEnabled="true"
+                style="@style/Widget.Material3.Chip.Filter"
+                app:rippleColor="@color/main"
+                app:chipIconSize="28dp"
+                app:checkedIcon="@drawable/ic_selfdev"
+                />
+
+            <com.google.android.material.chip.Chip
                 android:id="@+id/fragment_community_home_etc_chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -172,6 +179,7 @@
                 style="@style/Widget.Material3.Chip.Filter"
                 app:rippleColor="@color/main"
                 app:chipIconSize="28dp"
+                app:checkedIcon="@drawable/ic_etc"
                 />
 
         </com.google.android.material.chip.ChipGroup>
@@ -188,6 +196,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_chip_scroll"
         />
+
+
+    <com.d208.giggy.utils.SearchBar
+        android:id="@+id/fragment_community_home_searchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_spinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="16dp"
         android:id="@+id/fragment_community_home_recycler_view"
@@ -195,7 +215,7 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_community_home_searchBar"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/item_post"
         />

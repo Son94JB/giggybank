@@ -14,7 +14,7 @@ data class PostResponse(
     val viewCount: Int,
     val userId : UUID,
     val nickName : String,
-    val createAt : Long,
+    val createdAt : Long,
     @SerializedName("liked")val isLiked : Boolean,
     @SerializedName("picture") val postPicture : String?,
 )

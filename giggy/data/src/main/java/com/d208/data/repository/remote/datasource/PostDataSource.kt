@@ -1,5 +1,6 @@
 package com.d208.data.repository.remote.datasource
 
+import com.d208.data.remote.model.CommentResponse
 import com.d208.data.remote.model.PostResponse
 import com.d208.domain.model.DomainPost
 import com.d208.domain.utils.RemoteErrorEmitter
@@ -23,4 +24,20 @@ interface PostDataSource {
     suspend fun pushLike(remoteErrorEmitter: RemoteErrorEmitter, id : Long, userId : UUID) : Unit?
 
     suspend fun getOnePost(remoteErrorEmitter: RemoteErrorEmitter, id : Long, userId : UUID) : PostResponse?
+    suspend fun updatePost(remoteErrorEmitter: RemoteErrorEmitter,
+                             id : Long,
+                             picture : String,
+                             title : String,
+                             content : String,
+                             postType : String,
+                             category : String,
+                             file : MultipartBody.Part?
+    ) : Long?
+
+    suspend fun getComments(remoteErrorEmitter: RemoteErrorEmitter,
+    id : Long) : List<CommentResponse> ?
+
+    suspend fun registerComment(remoteErrorEmitter: RemoteErrorEmitter, id : Long, userId : UUID, content : String) : Long?
+
+    suspend fun deleteComment(remoteErrorEmitter: RemoteErrorEmitter, postId : Long, commentId : Long) : Unit?
 }

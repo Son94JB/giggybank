@@ -2,6 +2,8 @@ package com.d208.giggy.view
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -15,11 +17,14 @@ import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentCommunityHomeBinding
 import com.d208.giggy.databinding.ItemPostBinding
+
+
 import com.d208.giggy.viewmodel.CommunityHomeFragmentViewModel
 import com.d208.giggy.viewmodel.MainActivityViewModel
 
 import com.d208.presentation.adapter.PostAdapter
 import com.d208.presentation.adapter.TransactionAdapater
+import com.google.android.material.chip.Chip
 
 
 import com.google.android.material.tabs.TabLayout
@@ -35,19 +40,27 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CommunityHomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+private const val TAG = "CommunityHomeFragment giggy"
 @AndroidEntryPoint
 class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(FragmentCommunityHomeBinding::bind, R.layout.fragment_community_home) {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
     private lateinit var adapter : PostAdapter
     private val communityHomeFragmentViewModel : CommunityHomeFragmentViewModel by viewModels()
     private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
     private var list = mutableListOf<DomainPost>()
-
+    private var filterList = mutableListOf<DomainPost>()
+    var foodChecked = false
+    var trafficChecked = false
+    var leisureChecked = false
+    var shoppingChecked = false
+    var fixedChecked = false
+    var selfdevChecked = false
+    var etcChecked = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainActivityViewModel.postUpdateData = null
         adapter = PostAdapter(requireContext())
         init()
     }
@@ -59,17 +72,46 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
         tabInit()
 
         with(binding){
-            fragmentCommunityHomeFoodChip.setOnClickListener {
-                it.setBackgroundColor(Color.YELLOW)
-            }
+
             fragmentCommunityHomeFAB.setOnClickListener {
                 findNavController().navigate(R.id.action_CommunityHomeFragment_to_CommunityPostRegisterFragment)
             }
+            fragmentCommunityHomeFoodChip.setOnClickListener {
+                foodChecked = !foodChecked
+                categoryFilterList(foodChecked, "FOOD")
+            }
+            fragmentCommunityHomeTrafficChip.setOnClickListener {
+                trafficChecked = !trafficChecked
+                categoryFilterList(trafficChecked, "TRAFFIC")
+            }
+            fragmentCommunityHomeLeisureChip.setOnClickListener {
+                leisureChecked = !leisureChecked
+                categoryFilterList(leisureChecked, "LEISURE")
+            }
+            fragmentCommunityHomeShoppingChip.setOnClickListener {
+                shoppingChecked = !shoppingChecked
+                categoryFilterList(shoppingChecked, "SHOPPING")
+            }
+            fragmentCommunityHomeFixedChip.setOnClickListener {
+                fixedChecked = !fixedChecked
+                categoryFilterList(fixedChecked, "FIXED")
+            }
+            fragmentCommunityHomeSelfdevChip.setOnClickListener {
+                selfdevChecked = !selfdevChecked
+                categoryFilterList(selfdevChecked, "SELFDEV")
+            }
+            fragmentCommunityHomeEtcChip.setOnClickListener {
+                etcChecked = !etcChecked
+                categoryFilterList(etcChecked, "ETC")
+            }
+            // search bar
+            fragmentCommunityHomeSearchBar.searchEditText.addTextChangedListener(searchWatcher)
         }
         communityHomeFragmentViewModel.getPosts()
         communityHomeFragmentViewModel.postList.observe(viewLifecycleOwner){
             if(it.isNotEmpty()){
                 adapter.submitList(it)
+                list = it
             }
             else{
                 adapter.submitList(it)
@@ -106,10 +148,14 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
         fragmentCommunityHomeTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
+                /**이 부분 백엔드에서 처리해야 할듯 나중에 부탁해야함 */
                 // Handle tab select
-                if (tab != null) {
-                    adapter.submitList(newPostTypeList(list,  tab.text.toString()))
-                }
+//                if (tab != null) {
+//                    if(filterList.isEmpty())
+//                        adapter.submitList(newPostTypeList(list,  tab.text.toString()))
+//                    else
+//                        adapter.submitList(newPostTypeList(filterList,  tab.text.toString()))
+//                }
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -124,12 +170,13 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
     }
     fun spinnerInit() {
         with(binding){
-            fragmentCommunityHomeSpinner.setItems("좋아요 순", "조회 순", "오래된 순", "최신 순")
+            fragmentCommunityHomeSpinner.setItems("최신 순", "조회 순", "오래된 순", "좋아요 순")
             fragmentCommunityHomeSpinner.setOnItemSelectedListener { view, position, id, item ->
                 view.text = item.toString()
-                Log.d("아이템 정보", "spinnerInit: $item")
-                Log.d("리스트 정보", "spinnerInit: $list")
-                adapter.submitList(orderList(list, item.toString()))
+                if(filterList.isNotEmpty())
+                    adapter.submitList(orderList(filterList, item.toString()))
+                else
+                    adapter.submitList(orderList(list, item.toString()))
 
             }
             fragmentCommunityHomeSpinner.setOnNothingSelectedListener {
@@ -149,7 +196,22 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
         }
         else{
             return oldlist.filter {
-                it.postType == postType
+                when(postType){
+                    "자유" -> {
+                        it.postType == "FREE"
+                    }
+                    "꿀팁" -> {
+                        it.postType == "TIP"
+                    }
+                    "자랑" -> {
+                        it.postType == "BOAST"
+                    }
+
+                    else -> {
+                        it.postType=="FREE" ||it.postType=="TIP" || it.postType =="BOAST"
+                    }
+                }
+
             } as MutableList<DomainPost>
         }
 
@@ -157,6 +219,7 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
     }
 
     fun orderList(oldlist : MutableList<DomainPost>, orderType : String) : List<DomainPost>{
+
 
         when(orderType) {
             "좋아요 순" -> {
@@ -177,6 +240,45 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
         }
         return oldlist
     }
+    fun categoryFilterList(flag : Boolean, category : String){
+        if(flag){
+            filterList.addAll(list.filter { it.category == category })
+            adapter.submitList(filterList)
+        }
+        else{
+            filterList.removeAll(filterList.filter { it.category == category })
+            if(filterList.isEmpty()){
+                adapter.submitList(list)
+            }
+            else{
+                adapter.submitList(filterList)
+            }
+        }
+    }
+
+    private val searchWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            // 텍스트가 변경되기 전에 호출됩니다.
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            PostSearch(s.toString())
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+
+        }
+    }
+    private fun PostSearch(title: String) {
+        var newList = mutableListOf<DomainPost>()
+        if(filterList.isEmpty())
+            newList = list.filter { it -> it.title.contains(title) } as MutableList<DomainPost>
+        else
+            newList = filterList.filter { it -> it.title.contains(title) } as MutableList<DomainPost>
+        adapter.submitList(newList)
+    }
+
+
 
 
 }

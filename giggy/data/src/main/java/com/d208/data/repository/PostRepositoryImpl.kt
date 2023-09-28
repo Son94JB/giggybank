@@ -2,6 +2,7 @@ package com.d208.data.repository
 
 import com.d208.data.mapper.PostMapper
 import com.d208.data.repository.remote.datasource.PostDataSource
+import com.d208.domain.model.DomainComment
 import com.d208.domain.model.DomainPost
 import com.d208.domain.model.DomainPostDetail
 import com.d208.domain.repository.PostRepository
@@ -42,6 +43,43 @@ class PostRepositoryImpl @Inject constructor(
         userId: UUID
     ): DomainPostDetail? {
         return PostMapper.onePostMapper(postDataSource.getOnePost(remoteErrorEmitter, id, userId))
+    }
+
+    override suspend fun updatePost(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        id: Long,
+        picture : String,
+        title: String,
+        content: String,
+        postType: String,
+        category: String,
+        file: MultipartBody.Part?
+    ): Long? {
+        return postDataSource.updatePost(remoteErrorEmitter, id, picture, title, content, postType, category, file)
+    }
+
+    override suspend fun getComments(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        id: Long
+    ): MutableList<DomainComment>? {
+        return PostMapper.commentMapper(postDataSource.getComments(remoteErrorEmitter, id))
+    }
+
+    override suspend fun registerComment(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        id: Long,
+        userId: UUID,
+        content: String
+    ): Long? {
+        return postDataSource.registerComment(remoteErrorEmitter, id, userId, content)
+    }
+
+    override suspend fun deleteComment(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        postId: Long,
+        commentId: Long
+    ): Unit? {
+        return postDataSource.deleteComment(remoteErrorEmitter, postId, commentId)
     }
 
 

@@ -4,11 +4,14 @@ import com.d208.domain.repository.BankRepository
 import com.d208.domain.repository.MainRepository
 import com.d208.domain.repository.PostRepository
 import com.d208.domain.usecase.AnalysisUsecase
+import com.d208.domain.usecase.DeleteCommentUsecase
 import com.d208.domain.usecase.DuplicateCheckUsecase
 import com.d208.domain.usecase.GetMonthsUsecase
 import com.d208.domain.usecase.GetOnePostUsecase
 import com.d208.domain.usecase.GetPostsUsecase
 import com.d208.domain.usecase.LoginUsecase
+import com.d208.domain.usecase.PostUpdateUsecase
+import com.d208.domain.usecase.RegisterCommentUsecase
 import com.d208.domain.usecase.RegisterPostUsecase
 import com.d208.domain.usecase.TransactionUsecase
 import dagger.Module
@@ -53,4 +56,16 @@ class UseCaseModule {
     @Provides
     @Singleton
     fun provideGetOnePostUsecase(repository: PostRepository) = GetOnePostUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideUpdatePostUsecase(repository: PostRepository) = PostUpdateUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideRegisterCommentUsecase(repository: PostRepository) = RegisterCommentUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteCommentUsecase(repository: PostRepository) = DeleteCommentUsecase(repository)
 }

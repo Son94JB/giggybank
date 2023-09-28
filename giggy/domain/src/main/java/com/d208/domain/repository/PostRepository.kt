@@ -1,5 +1,6 @@
 package com.d208.domain.repository
 
+import com.d208.domain.model.DomainComment
 import com.d208.domain.model.DomainPost
 import com.d208.domain.model.DomainPostDetail
 import com.d208.domain.utils.RemoteErrorEmitter
@@ -15,4 +16,12 @@ interface PostRepository {
     suspend fun pushLike(remoteErrorEmitter: RemoteErrorEmitter, id : Long, userId : UUID) : Unit?
 
     suspend fun getOnePost(remoteErrorEmitter: RemoteErrorEmitter, id : Long, userId : UUID) : DomainPostDetail?
+
+    suspend fun updatePost(remoteErrorEmitter: RemoteErrorEmitter, id : Long, picture : String, title : String, content : String, postType : String, category : String, file : MultipartBody.Part?) : Long?
+
+    suspend fun getComments(remoteErrorEmitter: RemoteErrorEmitter, id : Long) : MutableList<DomainComment>?
+
+    suspend fun registerComment(remoteErrorEmitter: RemoteErrorEmitter, id : Long, userId : UUID, content : String) : Long?
+
+    suspend fun deleteComment(remoteErrorEmitter: RemoteErrorEmitter, postId : Long, commentId : Long) : Unit?
 }

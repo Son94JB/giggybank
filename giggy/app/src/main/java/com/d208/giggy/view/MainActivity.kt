@@ -82,4 +82,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             Log.d(ContentValues.TAG, "알림: $dataStr")
         }
     }
+
+
 }

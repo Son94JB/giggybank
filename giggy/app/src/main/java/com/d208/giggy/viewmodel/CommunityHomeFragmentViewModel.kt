@@ -23,6 +23,9 @@ class CommunityHomeFragmentViewModel @Inject constructor(
 
     private val _postList = MutableLiveData<MutableList<DomainPost>>()
     val postList : LiveData<MutableList<DomainPost>> get() = _postList
+
+    private val _filterdPostList = MutableLiveData<MutableList<DomainPost>>()
+    val filteredPostList : LiveData<MutableList<DomainPost>> get() = _filterdPostList
     fun getPosts(){
         viewModelScope.launch {
             getPostsUsecase.execute(this@CommunityHomeFragmentViewModel, UUID.fromString(App.sharedPreferences.getString("id"))).let {
@@ -71,6 +74,12 @@ class CommunityHomeFragmentViewModel @Inject constructor(
             }
         }
     }
+
+
+
+
+
+
 
 
 }
