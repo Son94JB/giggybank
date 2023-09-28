@@ -1,12 +1,8 @@
 package com.d208.giggyapp.dto.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Getter
-@Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginDto {

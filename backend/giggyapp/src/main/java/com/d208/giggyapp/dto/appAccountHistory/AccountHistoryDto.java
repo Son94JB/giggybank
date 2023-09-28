@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AccountHistoryDTO {
+public class AccountHistoryDto {
     private Long id;
     private int amount;
     private String content;

@@ -26,12 +26,12 @@ public class UserController {
     // 회원 O -> 회원 정보 반환
     // 회원 X -> 이메일만 담인 회원 반환
     @PostMapping("/user/login")
-    public ResponseEntity<SendUserDTO> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<SendUserDto> login(@RequestBody LoginDto loginDto) {
         // 카카오 정보 확인
         KakaoResponseDto kakaoResponseDto = userService.getKaKaoInfo(loginDto.getAccessToken());
 
         // 이메일로 회원 조회
-        SendUserDTO userDto = userService.userExist(kakaoResponseDto, loginDto);
+        SendUserDto userDto = userService.userExist(kakaoResponseDto, loginDto);
 
         // 빈 유저가 아닌 경우에만 액세스 토큰을 레디스에 보관
         if (userDto.getRefreshToken() != null) {
@@ -107,6 +107,6 @@ public class UserController {
 
     // UUID로 정보 조회
     @PostMapping("/user/info")
-    public ResponseEntity<SendUserDTO> getUser(@RequestBody UserDto userDto) { return userService.getUser(userDto);}
+    public ResponseEntity<SendUserDto> getUser(@RequestBody UserDto userDto) { return userService.getUser(userDto);}
 
 }
