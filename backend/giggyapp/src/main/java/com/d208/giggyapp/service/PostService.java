@@ -1,8 +1,6 @@
 package com.d208.giggyapp.service;
 
-import com.d208.giggyapp.domain.board.Comment;
-import com.d208.giggyapp.domain.board.LikePost;
-import com.d208.giggyapp.domain.board.Post;
+import com.d208.giggyapp.domain.board.*;
 import com.d208.giggyapp.domain.User;
 import com.d208.giggyapp.dto.board.*;
 import com.d208.giggyapp.domain.board.LikePost;
@@ -128,27 +126,27 @@ public class PostService {
     }
 
 
-    @Transactional
-    public List<PostListDto> getPostList(String keyword, UUID currentUserId) {
-        List<Post> posts = postRepository.findAllByTitleContainingIgnoreCaseOrderByIdDesc(keyword);
-        List<PostListDto> postListDtos = new ArrayList<>();
-
-        for(Post post : posts) {
-            int likeCnt = likePostRepository.countByPostId(post.getId());
-            int commentCnt = commentRepository.countByPostId(post.getId());
-
-            boolean isLiked = isPostLikedByUser(post.getId(), currentUserId);
-//            int liked = likePostRepository.countByPostIdAndUserId(postId, post.getUser().getId());
+//    @Transactional
+//    public List<PostListDto> getPostList(String keyword, UUID currentUserId) {
+//        List<Post> posts = postRepository.findAllByTitleContainingIgnoreCaseOrderByIdDesc(keyword);
+//        List<PostListDto> postListDtos = new ArrayList<>();
 //
-//            boolean isLiked = false;
-//            if(liked == 1) {
-//                isLiked = true;
-//            }
-
-            postListDtos.add(new PostListDto(post, likeCnt, commentCnt, isLiked));
-        }
-        return postListDtos;
-    }
+//        for(Post post : posts) {
+//            int likeCnt = likePostRepository.countByPostId(post.getId());
+//            int commentCnt = commentRepository.countByPostId(post.getId());
+//
+//            boolean isLiked = isPostLikedByUser(post.getId(), currentUserId);
+////            int liked = likePostRepository.countByPostIdAndUserId(postId, post.getUser().getId());
+////
+////            boolean isLiked = false;
+////            if(liked == 1) {
+////                isLiked = true;
+////            }
+//
+//            postListDtos.add(new PostListDto(post, likeCnt, commentCnt, isLiked));
+//        }
+//        return postListDtos;
+//    }
 
     private boolean isPostLikedByUser(Long postId, UUID currentUserId) {
         int liked = likePostRepository.countByPostIdAndUserId(postId, currentUserId);
@@ -211,5 +209,24 @@ public class PostService {
         return comments.stream()
                 .map(this::toCommentListDto)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<PostListDto> getPostListType(String keyword, UUID currentUserId, String postType) {
+
+        List<Post> posts = postRepository.findAllByTitleAndpostType(keyword, postType);
+        List<PostListDto> postListDtos = new ArrayList<>();
+
+        for(Post post : posts) {
+            int likeCnt = likePostRepository.countByPostId(post.getId());
+            int commentCnt = commentRepository.countByPostId(post.getId());
+
+            boolean isLiked = isPostLikedByUser(post.getId(), currentUserId);
+
+            postListDtos.add(new PostListDto(post, likeCnt, commentCnt, isLiked));
+        }
+        return postListDtos;
+
+
     }
 }
