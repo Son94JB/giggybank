@@ -4,8 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.d208.domain.model.DomainComment
 import com.d208.domain.model.DomainPostDetail
+import com.d208.domain.usecase.DeleteCommentUsecase
+import com.d208.domain.usecase.GetCommentUsecase
 import com.d208.domain.usecase.GetOnePostUsecase
+import com.d208.domain.usecase.RegisterCommentUsecase
 import com.d208.domain.utils.ErrorType
 import com.d208.domain.utils.RemoteErrorEmitter
 import com.d208.giggy.di.App
@@ -16,13 +20,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CommunityPostDetailFragmentViewModel @Inject constructor(
-    private val getOnePostUsecase: GetOnePostUsecase
+    private val getOnePostUsecase: GetOnePostUsecase,
+    private val getCommentUsecase: GetCommentUsecase,
+    private val registerCommentUsecase : RegisterCommentUsecase,
+    private val deleteCommentUsecase : DeleteCommentUsecase,
 ): ViewModel(), RemoteErrorEmitter{
 
     private val _post = MutableLiveData<DomainPostDetail>()
     val post : LiveData<DomainPostDetail> get() = _post
 
 
+    private val _commentList = MutableLiveData<MutableList<DomainComment>>()
+    val commentList : LiveData<MutableList<DomainComment>> get() = _commentList
+
+    private val _commentRegisterSuccess = MutableLiveData<Boolean>()
+    val commentRegisterSuccess : LiveData<Boolean> get() = _commentRegisterSuccess
     fun getOnePost(id : Long){
         viewModelScope.launch {
             getOnePostUsecase.execute(this@CommunityPostDetailFragmentViewModel, id, UUID.fromString(
@@ -32,6 +44,41 @@ class CommunityPostDetailFragmentViewModel @Inject constructor(
                     _post.value  = response
                 }
 
+            }
+        }
+    }
+
+    fun getComments(id : Long){
+        viewModelScope.launch {
+            getCommentUsecase.execute(this@CommunityPostDetailFragmentViewModel, id).let {
+                response ->
+                if(response != null){
+                    _commentList.value = response
+                }
+                else{
+                _commentList.value = mutableListOf()
+                }
+            }
+
+
+
+        }
+    }
+
+    fun registerComment(id : Long, content : String){
+        viewModelScope.launch {
+            registerCommentUsecase.execute(this@CommunityPostDetailFragmentViewModel, id,UUID.fromString(App.sharedPreferences.getString("id")) ,content).let {
+                response ->
+                if(response != null){
+                    _commentRegisterSuccess.value = true
+                }
+            }
+        }
+    }
+
+    fun deleteComment(id : Long, commentId : Long){
+        viewModelScope.launch {
+            deleteCommentUsecase.execute(this@CommunityPostDetailFragmentViewModel, id, commentId).let {
             }
         }
     }

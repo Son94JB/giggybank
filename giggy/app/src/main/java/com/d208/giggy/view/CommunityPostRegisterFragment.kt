@@ -16,12 +16,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentCommunityPostRegisterBinding
 import com.d208.giggy.viewmodel.CommunityPostRegisterFragmentViewModel
+import com.d208.giggy.viewmodel.MainActivityViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,6 +52,7 @@ private const val TAG = "CommunityPostRegisterFr giggy"
 class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegisterBinding>(FragmentCommunityPostRegisterBinding::bind, R.layout.fragment_community_post_register) {
 
     private val communityPostRegisterFragmentViewModel : CommunityPostRegisterFragmentViewModel by viewModels()
+    private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
     private var postType = "FREE"
     private var category = "FOOD"
     private var tempUri : Uri? = null
@@ -55,7 +60,6 @@ class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegister
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             result.data?.data?.let { uri ->
-                Log.d(TAG, "URI-JoIN: $uri")
                 // 선택한 이미지 URI를 사용하여 이미지뷰에 설정합니다.
                 binding.fragmentCommunityPostRegisterImageView.visibility = View.VISIBLE
                 binding.fragmentCommunityPostRegisterImageView.setImageURI(uri)
@@ -67,7 +71,119 @@ class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegister
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tabInit()
-        init()
+        if(mainActivityViewModel.postUpdateData != null){
+
+            with(binding){
+                fragmentCommunityPostRegisterImageView.setOnClickListener{
+                    checkAndRequestStoragePermission()
+                }
+
+                fragmentCommunityPostRegisterChipGroup.setOnCheckedChangeListener { group, checkedId ->
+                    val selectedChip = group.findViewById<Chip>(checkedId)
+                    if (selectedChip != null) {
+                        // 선택한 칩의 텍스트를 가져와서 카테고리 변수를 업데이트합니다.
+                        when(selectedChip.text.toString()) {
+                            "식비" -> category = "FOOD"
+                            "교통" -> category = "TRAFFIC"
+                            "여가" -> category = "LEISURE"
+                            "쇼핑" -> category = "SHOPPING"
+                            "자기계발" -> category = "SELFDEV"
+                            "고정지출" -> category = "FIXED"
+                            "기타" -> category = "ETC"
+                        }
+
+                    }
+                }
+                fragmentCommunityPostUpdatePostButton.visibility  = View.VISIBLE
+                fragmentCommunityPostRegisterPostButton.visibility = View.GONE
+
+                fragmentCommunityPostRegisterContentEditView.setText(mainActivityViewModel.postUpdateData!!.content)
+                fragmentCommunityPostRegisterTitleEditView.setText(mainActivityViewModel.postUpdateData!!.title)
+
+                if(!mainActivityViewModel.postUpdateData!!.postPicture.toString().isNullOrEmpty()){
+                    Log.d(TAG, "onViewCreated: 사진 있음")
+                    Glide.with(requireContext())
+                        .load(mainActivityViewModel.postUpdateData!!.postPicture)
+                        .into( fragmentCommunityPostRegisterImageView)
+                }
+                else{
+                    Log.d(TAG, "onViewCreated: 사진 없음")
+                    Glide.with(requireContext())
+                        .load(R.drawable.image_add_button)
+                        .apply(RequestOptions().override(200, 100))
+                        .into( fragmentCommunityPostRegisterImageView)
+
+                }
+                fragmentCommunityPostUpdatePostButton.setOnClickListener {
+                    if(fragmentCommunityPostRegisterTitleEditView.text.toString().isNullOrEmpty()){
+                        showSnackbar("제목을 입력해주세요")
+                    }
+                    else if (fragmentCommunityPostRegisterContentEditView.text.toString().isNullOrEmpty()){
+                        showSnackbar("내용을 입력해주세요")
+                    }
+                    else if(fragmentCommunityPostRegisterChipGroup.checkedChipId == -1){
+                        showSnackbar("카테고리를 선택해주세요")
+                    }
+                    else{
+                        // 게시글 등록
+                        if(!tempUri.toString().isNullOrEmpty()){
+                            val imageMultiPart =
+                                tempUri?.let { it1 ->
+                                    createMultipartFromUri(requireContext(),
+                                        it1
+                                    )
+                                }
+                            mainActivityViewModel.postUpdateData!!.postPicture?.let { it1 ->
+                                communityPostRegisterFragmentViewModel.update(
+                                    mainActivityViewModel.postUpdateData!!.id,
+                                    it1,
+                                    fragmentCommunityPostRegisterTitleEditView.text.toString(),
+                                    fragmentCommunityPostRegisterContentEditView.text.toString(),
+                                    postType,
+                                    category,
+                                    imageMultiPart
+                                )
+                            }
+                        }
+                        else{
+                            mainActivityViewModel.postUpdateData!!.postPicture?.let { it1 ->
+                                communityPostRegisterFragmentViewModel.update(
+                                    mainActivityViewModel.postUpdateData!!.id,
+                                    it1,
+                                    fragmentCommunityPostRegisterTitleEditView.text.toString(),
+                                    fragmentCommunityPostRegisterContentEditView.text.toString(),
+                                    postType,
+                                    category,
+                                    null
+                                )
+                            }
+                        }
+
+
+
+                    }
+                }
+
+
+
+
+
+
+            }
+            communityPostRegisterFragmentViewModel.updasteSuccess.observe(viewLifecycleOwner){
+                if(it){
+                    showSnackbar("게시글이 수정되었습니다.")
+                    findNavController().navigateUp()
+                }
+                else{
+                    showSnackbar("게시글 수정을 실패했습니다.")
+                }
+            }
+        }
+        else{
+            init()
+        }
+
 
 
     }
@@ -76,6 +192,8 @@ class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegister
         fragmentCommunityPostRegisterImageView.setOnClickListener{
             checkAndRequestStoragePermission()
         }
+        fragmentCommunityPostUpdatePostButton.visibility  = View.GONE
+        fragmentCommunityPostRegisterPostButton.visibility = View.VISIBLE
         fragmentCommunityPostRegisterChipGroup.setOnCheckedChangeListener { group, checkedId ->
             val selectedChip = group.findViewById<Chip>(checkedId)
             if (selectedChip != null) {
@@ -199,7 +317,7 @@ class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegister
     }
 
     private fun uriToFilePath(context: Context, uri: Uri): String? {
-        Log.d(TAG, "URI-join:$uri")
+
         val projection = arrayOf(MediaStore.Images.Media.DATA)
         val cursor = context.contentResolver.query(uri, projection, null, null, null)
         val columnIndex = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
@@ -232,6 +350,7 @@ class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegister
             }
         }
     }
+
 
 
 

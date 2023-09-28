@@ -1,6 +1,9 @@
 package com.d208.data.mapper
 
+import android.util.Log
+import com.d208.data.remote.model.CommentResponse
 import com.d208.data.remote.model.PostResponse
+import com.d208.domain.model.DomainComment
 import com.d208.domain.model.DomainPost
 import com.d208.domain.model.DomainPostDetail
 
@@ -12,10 +15,11 @@ object PostMapper {
         return if(response != null){
             var list = mutableListOf<DomainPost>()
             for(data in response) {
+                Log.d("시간", "postsMapper: ${data.createdAt}")
                 list.add(DomainPost(
                     id = data.id,
                     nickName = data.nickName,
-                    createdAt = data.createAt,
+                    createdAt = data.createdAt,
                     postType = data.postType,
                     title = data.title,
                     category = data.category,
@@ -24,7 +28,9 @@ object PostMapper {
                     likeCount = data.likeCnt,
                 ))
             }
+            Log.d("시간", "postsMapper: ${list[0].createdAt}")
             list
+
         } else null
     }
 
@@ -43,10 +49,28 @@ object PostMapper {
                 title = response.title,
                 viewCount = response.viewCount,
                 nickName = response.nickName,
-                createAt = response.createAt,
+                createAt = response.createdAt,
                 isLiked = response.isLiked,
                 postPicture = response.postPicture
             )
+        } else null
+    }
+
+    fun commentMapper(
+        response : List<CommentResponse>?
+    ) : MutableList<DomainComment> ? {
+        return if(response != null){
+            var list = mutableListOf<DomainComment>()
+            for(data in response) {
+                list.add(DomainComment(
+                    id = data.id,
+                    userId = data.userId,
+                    nickName = data.nickName,
+                    createdAt = data.createdAt,
+                    content = data.content,
+                ))
+            }
+            list
         } else null
     }
 

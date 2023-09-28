@@ -180,6 +180,11 @@
             app:popUpTo="@id/CommunityPostDetailFragment"
             app:popUpToInclusive="true"
             />
+        <action
+            android:id="@+id/action_CommunityPostDetailFragment_to_CommunityPostRegisterFragment"
+            app:destination="@id/CommunityPostRegisterFragment"
+            app:popUpTo="@id/CommunityPostDetailFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

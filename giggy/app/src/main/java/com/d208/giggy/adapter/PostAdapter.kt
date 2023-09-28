@@ -23,7 +23,12 @@ class PostAdapter (var context : Context) : ListAdapter<DomainPost, PostAdapter.
             else{
                 itemPostLike.setImageResource(R.drawable.heart_transparent)
             }
-            itemPostTab.text = "[${data.postType}]"
+            when(data.postType){
+                "FREE" -> itemPostTab.text = "[자유]"
+                "TIP" -> itemPostTab.text = "[꿀팁]"
+                "BOAST" -> itemPostTab.text = "[자랑]"
+            }
+
 
             root.setOnClickListener {
                 itemClickListener.onClick(binding, layoutPosition, data)
