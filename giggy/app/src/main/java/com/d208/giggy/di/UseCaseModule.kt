@@ -5,6 +5,7 @@ import com.d208.domain.repository.MainRepository
 import com.d208.domain.repository.PostRepository
 import com.d208.domain.usecase.AnalysisUsecase
 import com.d208.domain.usecase.DeleteCommentUsecase
+import com.d208.domain.usecase.DeletePostUsecase
 import com.d208.domain.usecase.DuplicateCheckUsecase
 import com.d208.domain.usecase.GetMonthsUsecase
 import com.d208.domain.usecase.GetOnePostUsecase
@@ -68,4 +69,8 @@ class UseCaseModule {
     @Provides
     @Singleton
     fun provideDeleteCommentUsecase(repository: PostRepository) = DeleteCommentUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideDeletePostUsecase(repository: PostRepository) = DeletePostUsecase(repository)
 }

@@ -15,7 +15,6 @@ object PostMapper {
         return if(response != null){
             var list = mutableListOf<DomainPost>()
             for(data in response) {
-                Log.d("시간", "postsMapper: ${data.createdAt}")
                 list.add(DomainPost(
                     id = data.id,
                     nickName = data.nickName,
@@ -28,7 +27,6 @@ object PostMapper {
                     likeCount = data.likeCnt,
                 ))
             }
-            Log.d("시간", "postsMapper: ${list[0].createdAt}")
             list
 
         } else null

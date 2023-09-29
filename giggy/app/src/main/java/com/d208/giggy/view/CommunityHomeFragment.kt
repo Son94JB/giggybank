@@ -124,6 +124,7 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
 
 
         }
+
         communityHomeFragmentViewModel.getPosts()
         communityHomeFragmentViewModel.postList.observe(viewLifecycleOwner){
             if(it.isNotEmpty()){
@@ -165,14 +166,27 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
         fragmentCommunityHomeTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                /**이 부분 백엔드에서 처리해야 할듯 나중에 부탁해야함 */
+
                 // Handle tab select
-//                if (tab != null) {
-//                    if(filterList.isEmpty())
-//                        adapter.submitList(newPostTypeList(list,  tab.text.toString()))
-//                    else
-//                        adapter.submitList(newPostTypeList(filterList,  tab.text.toString()))
-//                }
+                if (tab != null) {
+                    when(tab.text.toString()){
+                        "자유" -> {
+                            communityHomeFragmentViewModel.getPostsByPostType("FREE")
+                        }
+
+                        "꿀팁" -> {
+                            communityHomeFragmentViewModel.getPostsByPostType("TIP")
+                        }
+
+                        "자랑" -> {
+                            communityHomeFragmentViewModel.getPostsByPostType("BOAST")
+                        }
+
+                        else -> {
+                           communityHomeFragmentViewModel.getPosts()
+                        }
+                    }
+                }
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {

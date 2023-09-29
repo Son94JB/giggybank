@@ -15,6 +15,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 import java.util.UUID
 
 interface PostApi {
@@ -45,4 +46,11 @@ interface PostApi {
 
     @DELETE("app/post/{postId}/comment/{commentId}")
     suspend fun deleteComment(@Path("postId") id : Long, @Path("commentId") commentId : Long)
+
+    //필터된 리스트 받기
+    @POST("app/post/{currentUserId}")
+    suspend fun getPostsByPostType(@Path("currentUserId") userId : UUID, @Query("postType") postType : String ) : Response<List<PostResponse>>
+
+    @DELETE("app/post/{postId}")
+    suspend fun deletePost(@Path("postId") id : Long) : Unit?
 }

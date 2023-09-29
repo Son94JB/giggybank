@@ -103,4 +103,20 @@ class PostDataSourceImpl @Inject constructor(
             postApi.deleteComment(postId, commentId)
         }
     }
+
+    override suspend fun getPostsByPostType(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        userId: UUID,
+        postType: String
+    ): List<PostResponse>? {
+        return safeApiCall(remoteErrorEmitter){
+            postApi.getPostsByPostType(userId, postType).body()
+        }
+    }
+
+    override suspend fun deletePost(remoteErrorEmitter: RemoteErrorEmitter, id: Long): Unit? {
+        return safeApiCall(remoteErrorEmitter){
+            postApi.deletePost(id)
+        }
+    }
 }

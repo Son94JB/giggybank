@@ -177,6 +177,8 @@ class CommunityPostDetailFragment : BaseFragment<FragmentCommunityPostDetailBind
                     return@setOnMenuItemClickListener true
                 }
                 R.id.delete -> {
+                    communityPostDetailFragmentViewModel.deletePost(mainActivityViewModel.seletedPostId)
+                    findNavController().navigateUp()
                     return@setOnMenuItemClickListener true
                 }
                 // 다른 메뉴 항목에 대한 처리 추가 가능
