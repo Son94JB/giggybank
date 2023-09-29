@@ -82,5 +82,17 @@ class PostRepositoryImpl @Inject constructor(
         return postDataSource.deleteComment(remoteErrorEmitter, postId, commentId)
     }
 
+    override suspend fun getPostsByPostType(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        userId: UUID,
+        postType: String
+    ): MutableList<DomainPost>? {
+        return PostMapper.postsMapper(postDataSource.getPostsByPostType(remoteErrorEmitter, userId, postType))
+    }
+
+    override suspend fun deletePost(remoteErrorEmitter: RemoteErrorEmitter, id: Long): Unit? {
+        return postDataSource.deletePost(remoteErrorEmitter, id)
+    }
+
 
 }

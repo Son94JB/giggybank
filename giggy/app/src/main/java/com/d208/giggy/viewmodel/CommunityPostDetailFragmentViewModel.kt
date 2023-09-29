@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.d208.domain.model.DomainComment
 import com.d208.domain.model.DomainPostDetail
 import com.d208.domain.usecase.DeleteCommentUsecase
+import com.d208.domain.usecase.DeletePostUsecase
 import com.d208.domain.usecase.GetCommentUsecase
 import com.d208.domain.usecase.GetOnePostUsecase
 import com.d208.domain.usecase.RegisterCommentUsecase
@@ -24,6 +25,7 @@ class CommunityPostDetailFragmentViewModel @Inject constructor(
     private val getCommentUsecase: GetCommentUsecase,
     private val registerCommentUsecase : RegisterCommentUsecase,
     private val deleteCommentUsecase : DeleteCommentUsecase,
+    private val deletePostUsecase: DeletePostUsecase,
 ): ViewModel(), RemoteErrorEmitter{
 
     private val _post = MutableLiveData<DomainPostDetail>()
@@ -80,6 +82,12 @@ class CommunityPostDetailFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             deleteCommentUsecase.execute(this@CommunityPostDetailFragmentViewModel, id, commentId).let {
             }
+        }
+    }
+
+    fun deletePost(id : Long){
+        viewModelScope.launch {
+            deletePostUsecase.execute(this@CommunityPostDetailFragmentViewModel, id)
         }
     }
 

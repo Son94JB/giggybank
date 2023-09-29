@@ -9,4 +9,6 @@ class GetPostsUsecase @Inject constructor(
     private val postRepository: PostRepository
 ) {
     suspend fun execute(remoteErrorEmitter: RemoteErrorEmitter, id : UUID) = postRepository.getPosts(remoteErrorEmitter, id)
+
+    suspend fun executeFilter(remoteErrorEmitter: RemoteErrorEmitter, userId : UUID, postType : String) = postRepository.getPostsByPostType(remoteErrorEmitter, userId, postType)
 }

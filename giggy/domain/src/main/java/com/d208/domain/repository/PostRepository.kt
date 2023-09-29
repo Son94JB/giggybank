@@ -24,4 +24,8 @@ interface PostRepository {
     suspend fun registerComment(remoteErrorEmitter: RemoteErrorEmitter, id : Long, userId : UUID, content : String) : Long?
 
     suspend fun deleteComment(remoteErrorEmitter: RemoteErrorEmitter, postId : Long, commentId : Long) : Unit?
+
+    suspend fun getPostsByPostType(remoteErrorEmitter: RemoteErrorEmitter, userId : UUID, postType : String) : MutableList<DomainPost>?
+
+    suspend fun deletePost(remoteErrorEmitter: RemoteErrorEmitter, id : Long) : Unit?
 }

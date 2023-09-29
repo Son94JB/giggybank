@@ -44,6 +44,19 @@ class CommunityHomeFragmentViewModel @Inject constructor(
             pushLikeUsecase.execute(this@CommunityHomeFragmentViewModel, id, UUID.fromString(App.sharedPreferences.getString("id")) )
         }
     }
+    fun getPostsByPostType(postType : String){
+        viewModelScope.launch {
+            getPostsUsecase.executeFilter(this@CommunityHomeFragmentViewModel, UUID.fromString(App.sharedPreferences.getString("id")), postType).let{
+                response->
+                if(response != null){
+                    _postList.value = response
+                }
+                else{
+                    _postList.value = mutableListOf()
+                }
+            }
+        }
+    }
 
 
 
