@@ -3,6 +3,7 @@ package com.d208.giggyrank.controller;
 import com.d208.giggyrank.dto.GameRankDto;
 import com.d208.giggyrank.service.GameRankService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,14 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/rank")
-public class HallOfFameController {
+public class GameRankController {
     private final GameRankService gameRankService;
 
-    // 게임 로그 저장
-    @PostMapping("/game/log")
+    // 게임 랭킹 저장
+    @PostMapping("/game/new-score")
     public ResponseEntity<String> saveGameLog(GameRankDto gameRankDto) {
-        // 모바일에서 유저 아이디, 게임 점수를 받는다
-//        return gameRankService.saveLog(gameRankDto);
-        return ResponseEntity.ok("ok");
+        if (gameRankService.saveScore(gameRankDto)) {
+            return ResponseEntity.ok("새 기록으로 경신되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("기존 점수가 더 높습니다.");
+        }
+
     }
 }
