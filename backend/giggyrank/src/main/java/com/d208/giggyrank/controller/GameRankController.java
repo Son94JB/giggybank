@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,12 +18,7 @@ public class GameRankController {
 
     // 게임 랭킹 저장
     @PostMapping("/game/new-score")
-    public ResponseEntity<String> saveGameLog(GameRankDto gameRankDto) {
-        if (gameRankService.saveScore(gameRankDto)) {
-            return ResponseEntity.ok("새 기록으로 경신되었습니다.");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("기존 점수가 더 높습니다.");
-        }
-
+    public ResponseEntity<String> saveGameLog(@RequestBody GameRankDto gameRankDto) {
+        return gameRankService.saveScore(gameRankDto);
     }
 }
