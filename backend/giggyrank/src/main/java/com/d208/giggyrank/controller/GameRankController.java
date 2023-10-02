@@ -5,10 +5,9 @@ import com.d208.giggyrank.service.GameRankService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,5 +19,12 @@ public class GameRankController {
     @PostMapping("/game/new-score")
     public ResponseEntity<String> saveGameLog(@RequestBody GameRankDto gameRankDto) {
         return gameRankService.saveScore(gameRankDto);
+    }
+
+    // 내 랭킹 조회
+    @GetMapping("/game/my-rank")
+    public ResponseEntity<String> checkMyRank(@RequestBody GameRankDto gameRankDto) {
+        UUID userId = gameRankDto.getUserId();
+        return gameRankService.checkRank(userId);
     }
 }

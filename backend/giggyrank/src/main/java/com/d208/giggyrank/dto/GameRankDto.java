@@ -15,6 +15,6 @@ import java.util.UUID;
 public class GameRankDto {
 
     private UUID userId;
-    private Integer score;
+    private int score;
 
 }
