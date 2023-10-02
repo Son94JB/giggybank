@@ -1,7 +1,5 @@
 package com.d208.giggyapp.dto.board;
 
-import com.d208.giggyapp.domain.board.Category;
-import com.d208.giggyapp.domain.board.PostType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,20 +11,10 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostCreateDto {
-
+public class CommentCreateDto {
     private UUID userId;
 
-    private String title;
-
     private String content;
-
-    private PostType postType;
-
-    private Category category;
-
-    private String picture;
-
 
 
 }

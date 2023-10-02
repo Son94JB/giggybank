@@ -2,13 +2,13 @@ package com.d208.giggyapp.domain.board;
 
 import com.d208.giggyapp.domain.User;
 import com.d208.giggyapp.dto.BaseTimeEntity;
+import com.d208.giggyapp.dto.board.CommentCreateDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -29,4 +29,13 @@ public class Comment extends BaseTimeEntity {
     private Post post;
 
     private String content;
+
+
+    public static Comment toEntity(Post post, CommentCreateDto commentCreateDto, User user) {
+        return Comment.builder()
+                .user(user)
+                .post(post)
+                .content(commentCreateDto.getContent())
+                .build();
+    }
 }

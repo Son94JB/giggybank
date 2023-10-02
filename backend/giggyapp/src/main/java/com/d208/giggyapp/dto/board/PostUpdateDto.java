@@ -24,20 +24,14 @@ public class PostUpdateDto {
 
     private Category category;
 
-    public PostUpdateDto(Post post) {
-        this.title= post.getTitle();
-        this.content = post.getContent();
-        this.postType = post.getPostType();
-        this.category = post.getCategory();
-    }
+//    private String picture;
 
-//    public Post toEntity() {
-//        return Post.builder()
-//                .title(title)
-//                .content(content)
-//                .postType(postType)
-//                .category(category)
-//                .build();
+//    public PostUpdateDto(Post post) {
+//        this.title= post.getTitle();
+//        this.content = post.getContent();
+//        this.postType = post.getPostType();
+//        this.category = post.getCategory();
+//        this.picture = post.getPicture();
 //    }
 
 }

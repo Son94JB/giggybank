@@ -31,7 +31,7 @@ public class AppAccountHistoryService {
     private final UserRepository userRepository;
 
     // 은행으로부터 거래내역 받아오기
-    public Void getBankAccountHistory(UUID userId){
+    public Void getBankAccountHistory(UUID userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         User user = optionalUser.get();
         String accountNumber = user.getAccountNumber();
@@ -40,12 +40,12 @@ public class AppAccountHistoryService {
 
         // 거래내역이 있는지 확인
         Optional<AppAccountHistory> optionalAppAccountHistory = appAccountHistoryRepository.findFirstByUserOrderByTransactionDateDesc(user);
-        if(optionalAppAccountHistory.isPresent()){
+        if (optionalAppAccountHistory.isPresent()) {
             AppAccountHistory appAccountHistory = optionalAppAccountHistory.get();
             System.out.println(appAccountHistory.getId());
             startDate = appAccountHistory.getTransactionDate();
             endDate = LocalDateTime.now();
-        }else{
+        } else {
             startDate = LocalDateTime.now().withDayOfMonth(1);
             endDate = LocalDateTime.now();
         }
@@ -68,14 +68,15 @@ public class AppAccountHistoryService {
                 "\"endDate\": \"" + endDate + "\"}";
 
         HttpEntity<?> requestEntity = new HttpEntity<>(requestBody, headers);
-        try{
-            ResponseEntity<AppAccountHistoryDTO> response = restTemplate.exchange(uri.toString(), HttpMethod.POST, requestEntity, AppAccountHistoryDTO.class);
-            AppAccountHistoryDTO appAccountHistoryDto = response.getBody();
-            List<AppAccountHistoryDTO.DataBody> dataList = appAccountHistoryDto.getData();
+        try {
+            ResponseEntity<AppAccountHistoryDto> response = restTemplate.exchange(uri.toString(), HttpMethod.POST, requestEntity, AppAccountHistoryDto.class);
+            AppAccountHistoryDto appAccountHistoryDto = response.getBody();
+            List<AppAccountHistoryDto.DataBody> dataList = appAccountHistoryDto.getData();
+            System.out.println(dataList);
 
             // 정보 저장
             int tmpAmount = 0;
-            for(AppAccountHistoryDTO.DataBody data : dataList) {
+            for (AppAccountHistoryDto.DataBody data : dataList) {
                 AppAccountHistory appAccountHistory = AppAccountHistory.builder().
                         transactionType(data.getTransactionType()).
                         transactionDate(data.getTransactionDate()).
@@ -89,22 +90,22 @@ public class AppAccountHistoryService {
                 appAccountHistoryRepository.save(appAccountHistory);
             }
             user.incraseCurrentAmount(tmpAmount);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
     // 분석내역 조회
-    public List<AnalysisDTO> getAnalysis(MonthDTO monthDTO){
-        User user = userRepository.findById(monthDTO.getUserId()).orElseThrow(()->
+    public List<AnalysisDto> getAnalysis(MonthDto monthDTO) {
+        User user = userRepository.findById(monthDTO.getUserId()).orElseThrow(() ->
                 new NoSuchElementException("존재하지 않는 유저입니다."));
         YearMonth yearMonth = YearMonth.parse(monthDTO.getMonth());
         LocalDateTime startDate = yearMonth.atDay(1).atStartOfDay();
-        LocalDateTime endDate = yearMonth.atEndOfMonth().atTime(23,59,59);
+        LocalDateTime endDate = yearMonth.atEndOfMonth().atTime(23, 59, 59);
         List<AppAccountHistory> appAccountHistories = appAccountHistoryRepository.findByUserAndTransactionDateTimeBetween(user, startDate, endDate);
         // 항상 6가지 카테고리를 미리 정의
-        List<String> predefinedCategories = Arrays.asList("교통", "식품", "기타", "고정지출", "쇼핑", "자기계발","여가");
+        List<String> predefinedCategories = Arrays.asList("교통", "식품", "기타", "고정지출", "쇼핑", "자기계발", "여가");
 
         // 카테고리별 지출 합계를 저장할 맵 초기화
         Map<String, BigDecimal> categorySumMap = new HashMap<>();
@@ -123,21 +124,21 @@ public class AppAccountHistoryService {
             }
         }
 
-        List<AnalysisDTO> analysisDTOS = new ArrayList<>();
+        List<AnalysisDto> analysisDtos = new ArrayList<>();
         for (String key : predefinedCategories) {
             BigDecimal value = categorySumMap.get(key);
             BigDecimal roundedValue = value.setScale(0, RoundingMode.HALF_UP); // 반올림
             Integer integerValue = roundedValue.intValue();
-            AnalysisDTO analysisDTO = AnalysisDTO.builder()
+            AnalysisDto analysisDTO = AnalysisDto.builder()
                     .categoryName(key)
                     .price(integerValue)
                     .build();
-            analysisDTOS.add(analysisDTO);
+            analysisDtos.add(analysisDTO);
         }
 
-        return analysisDTOS;
-
+        return analysisDtos;
     }
+
 
     // 카테고리 업데이트
     public Void updateCategory(Long id, String category){
@@ -168,12 +169,11 @@ public class AppAccountHistoryService {
     }
 
     // 거래내역 조회
-    public List<AccountHistoryDTO> getAppAccountHistory(@RequestBody DateDTO accountHistoryDateDTO){
+    public List<AccountHistoryDto> getAppAccountHistory(@RequestBody DateDto accountHistoryDateDTO){
         System.out.println(accountHistoryDateDTO);
         String startDate = accountHistoryDateDTO.getStartDate() + " 00:00:00";
         String endDate = accountHistoryDateDTO.getEndDate() + " 23:59:59";
         UUID userId = accountHistoryDateDTO.getUserId();
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime start = LocalDateTime.parse(startDate, formatter);
         LocalDateTime end = LocalDateTime.parse(endDate, formatter);
@@ -181,8 +181,8 @@ public class AppAccountHistoryService {
         if(optionalUser.isPresent()){
             User user = optionalUser.get();
             List<AppAccountHistory> appAccountHistories = appAccountHistoryRepository.findByUserAndTransactionDateTimeBetween(user, start, end);
-            List<AccountHistoryDTO> appAccountHistoryDTOs = appAccountHistories.stream()
-                    .map(history -> AccountHistoryDTO.builder().
+            List<AccountHistoryDto> appAccountHistoryDtos = appAccountHistories.stream()
+                    .map(history -> AccountHistoryDto.builder().
                             amount(history.getAmount()).
                             transactionType(history.getTransactionType()).
                             transactionDate(history.getTransactionDate().atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli()).
@@ -193,8 +193,8 @@ public class AppAccountHistoryService {
                             id(history.getId()).
                             category(history.getCategory()).build())
                     .collect(Collectors.toList());
-            System.out.println(appAccountHistoryDTOs);
-            return appAccountHistoryDTOs;
+            System.out.println(appAccountHistoryDtos);
+            return appAccountHistoryDtos;
         }else {
             throw new NoSuchElementException("사용자를 찾을 수 없습니다.");
         }

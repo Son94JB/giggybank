@@ -6,7 +6,9 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class BankAccountDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class BankAccountDto {
     private String accountNumber;
     private UUID userId;
 }
