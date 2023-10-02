@@ -16,12 +16,10 @@ import java.util.UUID;
 public class GameRank {
 
     @Id
-    private Long id;
+    private UUID userId;
 
-    private int round;
     private int score;
 
-    private UUID userId;
 
     public void newScore(int score) {
         this.score = score;
