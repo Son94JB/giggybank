@@ -35,7 +35,7 @@ public class AppAccountHistoryController {
 
     // 특정 거래내역 카테고리 수정
     @PutMapping("/account-history/category")
-    public ResponseEntity<?> updateAccountHistory(@RequestBody AccountHistoryDTO accountHistoryDTO){
+    public ResponseEntity<?> updateAccountHistory(@RequestBody AccountHistoryDto accountHistoryDTO){
         Long id = accountHistoryDTO.getId();
         String category = accountHistoryDTO.getCategory();
         appAccountHistoryService.updateCategory(id, category);
@@ -44,15 +44,15 @@ public class AppAccountHistoryController {
 
     // 거래내역 조회
     @PostMapping("/account-history/app")
-    public ResponseEntity<List<AccountHistoryDTO>> getAccountHistory(@RequestBody DateDTO accountHistoryDateDTO){
-        List<AccountHistoryDTO> accountHistoryDTOS = appAccountHistoryService.getAppAccountHistory(accountHistoryDateDTO);
-        return ResponseEntity.ok(accountHistoryDTOS);
+    public ResponseEntity<List<AccountHistoryDto>> getAccountHistory(@RequestBody DateDto accountHistoryDateDto){
+        List<AccountHistoryDto> accountHistoryDtos = appAccountHistoryService.getAppAccountHistory(accountHistoryDateDto);
+        return ResponseEntity.ok(accountHistoryDtos);
     }
 
     // 분석내역 조회
     @PostMapping("/account-history/analysis")
-    public  ResponseEntity<?> getAnalysis(@RequestBody MonthDTO monthDTO){
-        List<AnalysisDTO> analysisDTOS = appAccountHistoryService.getAnalysis(monthDTO);
-        return ResponseEntity.ok(analysisDTOS);
+    public  ResponseEntity<?> getAnalysis(@RequestBody MonthDto monthDTO){
+        List<AnalysisDto> analysisDtos = appAccountHistoryService.getAnalysis(monthDTO);
+        return ResponseEntity.ok(analysisDtos);
     }
 }

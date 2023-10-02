@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 @Getter
@@ -25,19 +26,23 @@ public class PostListDto {
     private int viewCount;
     private int likeCnt;
     private int commentCnt;
+    private Long createdAt;
+    private boolean isLiked;
 
-    public PostListDto(Post post, int likeCnt, int commentCnt) {
+
+    public PostListDto(Post post, int likeCnt, int commentCnt, boolean isLiked) {
         this.id = post.getId();
         this.userId = post.getUser().getId();
-        this.nickName = post.getUser().getNickname();
         this.title = post.getTitle();
         this.content = post.getContent();
         this.postType = post.getPostType();
         this.category = post.getCategory();
+        this.nickName = post.getUser().getNickname();
         this.viewCount = post.getViewCount();
         this.likeCnt = likeCnt;
         this.commentCnt = commentCnt;
-
+        this.createdAt = post.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
+        this.isLiked = isLiked;
     }
 
 }
