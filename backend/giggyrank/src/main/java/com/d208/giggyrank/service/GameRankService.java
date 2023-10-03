@@ -65,7 +65,7 @@ public class GameRankService {
 
     // 라운드 확인
     @Transactional
-    public Integer chekRound() {
+    public Integer checkRound() {
 
         // 오늘을 기준으로 라운드를 계산한다.
         Long today = LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
