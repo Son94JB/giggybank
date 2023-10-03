@@ -10,6 +10,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BeggerRankResultDto {
-    private UUID userName;
+    private UUID userId;
     private double ratio;
 }

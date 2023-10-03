@@ -13,7 +13,7 @@ import java.util.UUID;
 public class HallOfBeggerController {
     private final HallOfBeggerService hallOfBeggerService;
 
-    @GetMapping("/hall-of-begger")
+    @GetMapping("/hall-of-begger/top")
     public ResponseEntity<?> getTopHallOfBegger() {
         return hallOfBeggerService.getTopHallOfBegger();
     }
@@ -22,5 +22,4 @@ public class HallOfBeggerController {
     public ResponseEntity<?> getHallOfBegger(@RequestBody UUID userId){
         return hallOfBeggerService.getHallOfBegger(userId);
     }
-
 }

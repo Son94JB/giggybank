@@ -16,10 +16,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,6 +29,15 @@ public class AppAccountHistoryService {
     private final AppAccountHistoryRepository appAccountHistoryRepository;
     private final UserRepository userRepository;
     private final HallOfBeggerService hallOfBeggerService;
+
+    public boolean isInThisWeek(LocalDate date) {
+        LocalDate now = LocalDate.now();
+        LocalDate lastMonday = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate nextSunday = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+
+        return !date.isBefore(lastMonday) && !date.isAfter(nextSunday);
+    }
+
 
     // 은행으로부터 거래내역 받아오기
     public void getBankAccountHistory(UUID userId) {
@@ -73,8 +81,6 @@ public class AppAccountHistoryService {
             ResponseEntity<AppAccountHistoryDto> response = restTemplate.exchange(uri.toString(), HttpMethod.POST, requestEntity, AppAccountHistoryDto.class);
             AppAccountHistoryDto appAccountHistoryDto = response.getBody();
             List<AppAccountHistoryDto.DataBody> dataList = appAccountHistoryDto.getData();
-            System.out.println(dataList);
-
             // 정보 저장
             int tmpAmount = 0;
             for (AppAccountHistoryDto.DataBody data : dataList) {
@@ -87,7 +93,9 @@ public class AppAccountHistoryService {
                         deposit(data.getDeposit()).
                         withdraw(data.getWithdraw()).
                         user(user).build();
-                tmpAmount = tmpAmount + data.getWithdraw();
+                if(isInThisWeek(data.getTransactionDate().toLocalDate())){
+                    tmpAmount = tmpAmount + data.getWithdraw();
+                }
                 appAccountHistoryRepository.save(appAccountHistory);
             }
             user.incraseCurrentAmount(tmpAmount);
