@@ -23,8 +23,7 @@ public class GameRankController {
 
     // 내 랭킹 조회
     @GetMapping("/game/my-rank")
-    public ResponseEntity<String> checkMyRank(@RequestBody GameRankDto gameRankDto) {
-        UUID userId = gameRankDto.getUserId();
+    public ResponseEntity<Integer> checkMyRank(@RequestBody UUID userId) {
         return gameRankService.checkRank(userId);
     }
 }

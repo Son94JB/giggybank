@@ -51,14 +51,14 @@ public class GameRankService {
 
     // 내 점수 불러오기
     @Transactional
-    public ResponseEntity<String> checkRank(UUID userId) {
+    public ResponseEntity<Integer> checkRank(UUID userId) {
         String userIdStr = userId.toString();
 
         Long rank = zsetOps.reverseRank("GameRank", userIdStr);
         if (rank == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("랭킹이 존재하지 않습니다.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0);
         } else {
-            return ResponseEntity.ok("현재 랭킹은 " + (rank + 1) + "위 입니다.");
+            return ResponseEntity.ok(rank.intValue());
         }
     }
 

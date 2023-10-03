@@ -6,6 +6,7 @@ import com.d208.giggyapp.repository.HallOfFameRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -13,11 +14,11 @@ import java.time.ZoneId;
 
 @Service
 @RequiredArgsConstructor
-public class HallOfFameService {
+public class GameRankService {
 
     private final HallOfFameRepository hallOfFameRepository;
 
-    // 게임 최고 점수(1위) 저장
+    // 게임 최고 점수(1위) 명예의 전당에 저장
     @Transactional
     public ResponseEntity<String> saveLog(GameRankDto gameRankDto) {  // 받는 정보 : 유저 아이디, 점수
         // 라운드를 계산하기 위해서 출시일과 오늘의 차이를 계산한다.
@@ -39,6 +40,6 @@ public class HallOfFameService {
 
         hallOfFameRepository.save(hallOfFame);
 
-        return ResponseEntity.ok("saved");
+        return ResponseEntity.ok("명예의 전당 등록 완료");
     }
 }
