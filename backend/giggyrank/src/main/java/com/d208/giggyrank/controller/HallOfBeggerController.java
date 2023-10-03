@@ -18,8 +18,8 @@ public class HallOfBeggerController {
 
     @PostMapping("/hall-of-begger/update")
     public ResponseEntity<?> updateBeggerRank(@RequestBody BeggerRankDto beggerRankDto) {
-        hallOfBeggerService.updateScore(beggerRankDto);
-        return ResponseEntity.ok(true);
+        long rank = hallOfBeggerService.updateScore(beggerRankDto);
+        return ResponseEntity.ok(rank);
     }
 
     @GetMapping("/hall-of-begger")
@@ -29,8 +29,8 @@ public class HallOfBeggerController {
     }
 
     @PostMapping("/hall-of-begger")
-    public ResponseEntity<?> getUserRank(@RequestBody String username){
-        Long rank = hallOfBeggerService.getUserRank(username);
+    public ResponseEntity<?> getUserRank(@RequestBody BeggerRankDto beggerRankDto){
+        Long rank = hallOfBeggerService.getUserRank(beggerRankDto);
         return ResponseEntity.ok(rank);
     }
 }

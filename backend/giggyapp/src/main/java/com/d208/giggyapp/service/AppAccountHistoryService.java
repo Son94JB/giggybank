@@ -29,9 +29,10 @@ import java.util.stream.Collectors;
 public class AppAccountHistoryService {
     private final AppAccountHistoryRepository appAccountHistoryRepository;
     private final UserRepository userRepository;
+    private final HallOfBeggerService hallOfBeggerService;
 
     // 은행으로부터 거래내역 받아오기
-    public Void getBankAccountHistory(UUID userId) {
+    public void getBankAccountHistory(UUID userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         User user = optionalUser.get();
         String accountNumber = user.getAccountNumber();
@@ -90,10 +91,10 @@ public class AppAccountHistoryService {
                 appAccountHistoryRepository.save(appAccountHistory);
             }
             user.incraseCurrentAmount(tmpAmount);
+            hallOfBeggerService.updateHallOfBegger(user);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
         }
-        return null;
     }
 
     // 분석내역 조회
@@ -104,7 +105,7 @@ public class AppAccountHistoryService {
         LocalDateTime startDate = yearMonth.atDay(1).atStartOfDay();
         LocalDateTime endDate = yearMonth.atEndOfMonth().atTime(23, 59, 59);
         List<AppAccountHistory> appAccountHistories = appAccountHistoryRepository.findByUserAndTransactionDateTimeBetween(user, startDate, endDate);
-        // 항상 6가지 카테고리를 미리 정의
+        // 항상 7가지 카테고리를 미리 정의
         List<String> predefinedCategories = Arrays.asList("교통", "식품", "기타", "고정지출", "쇼핑", "자기계발", "여가");
 
         // 카테고리별 지출 합계를 저장할 맵 초기화
