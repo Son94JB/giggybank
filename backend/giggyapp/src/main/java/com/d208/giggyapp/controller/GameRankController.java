@@ -19,7 +19,7 @@ import java.util.UUID;
 public class GameRankController {
 
     private final GameRankService gameRankService;
-    private final String RANK_URL = "https://localhost:8083/api/v1/rank";
+    private final String RANK_URL = "http://localhost:8083/api/v1/rank";
 
     // 게임 로그 저장
     @PostMapping("/game/log")
@@ -27,6 +27,8 @@ public class GameRankController {
         // 모바일에서 유저 아이디, 게임 점수를 받는다
         // app DB에도 저장하고 랭킹용 redis 서버에도 저장해야한다.
         // app DB에 저장하는 건 Service에 있고 Rank 서버에 저장하는 api가 있으니 요청만 하면 된다.
+        gameRankService.saveLog(gameRankDto);
+
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -51,19 +53,10 @@ public class GameRankController {
     // 내 랭킹 정보
     @GetMapping("/game/my-rank/{userId}")
     public Integer checkMyRank(@PathVariable UUID userId) {
-        // 모바일에서 유저 아이디, 게임 점수를 받는다
-        // app DB에도 저장하고 랭킹용 redis 서버에도 저장해야한다.
-        // app DB에 저장하는 건 Service에 있고 Rank서버에 또 저장하는 api가 있으니 요청만 하면 된다.
         RestTemplate restTemplate = new RestTemplate();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("userId", userId);
-
         ResponseEntity<Integer> response =
-                restTemplate.postForEntity(RANK_URL + "/game/my-rank", map, Integer.class);
+                restTemplate.getForEntity(RANK_URL + "/game/my-rank/" + userId, Integer.class);
 
         return response.getBody();
     }
@@ -74,6 +67,6 @@ public class GameRankController {
         // Rank에서 App으로 Dto에 데이터를 담아서 보내준다.
         // 받는 정보는 UUID userId, int score, int round, 세 가지.
         // 이렇게 받은 정보를 App DB에 저장한다. 로직은 Service의 saveLog
-        return gameRankService.saveLog(gameRankDto);
+        return gameRankService.toHallOfFame(gameRankDto);
     }
 }

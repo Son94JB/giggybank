@@ -58,7 +58,7 @@ public class GameRankService {
         if (rank == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0);
         } else {
-            return ResponseEntity.ok(rank.intValue());
+            return ResponseEntity.ok(rank.intValue() + 1);
         }
     }
 
