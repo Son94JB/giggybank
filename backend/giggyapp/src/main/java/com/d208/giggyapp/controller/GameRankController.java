@@ -26,7 +26,7 @@ public class GameRankController {
     public ResponseEntity<String> saveGameLog(@RequestBody GameRankDto gameRankDto) {
         // 모바일에서 유저 아이디, 게임 점수를 받는다
         // app DB에도 저장하고 랭킹용 redis 서버에도 저장해야한다.
-        // app DB에 저장하는 건 Service에 있고 Rank서버에 또 저장하는 api가 있으니 요청만 하면 된다.
+        // app DB에 저장하는 건 Service에 있고 Rank 서버에 저장하는 api가 있으니 요청만 하면 된다.
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -45,9 +45,10 @@ public class GameRankController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 유저정보 입니다.");
         }
 
-        return gameRankService.saveLog(gameRankDto);
+        return response;
     }
 
+    // 내 랭킹 정보
     @GetMapping("/game/my-rank/{userId}")
     public Integer checkMyRank(@PathVariable UUID userId) {
         // 모바일에서 유저 아이디, 게임 점수를 받는다
@@ -65,5 +66,14 @@ public class GameRankController {
                 restTemplate.postForEntity(RANK_URL + "/game/my-rank", map, Integer.class);
 
         return response.getBody();
+    }
+
+    // 명예의 전당 등록
+    @PostMapping("/game/hall-of-fame")
+    public ResponseEntity<String> toHallOfFame(@RequestBody GameRankDto gameRankDto) {
+        // Rank에서 App으로 Dto에 데이터를 담아서 보내준다.
+        // 받는 정보는 UUID userId, int score, int round, 세 가지.
+        // 이렇게 받은 정보를 App DB에 저장한다. 로직은 Service의 saveLog
+        return gameRankService.saveLog(gameRankDto);
     }
 }
