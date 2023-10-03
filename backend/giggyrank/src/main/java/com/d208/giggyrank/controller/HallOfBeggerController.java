@@ -1,6 +1,7 @@
 package com.d208.giggyrank.controller;
 
 import com.d208.giggyrank.dto.BeggerRankDto;
+import com.d208.giggyrank.dto.BeggerRankNeighborDto;
 import com.d208.giggyrank.dto.BeggerRankResultDto;
 import com.d208.giggyrank.service.HallOfBeggerService;
 import lombok.Getter;
@@ -30,7 +31,7 @@ public class HallOfBeggerController {
 
     @PostMapping("/hall-of-begger")
     public ResponseEntity<?> getUserRank(@RequestBody BeggerRankDto beggerRankDto){
-        Long rank = hallOfBeggerService.getUserRank(beggerRankDto);
-        return ResponseEntity.ok(rank);
+        List<BeggerRankNeighborDto> beggerRankNeighborDtos = hallOfBeggerService.getUserRankAndNeighbors(beggerRankDto);
+        return ResponseEntity.ok(beggerRankNeighborDtos);
     }
 }
