@@ -19,15 +19,14 @@ import java.time.Duration;
 public class RedisCacheConfig {
 
     @Bean
-    public CacheManager useCacheManager(RedisConnectionFactory connectionFactory) {
+    public CacheManager useCacheManager(RedisConnectionFactory redisConnectionFactory) {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair
                         .fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair
                         .fromSerializer(new GenericJackson2JsonRedisSerializer()))
-                .disableCachingNullValues()
-                .entryTtl(Duration.ofHours(5L));
-        return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory)
+                .disableCachingNullValues();
+        return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory)
                 .cacheDefaults(redisCacheConfiguration).build();
     }
 
