@@ -22,8 +22,8 @@ public class GameRankController {
     }
 
     // 내 랭킹 조회
-    @GetMapping("/game/my-rank")
-    public ResponseEntity<Integer> checkMyRank(@RequestBody UUID userId) {
+    @GetMapping("/game/my-rank/{userId}")
+    public ResponseEntity<Integer> checkMyRank(@PathVariable UUID userId) {
         return gameRankService.checkRank(userId);
     }
 }

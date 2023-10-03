@@ -1,9 +1,6 @@
 package com.d208.giggyrank.component;
 
-import com.d208.giggyrank.dto.GameRankDto;
 import com.d208.giggyrank.service.GameRankService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.http.HttpEntity;
@@ -63,7 +60,7 @@ public class AutoRankClear {
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(map, headers);
 
         ResponseEntity<String> response =
-                restTemplate.postForEntity("https://localhost:8081/api/v1/app/game/hall-of-fame", request, String.class);
+                restTemplate.postForEntity("http://localhost:8081/api/v1/app/game/hall-of-fame", request, String.class);
 
         if (response.getStatusCode().is2xxSuccessful() && response.getBody().equals("명예의 전당 등록 완료")) {
             // 그리고 정상적으로 받았다면 삭제 진행
