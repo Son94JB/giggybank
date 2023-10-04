@@ -78,10 +78,7 @@ public class AppAccountHistoryService {
         System.out.println(requestBody);
         HttpEntity<?> requestEntity = new HttpEntity<>(requestBody, headers);
         try {
-            System.out.println("1111111111111111111111111111111111111");
             ResponseEntity<AppAccountHistoryDto> response = restTemplate.exchange(uri.toString(), HttpMethod.POST, requestEntity, AppAccountHistoryDto.class);
-            System.out.println("22222222222222222222222222222222222222");
-            System.out.println(response);
             AppAccountHistoryDto appAccountHistoryDto = response.getBody();
             System.out.println("333333333333333333333333333333333333333");
             System.out.println(appAccountHistoryDto);

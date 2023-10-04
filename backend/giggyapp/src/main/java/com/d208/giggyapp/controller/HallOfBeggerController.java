@@ -1,5 +1,6 @@
 package com.d208.giggyapp.controller;
 
+import com.d208.giggyapp.dto.begger.BeggerRankWeekDto;
 import com.d208.giggyapp.service.HallOfBeggerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,5 +22,10 @@ public class HallOfBeggerController {
     @PostMapping("/hall-of-begger")
     public ResponseEntity<?> getHallOfBegger(@RequestBody UUID userId){
         return hallOfBeggerService.getHallOfBegger(userId);
+    }
+
+    @PostMapping("/hall-of-begger/week")
+    public ResponseEntity<?> updateWeekHallofBegger(@RequestBody BeggerRankWeekDto beggerRankWeekDto){
+        return hallOfBeggerService.updateWeek(beggerRankWeekDto);
     }
 }
