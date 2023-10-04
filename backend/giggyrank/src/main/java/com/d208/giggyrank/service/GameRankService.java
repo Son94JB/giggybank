@@ -93,7 +93,7 @@ public class GameRankService {
     public ResponseEntity<List<GameRankDto>> topTenRank() {
 
         Set<ZSetOperations.TypedTuple<String>> rangeWithScores =
-                zsetOps.rangeWithScores("GameRank", 0, 9);
+                zsetOps.reverseRangeWithScores("GameRank", 0, 9);
 
         AtomicInteger rank = new AtomicInteger(1);
 
