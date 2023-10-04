@@ -80,7 +80,7 @@ public class GameRankController {
 
         ResponseEntity<List<GameRankDto>> response =
                 restTemplate.exchange(RANK_URL + "/game/top-ten/", HttpMethod.GET,
-                        null, new ParameterizedTypeReference<>() {
+                        null, new ParameterizedTypeReference<List<GameRankDto>>() {
                         });
 
         List<GameRankDto> topTen = response.getBody();

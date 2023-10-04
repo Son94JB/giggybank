@@ -32,7 +32,7 @@ public class GameRankController {
 
     // 랭킹 top10 조회
     @GetMapping("/game/top-ten")
-    public ResponseEntity<List<String>> rankTopTen() {
+    public ResponseEntity<List<GameRankDto>> rankTopTen() {
         return gameRankService.topTenRank();
     }
 
