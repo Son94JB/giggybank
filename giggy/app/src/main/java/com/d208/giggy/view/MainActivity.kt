@@ -1,6 +1,7 @@
 package com.d208.giggy.view
 
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
@@ -18,12 +19,14 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseActivity
 import com.d208.giggy.databinding.ActivityMainBinding
+import com.d208.giggy.di.App
 import com.d208.giggy.viewmodel.MainActivityViewModel
 
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.common.util.Utility
+import com.unity3d.player.UnityPlayerActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -67,6 +70,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         initDynamicLink()
     }
 
+    fun startGame() {
+        val intent = Intent(this, GameActivity::class.java)
+        intent.putExtra("userId", App.sharedPreferences.getString("id"))
+        startActivityForResult(intent, UnityPlayerActivity.UNITY_PLAYER_REQUEST_CODE)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+//        showSnackbar("${data!!.getStringExtra("data")}")
+
+        if (requestCode == UnityPlayerActivity.UNITY_PLAYER_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this, "꺼짐", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+    }
     private fun setupNavHost() {
         // NavHostFragment를 가져와서 설정합니다.
         val navHostFragment =
@@ -124,5 +143,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
         }
     }
+
 
 }

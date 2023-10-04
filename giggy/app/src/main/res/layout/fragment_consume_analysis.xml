@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/the_jamsil_3_regular"
                 android:textSize="32sp"
-                android:text="100000원" />
+                android:text="0원" />
 
         </LinearLayout>
 

@@ -109,7 +109,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             }
             // 미니 게임 화면
             fragmentHomeMiniGameCardView.setOnClickListener {
-
+                findNavController().navigate(R.id.action_HomeFragment_to_GameFragment)
             }
             // 커뮤니티 화면
             fragmentHomeCommunityCardView.setOnClickListener {
