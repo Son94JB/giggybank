@@ -1,5 +1,4 @@
-package com.d208.giggyrank.dto;
-
+package com.d208.giggyapp.dto.game;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,10 +11,17 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GameRankDto {
+public class MyStatusDto {
 
     private UUID userId;
+
     private int score;
     private int rank;
+    private String nickname;
+    private int leftLife;
 
+    public void setLeftLife(int leftLife) {
+        this.leftLife = leftLife;
+    }
 }
+

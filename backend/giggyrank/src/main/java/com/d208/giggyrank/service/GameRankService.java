@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -48,17 +50,29 @@ public class GameRankService {
         }
     }
 
-    // 내 랭킹 불러오기
+//    // 내 랭킹 불러오기
+//    @Transactional
+//    public ResponseEntity<Integer> checkRank(UUID userId) {
+//        String userIdStr = userId.toString();
+//
+//        Long rank = zsetOps.reverseRank("GameRank", userIdStr);
+//        if (rank == null) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0);
+//        } else {
+//            return ResponseEntity.ok(rank.intValue() + 1);
+//        }
+//    }
+
+    // 내 랭킹 + 최고 점수 불러오기
     @Transactional
-    public ResponseEntity<Integer> checkRank(UUID userId) {
+    public ResponseEntity<GameRankDto> checkRank(UUID userId) {
         String userIdStr = userId.toString();
 
         Long rank = zsetOps.reverseRank("GameRank", userIdStr);
-        if (rank == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0);
-        } else {
-            return ResponseEntity.ok(rank.intValue() + 1);
-        }
+        Double score = zsetOps.score("GameRank", userIdStr);
+
+        GameRankDto gameRankDto = new GameRankDto(userId, score.intValue(), rank.intValue() + 1);
+        return ResponseEntity.ok(gameRankDto);
     }
 
     // 내 최고 점수 불러오기
@@ -74,6 +88,13 @@ public class GameRankService {
         }
     }
 
+    // top10 랭크 조회
+    public ResponseEntity<List<String>> topTenRank() {
+
+        List<String> topTen = new ArrayList<>(zsetOps.range("GameRank", 0, 9));
+        return ResponseEntity.ok(topTen);
+
+    }
 
     // 라운드 확인
     @Transactional
@@ -92,10 +113,4 @@ public class GameRankService {
         return round;
     }
 
-    public ResponseEntity<Set<String>> topTenRank() {
-
-        Set<String> topTen = zsetOps.range("GameRank", 0, 9);
-        return ResponseEntity.ok(topTen);
-
-    }
 }
