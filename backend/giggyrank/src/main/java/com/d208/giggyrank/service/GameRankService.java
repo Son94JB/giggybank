@@ -102,7 +102,7 @@ public class GameRankService {
 
         // 오늘을 기준으로 라운드를 계산한다.
         Long today = LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
-        LocalDateTime releaseDate = LocalDateTime.of(2023, 10, 2, 0, 0);
+        LocalDateTime releaseDate = LocalDateTime.of(2023, 10, 6, 0, 0);
         Long releaseDateL = releaseDate.atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
         Long differenceL = today - releaseDateL;
 
