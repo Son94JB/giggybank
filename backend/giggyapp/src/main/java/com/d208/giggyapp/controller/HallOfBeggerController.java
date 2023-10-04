@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/rank")
+@RequestMapping("/api/v1/app")
 public class HallOfBeggerController {
     private final HallOfBeggerService hallOfBeggerService;
 
