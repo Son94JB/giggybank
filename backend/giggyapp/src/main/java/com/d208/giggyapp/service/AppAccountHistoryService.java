@@ -40,7 +40,7 @@ public class AppAccountHistoryService {
 
 
     // 은행으로부터 거래내역 받아오기
-    public void getBankAccountHistory(UUID userId) {
+    public ResponseEntity<Boolean> getBankAccountHistory(UUID userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         User user = optionalUser.get();
         String accountNumber = user.getAccountNumber();
@@ -106,8 +106,9 @@ public class AppAccountHistoryService {
             }
             user.incraseCurrentAmount(tmpAmount);
             hallOfBeggerService.updateHallOfBegger(user);
+            return ResponseEntity.ok(true);
         } catch (Exception e) {
-            throw e;
+            return ResponseEntity.ok(false);
         }
     }
 
