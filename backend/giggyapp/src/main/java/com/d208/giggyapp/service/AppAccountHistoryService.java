@@ -75,12 +75,14 @@ public class AppAccountHistoryService {
         String requestBody = "{\"accountNumber\": \"" + accountNumber + "\", " +
                 "\"startDate\": \"" + startDate + "\", " +
                 "\"endDate\": \"" + endDate + "\"}";
-
+        System.out.println(requestBody);
         HttpEntity<?> requestEntity = new HttpEntity<>(requestBody, headers);
         try {
             ResponseEntity<AppAccountHistoryDto> response = restTemplate.exchange(uri.toString(), HttpMethod.POST, requestEntity, AppAccountHistoryDto.class);
             AppAccountHistoryDto appAccountHistoryDto = response.getBody();
+            System.out.println(appAccountHistoryDto);
             List<AppAccountHistoryDto.DataBody> dataList = appAccountHistoryDto.getData();
+            System.out.println(dataList);
             // 정보 저장
             int tmpAmount = 0;
             for (AppAccountHistoryDto.DataBody data : dataList) {
