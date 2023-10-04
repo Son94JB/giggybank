@@ -33,7 +33,7 @@ public class AutoRankClear {
 
 
     // 자동 삭제 및 명예의 전당 등록 로직
-    @Scheduled(cron = "0 0 0 ? * SUN", zone = "Asia/Seoul")  // "0 * * * * ?"
+    @Scheduled(cron = "0 0 0 ? * MON", zone = "Asia/Seoul")  // "0 * * * * ?"
     @Transactional
     public void autoClear() {
         // 일단 라운드 정보와 저장된 1등의 정보를 App으로 보낸다.
