@@ -21,9 +21,7 @@ public class AppAccountHistoryController {
     @PostMapping("/account-history/bank")
     public ResponseEntity<?> getAppAccountHistory(@RequestBody UUID userId){
         // 은행으로부터 계좌거래내역 받아오기
-        appAccountHistoryService.getBankAccountHistory(userId);
-        // 분석한 내용 반환
-        return ResponseEntity.ok(true);
+        return appAccountHistoryService.getBankAccountHistory(userId);
     }
 
     // 거래내역 조회 할 수 있는 달
