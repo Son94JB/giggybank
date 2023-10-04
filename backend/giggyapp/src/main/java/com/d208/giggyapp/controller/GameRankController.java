@@ -1,17 +1,15 @@
 package com.d208.giggyapp.controller;
 
 import com.d208.giggyapp.dto.game.GameRankDto;
+import com.d208.giggyapp.dto.game.MyStatusDto;
 import com.d208.giggyapp.service.GameRankService;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.util.Introspection;
-import org.springframework.data.repository.query.Param;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +17,9 @@ import java.util.UUID;
 public class GameRankController {
 
     private final GameRankService gameRankService;
+
     private final String RANK_URL = "https://j9d208.p.ssafy.io:8282/api/v1/rank";
+
 
     // 게임 로그 저장
     @PostMapping("/game/log")
@@ -51,15 +51,40 @@ public class GameRankController {
         return response;
     }
 
-    // 내 랭킹 정보
+    // 내 랭킹, 최고 점수 정보
     @GetMapping("/game/my-rank/{userId}")
-    public Integer checkMyRank(@PathVariable UUID userId) {
+    public ResponseEntity<GameRankDto> checkMyRank(@PathVariable UUID userId) {
         RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<Integer> response =
-                restTemplate.getForEntity(RANK_URL + "/game/my-rank/" + userId, Integer.class);
+        ResponseEntity<GameRankDto> response =
+                restTemplate.getForEntity(RANK_URL + "/game/my-rank/" + userId, GameRankDto.class);
 
-        return response.getBody();
+        return response;
+    }
+
+    // 내 랭킹, 최고 점수, 남은 목숨 정보
+    @GetMapping("/game/my-status/{userId}")
+    public ResponseEntity<MyStatusDto> checkMyStatus(@PathVariable UUID userId) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<MyStatusDto> response =
+                restTemplate.getForEntity(RANK_URL + "/game/my-rank/" + userId, MyStatusDto.class);
+
+        return gameRankService.myStatus(response.getBody());
+    }
+
+    // 현재 상위 10위 까지 조회
+    @GetMapping("/game/top-ten")
+    public List<GameRankDto> topTenRank() {
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<List<GameRankDto>> response =
+                restTemplate.exchange(RANK_URL + "/game/top-ten/", HttpMethod.GET,
+                        null, new ParameterizedTypeReference<>() {
+                        });
+
+        List<GameRankDto> topTen = response.getBody();
+        return gameRankService.topTenRank(topTen);
     }
 
     // 명예의 전당 등록
