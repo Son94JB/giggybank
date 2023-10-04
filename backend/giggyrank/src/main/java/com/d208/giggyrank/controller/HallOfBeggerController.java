@@ -17,16 +17,10 @@ import java.util.List;
 public class HallOfBeggerController {
     private final HallOfBeggerService hallOfBeggerService;
 
-<<<<<<< HEAD
-    @GetMapping("/hall-of-begger")
-    public ResponseEntity<String> getHallOfBegger() {
-        return hallOfBeggerService.getHallOfBegger();
-=======
     @PostMapping("/hall-of-begger/update")
     public ResponseEntity<?> updateBeggerRank(@RequestBody BeggerRankDto beggerRankDto) {
         long rank = hallOfBeggerService.updateScore(beggerRankDto);
         return ResponseEntity.ok(rank);
->>>>>>> backend
     }
 
     @GetMapping("/hall-of-begger")

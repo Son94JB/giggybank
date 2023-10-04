@@ -60,7 +60,8 @@ public class AutoRankClear {
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(map, headers);
 
         ResponseEntity<String> response =
-                restTemplate.postForEntity("http://localhost:8081/api/v1/app/game/hall-of-fame", request, String.class);
+                restTemplate.postForEntity(
+                        "https://j9d208.p.ssafy.io:8282/api/v1/app/game/hall-of-fame", request, String.class);
 
         if (response.getStatusCode().is2xxSuccessful() && response.getBody().equals("명예의 전당 등록 완료")) {
             // 그리고 정상적으로 받았다면 삭제 진행
