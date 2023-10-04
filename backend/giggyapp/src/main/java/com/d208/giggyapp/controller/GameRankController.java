@@ -19,7 +19,7 @@ import java.util.UUID;
 public class GameRankController {
 
     private final GameRankService gameRankService;
-    private final String RANK_URL = "http://localhost:8083/api/v1/rank";
+    private final String RANK_URL = "https://j9d208.p.ssafy.io:8083/api/v1/rank";
 
     // 게임 로그 저장
     @PostMapping("/game/log")
@@ -27,6 +27,7 @@ public class GameRankController {
         // 모바일에서 유저 아이디, 게임 점수를 받는다
         // app DB에도 저장하고 랭킹용 redis 서버에도 저장해야한다.
         // app DB에 저장하는 건 Service에 있고 Rank 서버에 저장하는 api가 있으니 요청만 하면 된다.
+        System.out.println("gameRankDto : " + gameRankDto);
         gameRankService.saveLog(gameRankDto);
 
         RestTemplate restTemplate = new RestTemplate();
