@@ -47,9 +47,12 @@ public class GameRankService {
     @Transactional
     public ResponseEntity<String> toHallOfFame(GameRankDto gameRankDto) {  // 받는 정보 : 유저 아이디, 점수
 
+        User user = userRepository.findById(gameRankDto.getUserId()).orElse(null);
+
         HallOfFame hallOfFame = HallOfFame.builder()
                 .score(gameRankDto.getScore())
                 .userId(gameRankDto.getUserId())
+                .nickname(user.getNickname())
                 .round(checkRound())
                 .build();
 

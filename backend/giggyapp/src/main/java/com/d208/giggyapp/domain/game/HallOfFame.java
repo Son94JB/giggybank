@@ -25,7 +25,7 @@ public class HallOfFame {
 
     private int round;
     private int score;
-
+    private String nickname;
     
     private UUID userId;
 

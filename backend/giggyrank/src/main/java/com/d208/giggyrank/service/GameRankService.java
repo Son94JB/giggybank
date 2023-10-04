@@ -12,10 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +36,7 @@ public class GameRankService {
         // 점수를 불러올 때 해당 유저의 현재 저장된 있는 점수와 비교해서 새로운 점수가 더 크다면 바꿔서 저장
         // 아니라면 그냥 스킵
         UUID userId = gameRankDto.getUserId();
-        int newScore = gameRankDto.getScore();
+        int newScore = (int) gameRankDto.getScore();
 
         // 게임 랭킹에 기존 랭킹이 있는지 확인
         // 없으면 바로 저장해주고 있으면 비교해서 높은 점수를 저장
@@ -89,12 +90,18 @@ public class GameRankService {
     }
 
     // top10 랭크 조회
-    public ResponseEntity<List<String>> topTenRank() {
+    public ResponseEntity<List<GameRankDto>> topTenRank() {
 
-        List<String> topTen = new ArrayList<>(zsetOps.range("GameRank", 0, 9));
-        System.out.println("====================================");
-        System.out.println(topTen);
-        System.out.println("====================================");
+        Set<ZSetOperations.TypedTuple<String>> rangeWithScores =
+                zsetOps.rangeWithScores("GameRank", 0, 9);
+
+        AtomicInteger rank = new AtomicInteger(1);
+
+        List<GameRankDto> topTen = rangeWithScores.stream()
+                .map(tuple -> new GameRankDto(
+                        UUID.fromString(tuple.getValue()), tuple.getScore(), rank.getAndIncrement()))
+                .collect(Collectors.toList());
+
         return ResponseEntity.ok(topTen);
 
     }
