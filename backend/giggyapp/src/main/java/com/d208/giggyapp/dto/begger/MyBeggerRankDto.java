@@ -1,14 +1,15 @@
 package com.d208.giggyapp.dto.begger;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
-@Data
 @Builder
-public class BeggerNeighborDto {
-    private UUID userId;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class MyBeggerRankDto {
     private Long rank;
     private double ratio;
 }
