@@ -80,8 +80,6 @@ public class AppAccountHistoryService {
         try {
             ResponseEntity<AppAccountHistoryDto> response = restTemplate.exchange(uri.toString(), HttpMethod.POST, requestEntity, AppAccountHistoryDto.class);
             AppAccountHistoryDto appAccountHistoryDto = response.getBody();
-            System.out.println("333333333333333333333333333333333333333");
-            System.out.println(appAccountHistoryDto);
             List<AppAccountHistoryDto.DataBody> dataList = appAccountHistoryDto.getData();
             System.out.println(dataList);
             // 정보 저장
