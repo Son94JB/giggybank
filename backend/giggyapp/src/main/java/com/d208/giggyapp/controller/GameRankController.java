@@ -1,13 +1,10 @@
 package com.d208.giggyapp.controller;
 
-import com.d208.giggyapp.domain.User;
 import com.d208.giggyapp.dto.game.GameRankDto;
 import com.d208.giggyapp.dto.game.MyStatusDto;
 import com.d208.giggyapp.service.GameRankService;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.util.Introspection;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
