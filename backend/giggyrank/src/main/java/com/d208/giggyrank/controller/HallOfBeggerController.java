@@ -1,10 +1,9 @@
 package com.d208.giggyrank.controller;
 
 import com.d208.giggyrank.dto.BeggerRankDto;
-import com.d208.giggyrank.dto.BeggerRankNeighborDto;
 import com.d208.giggyrank.dto.BeggerRankResultDto;
+import com.d208.giggyrank.dto.MyBeggerRankDto;
 import com.d208.giggyrank.service.HallOfBeggerService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +30,7 @@ public class HallOfBeggerController {
 
     @PostMapping("/hall-of-begger")
     public ResponseEntity<?> getUserRank(@RequestBody BeggerRankDto beggerRankDto){
-        List<BeggerRankNeighborDto> beggerRankNeighborDtos = hallOfBeggerService.getUserRankAndNeighbors(beggerRankDto);
-        return ResponseEntity.ok(beggerRankNeighborDtos);
+        MyBeggerRankDto myBeggerRankDto = hallOfBeggerService.getUserRank(beggerRankDto);
+        return ResponseEntity.ok(myBeggerRankDto);
     }
 }
