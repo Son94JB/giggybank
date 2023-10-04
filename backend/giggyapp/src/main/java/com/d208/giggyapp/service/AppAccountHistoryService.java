@@ -52,7 +52,7 @@ public class AppAccountHistoryService {
         if (optionalAppAccountHistory.isPresent()) {
             AppAccountHistory appAccountHistory = optionalAppAccountHistory.get();
             System.out.println(appAccountHistory.getId());
-            startDate = appAccountHistory.getTransactionDate();
+            startDate = appAccountHistory.getTransactionDate().plusSeconds(1);
             endDate = LocalDateTime.now();
         } else {
             startDate = LocalDateTime.now().withDayOfMonth(1);
