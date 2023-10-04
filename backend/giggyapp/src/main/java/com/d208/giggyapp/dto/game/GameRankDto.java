@@ -16,6 +16,7 @@ public class GameRankDto {
     private UUID userId;
 
     private int score;
-    private int round;
+    private int rank;
+    private String nickname;
 
 }

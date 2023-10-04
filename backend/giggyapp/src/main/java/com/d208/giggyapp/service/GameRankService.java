@@ -1,20 +1,22 @@
 package com.d208.giggyapp.service;
 
+import com.d208.giggyapp.domain.User;
 import com.d208.giggyapp.domain.game.GameHistory;
 import com.d208.giggyapp.domain.game.HallOfFame;
 import com.d208.giggyapp.dto.game.GameRankDto;
+import com.d208.giggyapp.dto.game.MyStatusDto;
 import com.d208.giggyapp.repository.GameHistoryRepository;
 import com.d208.giggyapp.repository.HallOfFameRepository;
 import com.d208.giggyapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,10 +29,13 @@ public class GameRankService {
     // 게임 로그 저장
     @Transactional
     public ResponseEntity<String> saveLog(GameRankDto gameRankDto) {
+        User user = userRepository.findById(gameRankDto.getUserId()).orElse(null);
+        user.decreaseLife();
+
         GameHistory gameHistory = GameHistory.builder()
                 .score(gameRankDto.getScore())
                 .round(checkRound())
-                .user(userRepository.findById(gameRankDto.getUserId()).orElse(null))
+                .user(user)
                 .build();
 
         gameHistoryRepository.save(gameHistory);
@@ -45,7 +50,7 @@ public class GameRankService {
         HallOfFame hallOfFame = HallOfFame.builder()
                 .score(gameRankDto.getScore())
                 .userId(gameRankDto.getUserId())
-                .round(gameRankDto.getRound())
+                .round(checkRound())
                 .build();
 
         hallOfFameRepository.save(hallOfFame);
@@ -53,7 +58,7 @@ public class GameRankService {
         return ResponseEntity.ok("명예의 전당 등록 완료");
     }
 
-    @org.springframework.transaction.annotation.Transactional
+    @Transactional
     public Integer checkRound() {
 
         // 오늘을 기준으로 라운드를 계산한다.
@@ -67,5 +72,31 @@ public class GameRankService {
         // 나눈 뒤 소수점에서 올림하고 int로 바꿔준다
         int round = (int) Math.ceil(roundD);
         return round;
+    }
+
+    public List<GameRankDto> topTenRank(List<GameRankDto>  topTen) {
+        List<GameRankDto> result = new ArrayList<>();
+
+        for (GameRankDto gameRankDto : topTen) {
+            String nickname = userRepository.findById(gameRankDto.getUserId()).orElse(null).getNickname();
+
+            GameRankDto rankWithNicks = new GameRankDto(
+                    gameRankDto.getUserId(),
+                    gameRankDto.getScore(),
+                    gameRankDto.getRank() + 1,
+                    nickname
+                    );
+
+            result.add(rankWithNicks);
+        }
+
+        return result;
+    }
+
+    public ResponseEntity<MyStatusDto> myStatus(MyStatusDto body) {
+        User user = userRepository.findById(body.getUserId()).orElse(null);
+
+        body.setLeftLife(user.getLeftLife());
+        return ResponseEntity.ok(body);
     }
 }
