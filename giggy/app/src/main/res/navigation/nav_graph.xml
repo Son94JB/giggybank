@@ -42,6 +42,9 @@
             app:destination="@id/ErrorFragment"
             app:popUpTo="@id/HomeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_HomeFragment_to_GameFragment"
+            app:destination="@id/GameFragment" />
 
     </fragment>
 
@@ -229,6 +232,15 @@
         <action
             android:id="@+id/action_ErrorFragment_to_LoginFragment"
             app:destination="@id/LoginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/GameFragment"
+        android:name="com.d208.giggy.view.GameFragment"
+        android:label="game"
+        tools1:layout="@layout/fragment_game">
+
+
     </fragment>
 
 </navigation>

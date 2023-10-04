@@ -5,6 +5,7 @@ import com.d208.data.remote.api.BankApi
 import com.d208.data.remote.api.PostApi
 import com.d208.data.remote.api.UserApi
 import com.d208.giggy.utils.Utils.BASE_URL
+import com.ssafy.template.config.XAccessTokenInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +29,10 @@ object NetworkModule {
             .readTimeout(10, TimeUnit.SECONDS)
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(15, TimeUnit.SECONDS)
-            .addInterceptor(getLoggingInterceptor())
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+//            .addNetworkInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
+//            .addInterceptor(getLoggingInterceptor())
+//            .addInterceptor(AddCookiesInterceptor())  //쿠키 전송
             .build()
     }
 

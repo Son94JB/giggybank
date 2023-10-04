@@ -19,7 +19,7 @@ dependencyResolutionManagement {
 
 }
 rootProject.name = "giggy"
-include ':app'
+include ':app', ':unityLibrary'
 include ':presentation'
 
 include ':data'

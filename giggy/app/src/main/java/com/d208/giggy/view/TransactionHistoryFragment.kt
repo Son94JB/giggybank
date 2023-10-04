@@ -1,6 +1,7 @@
 package com.d208.giggy.view
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -48,13 +49,14 @@ private const val TAG = "TransactionHistoryFragm giggy"
 class TransactionHistoryFragment : BaseFragment<FragmentTransactionHistoryBinding>(
     FragmentTransactionHistoryBinding::bind, R.layout.fragment_transaction_history) {
 
+
     private lateinit var adapter : TransactionAdapater
     private val transactionHistoryFragmentViewModel : TransactionHistoryFragmentViewModel by viewModels()
     private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
     private lateinit var startDate : String
     private var endDate = StringFormatUtil.dateToString(System.currentTimeMillis())
     private val testList = mutableListOf<DomainTransaction>()
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = TransactionAdapater(requireContext())
@@ -119,13 +121,16 @@ class TransactionHistoryFragment : BaseFragment<FragmentTransactionHistoryBindin
     }
 
     fun init(){
+
         recyclerViewInit()
         spinnerInit()
         binding.fragmentTransactionHistoryBack.setOnClickListener {
             findNavController().navigateUp()
         }
         transactionHistoryFragmentViewModel.getTransactionData(UUID.fromString(App.sharedPreferences.getString("id")), startDate, endDate)
+        (requireActivity() as MainActivity).showLoadingDialog(requireContext())
         transactionHistoryFragmentViewModel.transactionList.observe(viewLifecycleOwner){
+            (requireActivity() as MainActivity).dismissLoadingDialog()
             if(it.isEmpty()){
                 showSnackbar("불러올 거래내역이 없습니다.")
             }

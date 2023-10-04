@@ -59,7 +59,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mActivity = requireActivity() as MainActivity
-        if (AuthApiClient.instance.hasToken()) {
+        if (AuthApiClient.instance.hasToken() && !App.sharedPreferences.getString("id").isNullOrEmpty()) {
             UserApiClient.instance.accessTokenInfo { _, error ->
                 if (error != null) {
                     if (error is KakaoSdkError && error.isInvalidTokenError() == true) {
@@ -79,10 +79,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                             init()
                         }
                         else if (tokenInfo != null) {
-                            Log.i(TAG, "토큰 정보 보기 성공" +
+                            Log.i(
+                                TAG, "토큰 정보 보기 성공" +
                                     "\n회원번호: ${tokenInfo.id}" +
                                     "\n만료시간: ${tokenInfo.expiresIn} 초")
                             if(tokenInfo.expiresIn > 0){
+//                                App.sharedPreferences.addUserCookie(tokenInfo.toString())
                                 Log.d(TAG, "init: ${App.sharedPreferences.getString("id")}")
                                 findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
                             }
@@ -125,6 +127,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                         } else if (token != null) {
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Access ${token.accessToken}")
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
+                            App.sharedPreferences.addUserCookie(token.accessToken)
                             accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
                             refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
                             mainActivityViewModel.accessToken = token.accessToken

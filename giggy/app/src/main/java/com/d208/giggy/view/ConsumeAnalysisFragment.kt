@@ -61,12 +61,12 @@ class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(
 
             // data Set
             val entries = ArrayList<PieEntry>()
-            entries.add(PieEntry(508f, "쇼핑"))
-            entries.add(PieEntry(600f, "여가"))
-            entries.add(PieEntry(750f, "교통"))
-            entries.add(PieEntry(508f, "식비"))
-            entries.add(PieEntry(670f, "고정지출"))
-            entries.add(PieEntry(200f, "기타"))
+            entries.add(PieEntry(0f, "쇼핑"))
+            entries.add(PieEntry(0f, "여가"))
+            entries.add(PieEntry(0f, "교통"))
+            entries.add(PieEntry(0f, "식비"))
+            entries.add(PieEntry(0f, "고정지출"))
+            entries.add(PieEntry(0f, "기타"))
 
             // add a lot of colors
             val colorsItems = ArrayList<Int>()
@@ -105,6 +105,7 @@ class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(
 
     fun init(){
         consumeAnalysisFragmentViewModel.searchMonths()
+        (requireActivity() as MainActivity).showLoadingDialog(requireContext())
         chartInit()
         with(binding){
             fragmentConsumeAnalysisBackButton.setOnClickListener {
@@ -113,6 +114,7 @@ class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(
             niceSpinner.setItems("없음")
             niceSpinner.setOnItemSelectedListener { view, position, id, item ->
                 consumeAnalysisFragmentViewModel.getAnalysis(UUID.fromString(App.sharedPreferences.getString("id")), item.toString())
+                (requireActivity() as MainActivity).showLoadingDialog(requireContext())
             }
         }
 
@@ -131,13 +133,17 @@ class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(
 
         }
         consumeAnalysisFragmentViewModel.monthList.observe(viewLifecycleOwner){
+            (requireActivity() as MainActivity).dismissLoadingDialog()
             binding.niceSpinner.setItems(it)
             consumeAnalysisFragmentViewModel.getRecentData()
+            (requireActivity() as MainActivity).showLoadingDialog(requireContext())
 
         }
         consumeAnalysisFragmentViewModel.updateSuccess.observe(viewLifecycleOwner){
+            (requireActivity() as MainActivity).dismissLoadingDialog()
             if(!consumeAnalysisFragmentViewModel.monthList.value.isNullOrEmpty()){
                 consumeAnalysisFragmentViewModel.getAnalysis(UUID.fromString(App.sharedPreferences.getString("id")), consumeAnalysisFragmentViewModel.monthList.value!![binding.niceSpinner.selectedIndex])
+                (requireActivity() as MainActivity).showLoadingDialog(requireContext())
             }
 
         }
@@ -238,6 +244,7 @@ class ConsumeAnalysisFragment : BaseFragment<FragmentConsumeAnalysisBinding>(
                 animateY(1400, Easing.EaseInOutQuad)
                 animate()
             }
+            (requireActivity() as MainActivity).dismissLoadingDialog()
         }
 
 
