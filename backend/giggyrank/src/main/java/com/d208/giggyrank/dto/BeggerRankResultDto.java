@@ -1,4 +1,4 @@
-package com.d208.giggyapp.dto.begger;
+package com.d208.giggyrank.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BeggerRankDto {
+public class BeggerRankResultDto {
     private UUID userId;
     private double ratio;
 }

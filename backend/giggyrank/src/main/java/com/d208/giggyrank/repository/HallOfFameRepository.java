@@ -1,5 +1,5 @@
 package com.d208.giggyrank.repository;
 
 
-public interface HallOfBeggerRepository {
+public interface HallOfFameRepository {
 }
