@@ -92,6 +92,9 @@ public class GameRankService {
     public ResponseEntity<List<String>> topTenRank() {
 
         List<String> topTen = new ArrayList<>(zsetOps.range("GameRank", 0, 9));
+        System.out.println("====================================");
+        System.out.println(topTen);
+        System.out.println("====================================");
         return ResponseEntity.ok(topTen);
 
     }
