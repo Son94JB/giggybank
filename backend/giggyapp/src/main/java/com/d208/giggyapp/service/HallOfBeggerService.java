@@ -1,10 +1,8 @@
 package com.d208.giggyapp.service;
 
 import com.d208.giggyapp.domain.User;
-import com.d208.giggyapp.dto.begger.BeggerNeighborDto;
-import com.d208.giggyapp.dto.begger.BeggerNeighborResultDto;
-import com.d208.giggyapp.dto.begger.BeggerRankDto;
-import com.d208.giggyapp.dto.begger.TopBeggerRankDto;
+import com.d208.giggyapp.domain.begger.HallOfBegger;
+import com.d208.giggyapp.dto.begger.*;
 import com.d208.giggyapp.repository.HallOfBeggerRepository;
 import com.d208.giggyapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -87,6 +85,7 @@ public class HallOfBeggerService {
                     );
             List<BeggerNeighborDto> beggerNeighborDtos = response.getBody();
             List<BeggerNeighborResultDto> beggerNeighborResultDtos = new ArrayList<>();
+            
             for (BeggerNeighborDto beggerNeighborDto : beggerNeighborDtos){
                 User user = userRepository.findById(beggerNeighborDto.getUserId()).orElseThrow(() ->
                         new NoSuchElementException("존재하지 않는 유저입니다."));
@@ -135,6 +134,18 @@ public class HallOfBeggerService {
 
         } catch (Exception e) {
             throw e;
+        }
+    }
+    public ResponseEntity<Boolean> updateWeek(BeggerRankWeekDto beggerRankWeekDto){
+        try {
+            HallOfBegger hallOfBegger = HallOfBegger.builder()
+                    .userId(beggerRankWeekDto.getUserId())
+                    .season(beggerRankWeekDto.getRound())
+                    .build();
+            hallOfBeggerRepository.save(hallOfBegger);
+            return ResponseEntity.ok(true);
+        }catch (Exception e){
+            return ResponseEntity.ok(false);
         }
     }
 }
