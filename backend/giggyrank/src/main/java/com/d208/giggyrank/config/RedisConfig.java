@@ -71,7 +71,7 @@ public class RedisConfig {
 
     @Bean
     public RedisConnectionFactory beggerConnectionFactory(){
-        return new LettuceConnectionFactory(host, 6380);
+        return new LettuceConnectionFactory(host, port);
     }
 
     @Bean
