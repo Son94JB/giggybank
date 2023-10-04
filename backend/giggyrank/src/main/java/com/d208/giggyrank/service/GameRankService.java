@@ -1,6 +1,5 @@
 package com.d208.giggyrank.service;
 
-import com.d208.giggyrank.domain.game.GameRank;
 import com.d208.giggyrank.dto.GameRankDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -49,7 +49,7 @@ public class GameRankService {
         }
     }
 
-    // 내 점수 불러오기
+    // 내 랭킹 불러오기
     @Transactional
     public ResponseEntity<Integer> checkRank(UUID userId) {
         String userIdStr = userId.toString();
@@ -59,6 +59,19 @@ public class GameRankService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0);
         } else {
             return ResponseEntity.ok(rank.intValue() + 1);
+        }
+    }
+
+    // 내 최고 점수 불러오기
+    @Transactional
+    public ResponseEntity<Integer> myBestScore(UUID userId) {
+        String userIdStr = userId.toString();
+
+        Double score = zsetOps.score("GameRank", userIdStr);
+        if (score == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0);
+        } else {
+            return ResponseEntity.ok(score.intValue());
         }
     }
 
@@ -78,5 +91,12 @@ public class GameRankService {
         // 나눈 뒤 소수점에서 올림하고 int로 바꿔준다
         int round = (int) Math.ceil(roundD);
         return round;
+    }
+
+    public ResponseEntity<Set<String>> topTenRank() {
+
+        Set<String> topTen = zsetOps.range("GameRank", 0, 9);
+        return ResponseEntity.ok(topTen);
+
     }
 }

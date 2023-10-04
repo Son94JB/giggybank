@@ -14,7 +14,7 @@ public class HallOfBeggerController {
     private final HallOfBeggerService hallOfBeggerService;
 
     @GetMapping("/hall-of-begger")
-    public ResponseEntity<String> ggetHallOfBegger() {
+    public ResponseEntity<String> getHallOfBegger() {
         return hallOfBeggerService.getHallOfBegger();
     }
 
