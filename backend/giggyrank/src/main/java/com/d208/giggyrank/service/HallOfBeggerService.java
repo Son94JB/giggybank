@@ -27,6 +27,7 @@ public class HallOfBeggerService {
     public long updateScore(BeggerRankDto beggerRankDto){
         double ratio = (double) beggerRankDto.getCurrentAmount() /beggerRankDto.getTargetAmount();
         String userId = beggerRankDto.getUserId().toString();
+        System.out.println(ratio);
         zSetOperations.add(rankingKey, userId, ratio);
 
         // Redis ZSet의 rank는 0부터 시작하며, 작은 점수가 0번째입니다.

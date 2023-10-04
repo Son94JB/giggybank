@@ -1,10 +1,8 @@
 package com.d208.giggyapp.service;
 
 import com.d208.giggyapp.domain.User;
-import com.d208.giggyapp.dto.begger.BeggerNeighborDto;
-import com.d208.giggyapp.dto.begger.BeggerNeighborResultDto;
-import com.d208.giggyapp.dto.begger.BeggerRankDto;
-import com.d208.giggyapp.dto.begger.TopBeggerRankDto;
+import com.d208.giggyapp.domain.begger.HallOfBegger;
+import com.d208.giggyapp.dto.begger.*;
 import com.d208.giggyapp.repository.HallOfBeggerRepository;
 import com.d208.giggyapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -79,14 +77,18 @@ public class HallOfBeggerService {
 
         HttpEntity<?> requestEntity = new HttpEntity<>(requestBody, headers);
         try {
+            System.out.println("33333333333333333333");
             ResponseEntity<List<BeggerNeighborDto>> response = restTemplate.exchange(
                     uri.toString(),
                     HttpMethod.POST,
                     requestEntity,
                     new ParameterizedTypeReference<List<BeggerNeighborDto>>() {}
                     );
+            System.out.println("11111111111111111111");
             List<BeggerNeighborDto> beggerNeighborDtos = response.getBody();
+            System.out.println("22222222222222222222");
             List<BeggerNeighborResultDto> beggerNeighborResultDtos = new ArrayList<>();
+            System.out.println("444444444444444444444");
             for (BeggerNeighborDto beggerNeighborDto : beggerNeighborDtos){
                 User user = userRepository.findById(beggerNeighborDto.getUserId()).orElseThrow(() ->
                         new NoSuchElementException("존재하지 않는 유저입니다."));
@@ -135,6 +137,18 @@ public class HallOfBeggerService {
 
         } catch (Exception e) {
             throw e;
+        }
+    }
+    public ResponseEntity<Boolean> updateWeek(BeggerRankWeekDto beggerRankWeekDto){
+        try {
+            HallOfBegger hallOfBegger = HallOfBegger.builder()
+                    .userId(beggerRankWeekDto.getUserId())
+                    .season(beggerRankWeekDto.getRound())
+                    .build();
+            hallOfBeggerRepository.save(hallOfBegger);
+            return ResponseEntity.ok(true);
+        }catch (Exception e){
+            return ResponseEntity.ok(false);
         }
     }
 }
