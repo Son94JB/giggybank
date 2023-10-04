@@ -27,8 +27,8 @@ public class HallOfBeggerService {
     private final UserRepository userRepository;
 
     public ResponseEntity<?> getTopHallOfBegger() {
-        String url = "https://j9d208.p.ssafy.io:8282/api/v1/rank/hall-of-begger";
-//        String url = "http://127.0.0.1:8083/api/v1/rank/hall-of-begger";
+//        String url = "https://j9d208.p.ssafy.io:8282/api/v1/rank/hall-of-begger";
+        String url = "http://127.0.0.1:8083/api/v1/rank/hall-of-begger";
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -63,8 +63,8 @@ public class HallOfBeggerService {
     }
 
     public ResponseEntity<?> getHallOfBegger(UUID userId) {
-        String url = "https://j9d208.p.ssafy.io:8282/api/v1/rank/hall-of-begger";
-//        String url = "http://127.0.0.1:8083/api/v1/rank/hall-of-begger";
+//        String url = "https://j9d208.p.ssafy.io:8282/api/v1/rank/hall-of-begger";
+        String url = "http://127.0.0.1:8083/api/v1/rank/hall-of-begger";
 
         RestTemplate restTemplate = new RestTemplate();
 
