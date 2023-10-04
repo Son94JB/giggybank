@@ -19,7 +19,7 @@ import java.util.UUID;
 public class GameRankController {
 
     private final GameRankService gameRankService;
-    private final String RANK_URL = "https://j9d208.p.ssafy.io:8083/api/v1/rank";
+    private final String RANK_URL = "https://j9d208.p.ssafy.io:8282/api/v1/rank";
 
     // 게임 로그 저장
     @PostMapping("/game/log")
