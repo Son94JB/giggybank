@@ -20,7 +20,6 @@ import java.util.UUID;
 public class GameRankService {
 
     private final ZSetOperations<String, String> zsetOps;
-
     @Autowired
     public GameRankService(RedisTemplate<String, String> redisTemplate) {
         this.zsetOps = redisTemplate.opsForZSet();

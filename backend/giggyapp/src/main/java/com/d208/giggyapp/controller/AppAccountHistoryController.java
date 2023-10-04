@@ -17,13 +17,10 @@ import java.util.UUID;
 public class AppAccountHistoryController {
     private final AppAccountHistoryService appAccountHistoryService;
 
-    private final AppAccountHistoryRepository appAccountHistoryRepository;
-
     // 은행거래내역 받아오고 분석
     @PostMapping("/account-history/bank")
     public ResponseEntity<?> getAppAccountHistory(@RequestBody UUID userId){
         // 은행으로부터 계좌거래내역 받아오기
-
         appAccountHistoryService.getBankAccountHistory(userId);
         // 분석한 내용 반환
         return ResponseEntity.ok(true);

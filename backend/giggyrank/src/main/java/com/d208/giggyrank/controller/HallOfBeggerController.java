@@ -1,11 +1,15 @@
 package com.d208.giggyrank.controller;
 
+import com.d208.giggyrank.dto.BeggerRankDto;
+import com.d208.giggyrank.dto.BeggerRankNeighborDto;
+import com.d208.giggyrank.dto.BeggerRankResultDto;
 import com.d208.giggyrank.service.HallOfBeggerService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -13,9 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class HallOfBeggerController {
     private final HallOfBeggerService hallOfBeggerService;
 
-    @GetMapping("/hall-of-begger")
-    public ResponseEntity<String> ggetHallOfBegger() {
-        return hallOfBeggerService.getHallOfBegger();
+    @PostMapping("/hall-of-begger/update")
+    public ResponseEntity<?> updateBeggerRank(@RequestBody BeggerRankDto beggerRankDto) {
+        long rank = hallOfBeggerService.updateScore(beggerRankDto);
+        return ResponseEntity.ok(rank);
     }
 
+    @GetMapping("/hall-of-begger")
+    public ResponseEntity<?> getTopRank(){
+        List<BeggerRankResultDto> beggerRankResults = hallOfBeggerService.getTopRanking();
+        return ResponseEntity.ok(beggerRankResults);
+    }
+
+    @PostMapping("/hall-of-begger")
+    public ResponseEntity<?> getUserRank(@RequestBody BeggerRankDto beggerRankDto){
+        List<BeggerRankNeighborDto> beggerRankNeighborDtos = hallOfBeggerService.getUserRankAndNeighbors(beggerRankDto);
+        return ResponseEntity.ok(beggerRankNeighborDtos);
+    }
 }

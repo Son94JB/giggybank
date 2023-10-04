@@ -31,9 +31,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+
+
 @Configuration
+@EnableRedisRepositories
 public class RedisConfig {
     @Value("${spring.redis.host}")
     private String host;
@@ -64,5 +68,18 @@ public class RedisConfig {
 
         return redisTemplate;
     }
-}
 
+    @Bean
+    public RedisConnectionFactory beggerConnectionFactory(){
+        return new LettuceConnectionFactory(host, 6380);
+    }
+
+    @Bean
+    RedisTemplate<String, String> beggerredisTemplate(){
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());//key 깨짐 방지
+        redisTemplate.setValueSerializer(new StringRedisSerializer());//value 깨짐 방지
+        redisTemplate.setConnectionFactory(beggerConnectionFactory());
+        return redisTemplate;
+    }
+}
