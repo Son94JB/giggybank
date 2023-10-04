@@ -15,6 +15,9 @@ public class AppAccountHistoryDto {
     private List<DataBody> data;
     @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
     public static class DataBody {
         private Long id;
         private int amount;
