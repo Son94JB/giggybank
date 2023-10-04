@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,13 +32,13 @@ public class GameRankController {
 
     // 랭킹 top10 조회
     @GetMapping("/game/top-ten")
-    public ResponseEntity<Set<String>> rankTopTen() {
+    public ResponseEntity<List<String>> rankTopTen() {
         return gameRankService.topTenRank();
     }
 
-    // 내 랭킹 조회
+    // 내 랭킹, 최고점수 조회
     @GetMapping("/game/my-rank/{userId}")
-    public ResponseEntity<Integer> checkMyRank(@PathVariable UUID userId) {
+    public ResponseEntity<GameRankDto> checkMyRank(@PathVariable UUID userId) {
         return gameRankService.checkRank(userId);
     }
 }
