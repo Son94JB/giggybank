@@ -126,12 +126,14 @@ public class BankService {
             if (customer != null && customer.getBirthday().equals(birthday)) {
                 // 일치하는 생일 있을 경우
 
+                String randomContent = generateRandomContent();
+
                 // 1원 이체(=1원추가)
                 BankAccountHistory bankAccountHistory = BankAccountHistory.builder()
                         .amount(bankAccountOptional.getBalance() + 1)
                         .transactionType("입금")
                         .deposit(1)
-                        .content(generateRandomContent())
+                        .content(randomContent)
                         .transactionDate(LocalDateTime.now())
                         .bankAccount(bankAccountOptional)
                         .build();
@@ -144,7 +146,7 @@ public class BankService {
                         .deposit(1)
                         .transactionDate(LocalDateTime.now())
                         .transactionType("입금")
-                        .content(generateRandomContent())
+                        .content(randomContent)
                         .build();
             }
             else {
