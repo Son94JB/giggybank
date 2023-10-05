@@ -81,7 +81,7 @@ dependencies {
     implementation (com.d208.buildsrc.Retrofit.RETROFIT)
     implementation (com.d208.buildsrc.Retrofit.CONVERTER_GSON)
     implementation (com.d208.buildsrc.Retrofit.CONVERTER_JAXB)
-
+    implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'
     //okHttp
     implementation (com.d208.buildsrc.OkHttp.OKHTTP)
     implementation (com.d208.buildsrc.OkHttp.LOGGING_INTERCEPTOR)

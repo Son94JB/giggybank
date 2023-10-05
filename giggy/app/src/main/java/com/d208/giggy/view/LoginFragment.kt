@@ -50,7 +50,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
         } else if (token != null) {
             Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
-            App.sharedPreferences.addToken(token.accessToken)
+//            App.sharedPreferences.addToken(token.accessToken)
             mainActivityViewModel.accessToken = token.accessToken
             mainActivityViewModel.refreshToken = token.refreshToken
             loginFragmentViewModel.login(token.accessToken,token.refreshToken, mainActivityViewModel.fcmToken!!)
@@ -81,7 +81,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                             init()
                         }
                         else if (tokenInfo != null) {
-//                            Log.d(TAG, "토큰 값: ${App.sharedPreferences.getString(ACCESS_TOKEN)}")
+                            Log.d(TAG, "토큰 값: ${App.sharedPreferences.getString(ACCESS_TOKEN)}")
                             Log.i(
                                 TAG, "토큰 정보 보기 성공" +
                                         "\n 토큰  : ${tokenInfo}"+
@@ -137,7 +137,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                         } else if (token != null) {
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Access ${token.accessToken}")
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
-                            App.sharedPreferences.addToken(token.accessToken)
+//                            App.sharedPreferences.addToken(token.accessToken)
                             mainActivityViewModel.accessToken = token.accessToken
                             mainActivityViewModel.refreshToken = token.refreshToken
                             loginFragmentViewModel.login(token.accessToken,token.refreshToken, mainActivityViewModel.fcmToken)
