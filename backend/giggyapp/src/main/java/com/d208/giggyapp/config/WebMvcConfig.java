@@ -14,7 +14,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     //Filter에 포함되는 URL 주소
     private static final String[] INCLUDE_PATHS = {
-//            "/api/v1/app/*",
+            "/api/v1/hello"
     };
 
     @Bean
