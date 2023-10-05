@@ -5,6 +5,7 @@ import com.d208.data.remote.model.LoginUser
 import com.d208.domain.model.DomainUser
 import com.d208.domain.model.SignUpUser
 import com.d208.domain.utils.RemoteErrorEmitter
+import java.util.UUID
 
 interface MainDataSource {
     suspend fun login(
@@ -35,4 +36,10 @@ interface MainDataSource {
         remoteErrorEmitter: RemoteErrorEmitter,
         user : DomainUser
     ) : LoginUser?
+
+    suspend fun updateTargetAmount(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        id : UUID,
+        targetAmount : Int,
+    ) : Boolean?
 }

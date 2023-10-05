@@ -5,6 +5,7 @@ import com.d208.data.remote.model.AccountAuthData
 import com.d208.data.remote.model.AccountAuthResponse
 import com.d208.data.remote.model.LoginData
 import com.d208.data.remote.model.LoginUser
+import com.d208.data.remote.model.TargetAmountChangeRequest
 import com.d208.domain.model.DomainUser
 import com.d208.domain.model.SignUpUser
 import retrofit2.Response
@@ -28,8 +29,8 @@ interface UserApi {
     //목표 소비액 변경
     @PUT("app/user/targetamount")
     suspend fun updateTargetAmount(
-        @Body data : DomainUser,
-    ) : Response<String>
+        @Body data : TargetAmountChangeRequest,
+    ) : Response<Boolean>
     //회원가입
     @POST("app/user/signup")
     suspend fun signUp(
@@ -47,4 +48,6 @@ interface UserApi {
     suspend fun getUserInfo(
         @Body data : DomainUser,
     ) : Response<LoginUser>
+
+
 }

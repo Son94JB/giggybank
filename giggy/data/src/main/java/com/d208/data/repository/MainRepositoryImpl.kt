@@ -9,6 +9,7 @@ import com.d208.domain.model.DomainUser
 import com.d208.domain.model.SignUpUser
 import com.d208.domain.repository.MainRepository
 import com.d208.domain.utils.RemoteErrorEmitter
+import java.util.UUID
 import javax.inject.Inject
 
 class MainRepositoryImpl @Inject constructor(
@@ -52,6 +53,14 @@ class MainRepositoryImpl @Inject constructor(
         user: DomainUser
     ): DomainUser? {
         return MainMapper.getUseDataMapper(mainDataSource.getUserData(remoteErrorEmitter, user))
+    }
+
+    override suspend fun updateTargetAmount(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        id: UUID,
+        targetAmount: Int
+    ): Boolean? {
+        return mainDataSource.updateTargetAmount(remoteErrorEmitter, id, targetAmount)
     }
 
 

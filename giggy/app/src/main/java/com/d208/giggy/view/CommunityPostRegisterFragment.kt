@@ -245,11 +245,10 @@ class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegister
                         null
                     )
                 }
-
-
+                (requireActivity() as MainActivity).showLoadingDialog(requireContext())
 
             }
-            (requireActivity() as MainActivity).showLoadingDialog(requireContext())
+
         }
         communityPostRegisterFragmentViewModel.registerSuccess.observe(viewLifecycleOwner){
             (requireActivity() as MainActivity).dismissLoadingDialog()
