@@ -96,13 +96,13 @@ public class UserService {
 
 
     // 목표소비액 설정
-    public ResponseEntity<String> setTargetAmount(UserDto userDto) {
+    public ResponseEntity<Boolean> setTargetAmount(UserDto userDto) {
         User user = userRepository.findById(userDto.getId()).orElse(null);
 
-        if (user == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("존재하지 않는 회원입니다.");
+        if (user == null) return ResponseEntity.ok(false);
 
         user.updateTargetAmount(userDto.getTargetAmount());
-        return ResponseEntity.ok("목표소비액 설정되었습니다.");
+        return ResponseEntity.ok(true);
     }
 
     public ResponseEntity<String> incraseLife(UserDto userDto) {

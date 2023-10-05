@@ -78,7 +78,7 @@ public class UserController {
 
     // 목표 소비액 설정
     @PutMapping("/user/targetamount")
-    public ResponseEntity<String> setTargetAmount(@RequestBody UserDto userDto) {
+    public ResponseEntity<Boolean> setTargetAmount(@RequestBody UserDto userDto) {
         return userService.setTargetAmount(userDto);
     }
 
