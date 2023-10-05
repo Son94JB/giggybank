@@ -103,6 +103,7 @@ public class AppAccountHistoryService {
             hallOfBeggerService.updateHallOfBegger(user);
             return ResponseEntity.ok(true);
         } catch (Exception e) {
+            hallOfBeggerService.updateHallOfBegger(user);
             return ResponseEntity.ok(false);
         }
     }
