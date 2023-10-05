@@ -45,6 +45,12 @@
         <action
             android:id="@+id/action_HomeFragment_to_GameFragment"
             app:destination="@id/GameFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_RankFragment"
+            app:destination="@id/RankFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_SettingFragment"
+            app:destination="@id/SettingFragment" />
 
     </fragment>
 
@@ -241,6 +247,29 @@
         tools1:layout="@layout/fragment_game">
 
 
+    </fragment>
+
+    <fragment
+        android:id="@+id/RankFragment"
+        android:name="com.d208.giggy.view.RankFragment"
+        android:label="rank"
+        tools1:layout="@layout/fragment_rank">
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/SettingFragment"
+        android:name="com.d208.giggy.view.SettingFragment"
+        android:label="setting"
+        tools1:layout="@layout/fragment_setting">
+
+
+        <action
+            android:id="@+id/action_SettingFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment"
+            app:popUpTo="@id/SettingFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

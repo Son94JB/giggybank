@@ -55,14 +55,14 @@ class TransactionHistoryFragment : BaseFragment<FragmentTransactionHistoryBindin
     private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
     private lateinit var startDate : String
     private var endDate = StringFormatUtil.dateToString(System.currentTimeMillis())
-    private val testList = mutableListOf<DomainTransaction>()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = TransactionAdapater(requireContext())
         startDate = StringFormatUtil.dateToString(mainActivityViewModel.user.registerDate!!)
         init()
-//        test()
+
     }
 
 
@@ -142,14 +142,15 @@ class TransactionHistoryFragment : BaseFragment<FragmentTransactionHistoryBindin
 
         // 날짜 변경
         binding.fragmentTransactionHistoryChangeDateButton.setOnClickListener {
+            Log.d(TAG, "init: ${mainActivityViewModel.user.registerDate!!}")
            val dateRangePicker =  MaterialDatePicker.Builder.dateRangePicker()
                .setTitleText("거래 내역 구간 설정")
                .setCalendarConstraints(CalendarConstraints.Builder().setValidator(
                    DateValidatorPointBackward.now()
                ).build())
-               .setCalendarConstraints(CalendarConstraints.Builder().setValidator(
-                   DateValidatorPointForward.from(mainActivityViewModel.user.registerDate!!)
-               ).build())
+//               .setCalendarConstraints(CalendarConstraints.Builder().setValidator(
+//                   DateValidatorPointForward.from(mainActivityViewModel.user.registerDate!!)
+//               ).build())
                .build()
             dateRangePicker.show(childFragmentManager, "date_picker")
             dateRangePicker.addOnPositiveButtonClickListener(object :
@@ -183,24 +184,6 @@ class TransactionHistoryFragment : BaseFragment<FragmentTransactionHistoryBindin
             }
         }
     }
-    fun test() {
-        testList.clear()
-        testList.add(DomainTransaction(0, "싸피 저녁", 1695186959, "출금", "식비", 7800, 5000, 0))
-        testList.add(DomainTransaction(1, "김싸피", 1695186959, "입금", "기타", 7800, 0, 5000))
-        testList.add(DomainTransaction(2, "9월 월세", 1695186959, "출금", "고정 지출", 300000, 0, 8000))
-        testList.add(DomainTransaction(3, "티머니 시외 버스", 1695186959, "출금", "교통", 7800, 0 , 7000))
-        testList.add(DomainTransaction(4, "게임", 1695186959, "출금", "여가", 27800, 0, 4000))
-        testList.add(DomainTransaction(5, "싸피 저녁", 1695186959, "출금", "식비", 7800, 0, 5000))
-        testList.add(DomainTransaction(6, "김싸피", 1695186959, "입금", "기타", 7800, 4000, 0))
-        testList.add(DomainTransaction(7, "9월 월세", 1695186959, "출금", "고정 지출", 300000, 0, 300000))
-        testList.add(DomainTransaction(8, "티머니 시외 버스", 1695186959, "출금", "교통", 7800, 0, 7800))
-        testList.add(DomainTransaction(9, "게임", 1695186959, "출금", "여가", 27800, 0, 27800))
-        testList.add(DomainTransaction(10, "싸피 저녁", 1695186959, "출금", "식비", 7800, 0, 7800 ))
-        testList.add(DomainTransaction(11, "김싸피", 1695186959, "입금", "기타", 7800, 7800, 0))
-        testList.add(DomainTransaction(12, "9월 월세", 1695186959, "출금", "고정 지출", 300000, 0, 30000))
-        testList.add(DomainTransaction(13, "티머니 시외 버스", 1695186959, "출금", "교통", 7800, 0, 7800))
-        testList.add(DomainTransaction(14, "게임", 1695186959, "출금", "여가", 27800, 0, 27800))
-        adapter.submitList(testList)
-    }
+
 
 }

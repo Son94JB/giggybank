@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import com.unity3d.player.UnityPlayer
 import com.unity3d.player.UnityPlayerActivity
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "GameActivity giggy"
 class GameActivity : UnityPlayerActivity() {

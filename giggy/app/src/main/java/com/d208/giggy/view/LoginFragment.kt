@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentLoginBinding
@@ -47,8 +48,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
         } else if (token != null) {
             Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
-            binding.accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
-            binding.refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
             mainActivityViewModel.accessToken = token.accessToken
             mainActivityViewModel.refreshToken = token.refreshToken
             loginFragmentViewModel.login(token.accessToken,token.refreshToken, mainActivityViewModel.fcmToken!!)
@@ -108,6 +107,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
 
 
         with(binding) {
+
+            Glide.with(requireContext())
+                .load(R.raw.giphy)
+                .into(fragmentLoginBackgroundGif)
+
+
             fragmentLoginKakaoButton.setOnClickListener {
 
                 // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
@@ -128,8 +133,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Access ${token.accessToken}")
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
                             App.sharedPreferences.addUserCookie(token.accessToken)
-                            accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
-                            refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
                             mainActivityViewModel.accessToken = token.accessToken
                             mainActivityViewModel.refreshToken = token.refreshToken
                             loginFragmentViewModel.login(token.accessToken,token.refreshToken, mainActivityViewModel.fcmToken)

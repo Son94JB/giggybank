@@ -20,6 +20,7 @@ import com.d208.giggy.R
 import com.d208.giggy.base.BaseActivity
 import com.d208.giggy.databinding.ActivityMainBinding
 import com.d208.giggy.di.App
+import com.d208.giggy.utils.GameInteractionListener
 import com.d208.giggy.viewmodel.MainActivityViewModel
 
 import com.google.android.gms.tasks.OnCompleteListener
@@ -31,7 +32,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate),
+    GameInteractionListener {
     private val mainActivityViewModel : MainActivityViewModel by viewModels()
     private lateinit var navController: NavController
     var waitTime = 0L
@@ -70,7 +72,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         initDynamicLink()
     }
 
-    fun startGame() {
+    override fun startGame() {
         val intent = Intent(this, GameActivity::class.java)
         intent.putExtra("userId", App.sharedPreferences.getString("id"))
         startActivityForResult(intent, UnityPlayerActivity.UNITY_PLAYER_REQUEST_CODE)
