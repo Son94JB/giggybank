@@ -73,7 +73,7 @@ public class GameRankService {
         Double score = zsetOps.score("GameRank", userIdStr);
 
         if (rank == null || score == null) {
-            GameRankDto gameRankDto = new GameRankDto(userId, 0, zsetOps.size("GameRank").intValue() + 1);
+            GameRankDto gameRankDto = new GameRankDto(userId, 0, zsetOps.size("GameRank").intValue() + 2);
             return ResponseEntity.ok(gameRankDto);
         } else {
             GameRankDto gameRankDto = new GameRankDto(userId, score.intValue(), rank.intValue() + 1);
