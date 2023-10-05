@@ -105,13 +105,12 @@
                     app:layout_constraintTop_toTopOf="parent"
                     />
                 <TextView
-                    android:layout_marginStart="196dp"
+
                     android:id="@+id/fragment_game_current_my_rank_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" 0위"
                     style="@style/Text.regular.Size16"
-                    app:layout_constraintStart_toEndOf="@+id/fragment_game_current_my_rank_title_text_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     />
@@ -128,13 +127,11 @@
                     />
                 <TextView
                     android:layout_marginTop="16dp"
-                    android:layout_marginStart="196dp"
                     android:id="@+id/fragment_game_current_my_highest_score_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" 0점"
                     style="@style/Text.regular.Size16"
-                    app:layout_constraintStart_toEndOf="@+id/fragment_game_current_my_highest_score_title_text_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/fragment_game_current_my_rank_text_view"
                     />

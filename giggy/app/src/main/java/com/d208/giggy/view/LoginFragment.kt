@@ -108,9 +108,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
 
         with(binding) {
 
-            Glide.with(requireContext())
-                .load(R.raw.giphy)
-                .into(fragmentLoginBackgroundGif)
+//            Glide.with(requireContext())
+//                .load(R.raw.giphy)
+//                .into(fragmentLoginBackgroundGif)
 
 
             fragmentLoginKakaoButton.setOnClickListener {
