@@ -59,7 +59,7 @@ public class ApiFilter implements Filter {
         HttpServletRequestWrapper newRequest = new HttpServletRequestWrapper(httpRequest) {
             @Override
             public String getRequestURI() {
-                return "/api/v1/app/user/expired"; // 새로운 요청의 URI 설정
+                return "/api/v1/expired"; // 새로운 요청의 URI 설정
             }
         };
 
