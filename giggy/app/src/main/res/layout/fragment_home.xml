@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -81,7 +82,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:fontFamily="@font/the_jamsil_3_regular"
-                            android:text="홍길동"
+                            android:text="현재 잔액"
                             app:layout_constraintStart_toEndOf="@+id/fragment_home_bank_icon"
                             app:layout_constraintTop_toTopOf="@+id/fragment_home_bank_icon" />
 
@@ -163,23 +164,33 @@
                     android:textColor="@color/colorRed"
                     android:visibility="gone" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="월간 목표 달성"
-                    android:fontFamily="@font/the_jamsil_3_regular"
-                    />
+               <TextView
+                   android:layout_gravity="center_horizontal"
+                   android:layout_marginTop="8dp"
+                   android:id="@+id/fragment_home_rank_button"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="랭킹 보기"
+                   style="@style/Text.regular.Size20"
+                   />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/fragment_home_goal_recycer_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="5"
-                    tools:listitem="@layout/item_goal" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:text="월간 목표 달성"-->
+<!--                    android:fontFamily="@font/the_jamsil_3_regular"-->
+<!--                    />-->
+
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/fragment_home_goal_recycer_view"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                    tools:itemCount="5"-->
+<!--                    tools:listitem="@layout/item_goal" />-->
 
             </LinearLayout>
 

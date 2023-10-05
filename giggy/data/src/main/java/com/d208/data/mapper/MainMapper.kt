@@ -1,10 +1,13 @@
 package com.d208.data.mapper
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.d208.data.remote.model.AccountAuthResponse
 import com.d208.data.remote.model.LoginUser
 import com.d208.domain.model.DomainDuplicateCheck
 import com.d208.domain.model.DomainUser
+import java.time.format.DateTimeFormatter
 
 private const val TAG = "MainMapper giggy"
 object MainMapper {
@@ -31,6 +34,7 @@ object MainMapper {
         } else response
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getUseDataMapper(
         response: LoginUser?
     ) : DomainUser? {
@@ -46,7 +50,8 @@ object MainMapper {
                 refreshToken = response.refreshToken,
                 leftLife = response.leftLife,
                 birthday = response.birthday,
-                currentAmount = response.currentAmount
+                currentAmount = response.currentAmount,
+                registerDate = response.registerDate,
             )
         } else response
     }

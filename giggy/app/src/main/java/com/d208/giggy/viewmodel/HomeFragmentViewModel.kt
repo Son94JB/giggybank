@@ -21,8 +21,6 @@ class HomeFragmentViewModel @Inject constructor(
 
     private val _user = MutableLiveData<DomainUser>()
 
-    var apiErrorType = ErrorType.UNKNOWN
-    var errorMessage = "none"
 
     val user : LiveData<DomainUser> get() = _user
 
@@ -36,11 +34,31 @@ class HomeFragmentViewModel @Inject constructor(
         }
     }
 
+    var apiErrorType = ErrorType.UNKNOWN
+    var errorMessage = "none"
+
+    private val _exceptionHandler = MutableLiveData<Int>()
+    val exceptionHandler : LiveData<Int> get() = _exceptionHandler
     override fun onError(msg: String) {
         errorMessage = msg
     }
 
     override fun onError(errorType: ErrorType) {
         apiErrorType = errorType
+
+        when (errorType) {
+            ErrorType.NETWORK -> {
+                // 네트워크 에러 처리
+                _exceptionHandler.value = 0
+            }
+            ErrorType.SESSION_EXPIRED -> {
+                // 세션 만료 에러 처리
+                _exceptionHandler.value = 401
+            }
+            // 다른 에러 유형에 대한 처리 추가
+            else -> {
+                _exceptionHandler.value = 4
+            }
+        }
     }
 }

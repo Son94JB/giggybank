@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools   "
     xmlns:tools1="http://schemas.android.com/tools"
-    app:startDestination="@id/TransactionHistoryFragment"
+    app:startDestination="@id/LoginFragment"
     android:id="@+id/nav_graph">
 
 
@@ -34,6 +34,23 @@
         <action
             android:id="@+id/action_HomeFragment_to_TransactionHistoryFragment"
             app:destination="@id/TransactionHistoryFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_ErrorFragment"
+            app:destination="@id/ErrorFragment"
+            app:popUpTo="@id/HomeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_HomeFragment_to_GameFragment"
+            app:destination="@id/GameFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_RankFragment"
+            app:destination="@id/RankFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_SettingFragment"
+            app:destination="@id/SettingFragment" />
 
     </fragment>
 
@@ -99,6 +116,12 @@
         android:label="consumeAnalysis"
         tools:layout="@layout/fragment_consume_analysis">
 
+        <action
+            android:id="@+id/action_ConsumeAnalysisFragment_to_ErrorFragment"
+            app:destination="@id/ErrorFragment"
+            app:popUpTo="@id/ConsumeAnalysisFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
     <fragment
@@ -113,6 +136,12 @@
         <action
             android:id="@+id/action_CommunityHomeFragment_to_CommunityPostDetailFragment"
             app:destination="@id/CommunityPostDetailFragment" />
+        <action
+            android:id="@+id/action_CommunityHomeFragment_to_ErrorFragment"
+            app:destination="@id/ErrorFragment"
+            app:popUpTo="@id/CommunityHomeFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
     <fragment
@@ -139,6 +168,12 @@
         android:label="communityPostRegister"
         tools1:layout="@layout/fragment_community_post_register">
 
+        <action
+            android:id="@+id/action_CommunityPostRegisterFragment_to_ErrorFragment"
+            app:destination="@id/ErrorFragment"
+            app:popUpTo="@id/CommunityPostRegisterFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
     <fragment
@@ -148,6 +183,17 @@
         tools1:layout="@layout/fragment_community_post_detail">
 
 
+        <action
+            android:id="@+id/action_CommunityPostDetailFragment_to_ErrorFragment"
+            app:destination="@id/ErrorFragment"
+            app:popUpTo="@id/CommunityPostDetailFragment"
+            app:popUpToInclusive="true"
+            />
+        <action
+            android:id="@+id/action_CommunityPostDetailFragment_to_CommunityPostRegisterFragment"
+            app:destination="@id/CommunityPostRegisterFragment"
+            app:popUpTo="@id/CommunityPostDetailFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -157,7 +203,73 @@
         tools1:layout="@layout/fragment_transaction_history">
 
 
+        <action
+            android:id="@+id/action_TransactionHistoryFragment_to_TransactionDetailFragment"
+            app:destination="@id/TransactionDetailFragment" />
+        <action
+            android:id="@+id/action_TransactionHistoryFragment_to_ErrorFragment"
+            app:destination="@id/ErrorFragment"
+            app:popUpTo="@id/TransactionHistoryFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
+    <fragment
+        android:id="@+id/TransactionDetailFragment"
+        android:name="com.d208.giggy.view.TransactionDetailFragment"
+        android:label="transactionDetail"
+        tools1:layout="@layout/fragment_transaction_detail">
+
+
+        <action
+            android:id="@+id/action_TransactionDetailFragment_to_ErrorFragment"
+            app:destination="@id/ErrorFragment"
+            app:popUpTo="@id/TransactionDetailFragment"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ErrorFragment"
+        android:name="com.d208.giggy.view.ErrorFragment"
+        android:label="error"
+        tools1:layout="@layout/fragment_error">
+
+        <action
+            android:id="@+id/action_ErrorFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/GameFragment"
+        android:name="com.d208.giggy.view.GameFragment"
+        android:label="game"
+        tools1:layout="@layout/fragment_game">
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/RankFragment"
+        android:name="com.d208.giggy.view.RankFragment"
+        android:label="rank"
+        tools1:layout="@layout/fragment_rank">
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/SettingFragment"
+        android:name="com.d208.giggy.view.SettingFragment"
+        android:label="setting"
+        tools1:layout="@layout/fragment_setting">
+
+
+        <action
+            android:id="@+id/action_SettingFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment"
+            app:popUpTo="@id/SettingFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>

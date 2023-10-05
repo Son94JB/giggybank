@@ -30,8 +30,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = '17'
@@ -44,13 +44,15 @@ android {
 dependencies {
     implementation (project (":data"))
     implementation (project (":domain"))
-//    implementation (project (":presentation"))
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation "androidx.security:security-crypto-ktx:1.1.0-alpha03"
+    implementation 'com.github.CenkGun:ChatBar:1.0.5'
     //dagger-hilt
     implementation (com.d208.buildsrc.DaggerHilt.DAGGER_HILT)
     kapt (com.d208.buildsrc.DaggerHilt.DAGGER_HILT_COMPILER)
@@ -103,6 +105,19 @@ dependencies {
     implementation(com.d208.buildsrc.Library.SEARCH_BAR)
     implementation(com.d208.buildsrc.AndroidX.FRAGMENT)
     implementation(com.d208.buildsrc.Library.DROPDOWN)
+    implementation(com.d208.buildsrc.Library.GLIDE)
 
+
+    //unity
+    implementation project(':unityLibrary')
+    implementation fileTree(dir: project(':unityLibrary').getProjectDir().toString() + ('\\libs'), include: ['*.jar'])
+
+    //gif
+
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    //
+    implementation(com.d208.buildsrc.Library.TEDPERMISSION)
 
 }

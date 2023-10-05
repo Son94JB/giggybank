@@ -23,9 +23,7 @@ import java.util.UUID
 private const val TAG = "HomeFragment giggy"
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home) {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
     private val homeFragmentViewModel : HomeFragmentViewModel by viewModels()
     private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
     private var amountPercent = 0
@@ -37,10 +35,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         animate()
         init()
     }
-    fun test()
-    {
-        amountPercent = 30
-    }
+
     fun animate() {
 
         with(binding){
@@ -84,18 +79,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
             homeFragmentViewModel.user.observe(viewLifecycleOwner){
                 Log.d(TAG, "init: $it")
-                fragmentHomeNickNameTextView.text = "${it.nickname} 님"
-                fragmentHomeTargetAmountTextView.text = StringFormatUtil.moneyToWon(it.targetAmount)
-                fragmentHomeCurrentAmountTextView.text = StringFormatUtil.moneyToWon(it.currentAmount)
-                amountPercent = (100f - (it.currentAmount.toFloat() / it.targetAmount) * 100f).toInt()
-                ObjectAnimator.ofInt(fragmenthomeProgressBar, "progress", amountPercent.toInt())
-                    .setDuration(500)
-                    .start()
+                if(it != null){
+                    mainActivityViewModel.user = it
+                    fragmentHomeNickNameTextView.text = "${it.nickname} 님"
+                    fragmentHomeTargetAmountTextView.text = StringFormatUtil.moneyToWon(it.targetAmount)
+                    fragmentHomeCurrentAmountTextView.text = StringFormatUtil.moneyToWon(it.currentAmount)
+                    amountPercent = (100f - (it.currentAmount.toFloat() / it.targetAmount) * 100f).toInt()
+                    fragmentHomeBankMoneyTextView.text =StringFormatUtil.moneyToWon(App.sharedPreferences.getInt("money"))
+                    ObjectAnimator.ofInt(fragmenthomeProgressBar, "progress", amountPercent.toInt())
+                        .setDuration(500)
+                        .start()
+                }
+                else{
+                    showSnackbar("불러올 정보가 없습니다")
+
+                }
+
             }
-
-            //닉네임
-
-            //은행 정보
 
 
             // 소비 패턴 분석 화면
@@ -104,7 +104,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             }
             // 미니 게임 화면
             fragmentHomeMiniGameCardView.setOnClickListener {
-
+                findNavController().navigate(R.id.action_HomeFragment_to_GameFragment)
             }
             // 커뮤니티 화면
             fragmentHomeCommunityCardView.setOnClickListener {
@@ -112,16 +112,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             }
             // 설정 화면
             fragmentHomeSettingCardView.setOnClickListener {
-
+                findNavController().navigate(R.id.action_HomeFragment_to_SettingFragment)
             }
             // 내 거래내역 조회
             fragmentHomeMyAccountCardView.setOnClickListener {
                 findNavController().navigate(R.id.action_HomeFragment_to_TransactionHistoryFragment)
             }
+            //거지 랭킹 조회
+            fragmentHomeRankButton.setOnClickListener {
+                findNavController().navigate(R.id.action_HomeFragment_to_RankFragment)
+            }
 
             ObjectAnimator.ofInt(fragmenthomeProgressBar, "progress", amountPercent.toInt())
                 .setDuration(500)
                 .start()
+        }
+        homeFragmentViewModel.exceptionHandler.observe(viewLifecycleOwner){
+            when(it){
+                0 -> {
+                    showSnackbar("네트워크 오류")
+                    findNavController().navigate(R.id.action_HomeFragment_to_ErrorFragment)
+                }
+                401 ->{
+                    showSnackbar("토큰 값이 만료되었습니다.")
+                    findNavController().navigate(R.id.action_HomeFragment_to_ErrorFragment)
+                }
+            }
         }
 
     }
