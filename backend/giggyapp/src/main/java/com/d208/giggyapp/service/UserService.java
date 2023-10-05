@@ -180,7 +180,6 @@ public class UserService {
 
         if (user == null) return ResponseEntity.ok(null);
         Long registerDateMillis = user.getRegisterDate().atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
-        System.out.println("123123" + registerDateMillis);
         return ResponseEntity.ok(SendUserDto.builder()
                 .email(user.getEmail())
                 .nickname(user.getNickname())
