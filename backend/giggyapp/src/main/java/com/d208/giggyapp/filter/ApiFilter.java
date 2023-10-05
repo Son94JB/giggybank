@@ -33,8 +33,10 @@ public class ApiFilter implements Filter {
         String requestURI = httpRequest.getRequestURI();
 
         // 로그인, 회원가입은 토큰 검증 X
-        if (requestURI.equals("/api/v1/app/user/login") || requestURI.equals("/api/v1/app/user/signup"))
+        if (requestURI.equals("/api/v1/app/user/login") || requestURI.equals("/api/v1/app/user/signup")) {
+            System.out.println("No Certification");
             chain.doFilter(request, response);
+        }
 
         // 레디스에 토큰이 존재하는지 확인한다.
         if (!redisService.getAccessToken(accessToken)) {
