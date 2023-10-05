@@ -146,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/the_jamsil_3_regular"
-                        android:text="100,000원"
+                        android:text="0원"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/fragment_rank_target_amount_title_text_view"
                         />
@@ -157,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:fontFamily="@font/the_jamsil_3_regular"
-                        android:text="90,000원"
+                        android:text="0원"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/fragment_rank_current_amount_title_text_view"
                         />
@@ -168,7 +168,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:progress="10"
+                    android:progress="0"
                     android:progressDrawable="@drawable/custom_progress_bar"
                     tools:progress="10"
                     app:layout_constraintEnd_toStartOf="parent"

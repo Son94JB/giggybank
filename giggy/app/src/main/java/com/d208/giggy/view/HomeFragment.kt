@@ -11,6 +11,7 @@ import com.d208.domain.utils.StringFormatUtil
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentHomeBinding
+
 import com.d208.giggy.di.App
 import com.d208.giggy.viewmodel.HomeFragmentViewModel
 import com.d208.giggy.viewmodel.MainActivityViewModel
