@@ -272,17 +272,26 @@ class CommunityHomeFragment : BaseFragment<FragmentCommunityHomeBinding>(Fragmen
         return oldlist
     }
     fun categoryFilterList(flag : Boolean, category : String){
+        var newList = mutableListOf<DomainPost>()
         if(flag){
             filterList.addAll(list.filter { it.category == category })
-            adapter.submitList(filterList)
+            newList.addAll(filterList)
+            adapter.submitList(newList)
         }
         else{
             filterList.removeAll(filterList.filter { it.category == category })
-            if(filterList.isEmpty()){
-                adapter.submitList(list)
+            newList.addAll(filterList)
+            if(newList.isEmpty()){
+                if(list.isNotEmpty()){
+                    adapter.submitList(list)
+                }
+                else{
+                    adapter.submitList(mutableListOf())
+                }
+
             }
             else{
-                adapter.submitList(filterList)
+                adapter.submitList(newList)
             }
         }
     }
