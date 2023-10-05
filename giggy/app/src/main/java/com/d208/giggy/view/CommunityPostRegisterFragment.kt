@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -15,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -57,6 +59,7 @@ class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegister
     private var category = "FOOD"
     private var tempUri : Uri? = null
     private val STORAGE_PERMISSION_CODE = 1
+    private val REQ_PERMISSION_PUSH = 0
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             result.data?.data?.let { uri ->
@@ -282,20 +285,40 @@ class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegister
     }
 
     private fun checkAndRequestStoragePermission() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            // 이미 퍼미션을 가지고 있는 경우
-            openGalleryForImage()
-        } else {
-            // 퍼미션을 요청합니다.
-            requestPermissions(
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                STORAGE_PERMISSION_CODE
-            )
+        if(Build.VERSION.SDK_INT >=  Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_MEDIA_IMAGES), REQ_PERMISSION_PUSH)
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_MEDIA_IMAGES
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                // 이미 퍼미션을 가지고 있는 경우
+                openGalleryForImage()
+            } else {
+                // 퍼미션을 요청합니다.
+                requestPermissions(
+                    arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
+                    STORAGE_PERMISSION_CODE
+                )
+            }
         }
+        else {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                // 이미 퍼미션을 가지고 있는 경우
+                openGalleryForImage()
+            } else {
+                // 퍼미션을 요청합니다.
+                requestPermissions(
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    STORAGE_PERMISSION_CODE
+                )
+            }
+        }
+
     }
     private fun openGalleryForImage() {
         val intent = Intent(Intent.ACTION_PICK)
