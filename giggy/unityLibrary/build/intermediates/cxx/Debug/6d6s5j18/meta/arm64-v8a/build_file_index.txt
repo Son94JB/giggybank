@@ -1,2 +1,0 @@
-C:\Users\SSAFY\Documents\S09P22D208\giggy\unityLibrary\src\main\cpp\CMakeLists.txt
-C:\Users\SSAFY\Documents\S09P22D208\giggy\unityLibrary\src\main\cpp\FramePacing\CMakeLists.txt
