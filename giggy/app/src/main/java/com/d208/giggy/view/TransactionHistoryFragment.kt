@@ -61,6 +61,7 @@ class TransactionHistoryFragment : BaseFragment<FragmentTransactionHistoryBindin
         super.onViewCreated(view, savedInstanceState)
         adapter = TransactionAdapater(requireContext())
         startDate = StringFormatUtil.dateToString(mainActivityViewModel.user.registerDate!!)
+        transactionHistoryFragmentViewModel.getRecentData()
         init()
 
     }
@@ -127,7 +128,12 @@ class TransactionHistoryFragment : BaseFragment<FragmentTransactionHistoryBindin
         binding.fragmentTransactionHistoryBack.setOnClickListener {
             findNavController().navigateUp()
         }
-        transactionHistoryFragmentViewModel.getTransactionData(UUID.fromString(App.sharedPreferences.getString("id")), startDate, endDate)
+
+        transactionHistoryFragmentViewModel.updateSuccess.observe(viewLifecycleOwner){
+            transactionHistoryFragmentViewModel.getTransactionData(UUID.fromString(App.sharedPreferences.getString("id")), startDate, endDate)
+        }
+
+
         (requireActivity() as MainActivity).showLoadingDialog(requireContext())
         transactionHistoryFragmentViewModel.transactionList.observe(viewLifecycleOwner){
             (requireActivity() as MainActivity).dismissLoadingDialog()

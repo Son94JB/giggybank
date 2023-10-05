@@ -249,8 +249,10 @@ class CommunityPostRegisterFragment : BaseFragment<FragmentCommunityPostRegister
 
 
             }
+            (requireActivity() as MainActivity).showLoadingDialog(requireContext())
         }
         communityPostRegisterFragmentViewModel.registerSuccess.observe(viewLifecycleOwner){
+            (requireActivity() as MainActivity).dismissLoadingDialog()
             if(it){
                 findNavController().navigateUp()
             }
