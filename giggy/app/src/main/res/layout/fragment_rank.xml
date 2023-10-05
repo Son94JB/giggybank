@@ -14,12 +14,13 @@
         tools:context=".view.RankFragment">
 
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/fragment_rank_back"
             android:layout_margin="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_back_arrow"
+            android:backgroundTint="@color/background"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
@@ -81,7 +82,7 @@
         <androidx.cardview.widget.CardView
             android:layout_marginTop="16dp"
             android:id="@+id/fragment_rank_my_score_card_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/sub"
             app:cardCornerRadius="8dp"
@@ -96,7 +97,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/fragment_game_current_my_rank_title_text_view"
+                    android:id="@+id/fragment_rank_current_my_rank_title_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="현재 순위"
@@ -106,12 +107,12 @@
                     />
                 <TextView
                     android:layout_marginStart="196dp"
-                    android:id="@+id/fragment_game_current_my_rank_text_view"
+                    android:id="@+id/fragment_rank_current_my_rank_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" 0위"
                     style="@style/Text.regular.Size16"
-                    app:layout_constraintStart_toEndOf="@+id/fragment_game_current_my_rank_title_text_view"
+                    app:layout_constraintStart_toEndOf="@+id/fragment_rank_current_my_rank_title_text_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     />
@@ -125,7 +126,7 @@
                         android:fontFamily="@font/the_jamsil_3_regular"
                         android:text="목표 금액"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/fragment_game_current_my_rank_title_text_view"
+                        app:layout_constraintTop_toBottomOf="@+id/fragment_rank_current_my_rank_title_text_view"
                         />
 
                     <TextView
@@ -137,7 +138,7 @@
                         android:fontFamily="@font/the_jamsil_3_regular"
                         android:text="사용 금액"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/fragment_game_current_my_rank_title_text_view"
+                        app:layout_constraintTop_toBottomOf="@+id/fragment_rank_current_my_rank_title_text_view"
                         />
 
                     <TextView
@@ -160,9 +161,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/fragment_rank_current_amount_title_text_view"
                         />
-
-
-
 
                 <ProgressBar
                     android:id="@+id/fragment_rank_progress_bar"

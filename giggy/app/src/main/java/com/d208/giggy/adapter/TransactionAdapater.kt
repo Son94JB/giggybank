@@ -39,11 +39,11 @@ class TransactionAdapater(var context : Context) : ListAdapter<DomainTransaction
             }
             if(data.transactionType == "출금"){
                 itemTransactionConsumeAmount.text = " - ${StringFormatUtil.moneyToWon(data.withdraw)}"
-                itemTransactionConsumeAmount.setTextColor(Color.RED)
+                itemTransactionConsumeAmount.setTextColor(Color.parseColor("#F78181"))
             }
             else{
                 itemTransactionConsumeAmount.text = " + ${StringFormatUtil.moneyToWon(data.deposit)}"
-                itemTransactionConsumeAmount.setTextColor(Color.GREEN)
+                itemTransactionConsumeAmount.setTextColor(Color.parseColor("#A9F5A9"))
             }
 
             itemTransactionConsumeDate.text = StringFormatUtil.dateTimeToString(data.transactionDate)

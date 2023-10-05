@@ -117,11 +117,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             }
             // 설정 화면
             fragmentHomeSettingCardView.setOnClickListener {
-
+                findNavController().navigate(R.id.action_HomeFragment_to_SettingFragment)
             }
             // 내 거래내역 조회
             fragmentHomeMyAccountCardView.setOnClickListener {
                 findNavController().navigate(R.id.action_HomeFragment_to_TransactionHistoryFragment)
+            }
+            //거지 랭킹 조회
+            fragmentHomeRankButton.setOnClickListener {
+                findNavController().navigate(R.id.action_HomeFragment_to_RankFragment)
             }
 
             ObjectAnimator.ofInt(fragmenthomeProgressBar, "progress", amountPercent.toInt())

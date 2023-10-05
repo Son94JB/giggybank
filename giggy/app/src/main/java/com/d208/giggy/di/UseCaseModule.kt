@@ -3,10 +3,13 @@ package com.d208.giggy.di
 import com.d208.domain.repository.BankRepository
 import com.d208.domain.repository.MainRepository
 import com.d208.domain.repository.PostRepository
+import com.d208.domain.repository.RankRepository
 import com.d208.domain.usecase.AnalysisUsecase
+import com.d208.domain.usecase.BeggerRankUsecase
 import com.d208.domain.usecase.DeleteCommentUsecase
 import com.d208.domain.usecase.DeletePostUsecase
 import com.d208.domain.usecase.DuplicateCheckUsecase
+import com.d208.domain.usecase.GameRankUsecase
 import com.d208.domain.usecase.GetMonthsUsecase
 import com.d208.domain.usecase.GetOnePostUsecase
 import com.d208.domain.usecase.GetPostsUsecase
@@ -73,4 +76,12 @@ class UseCaseModule {
     @Provides
     @Singleton
     fun provideDeletePostUsecase(repository: PostRepository) = DeletePostUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideBeggerRankUsecase(repository : RankRepository) = BeggerRankUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGameRankUsecase(repository: RankRepository) = GameRankUsecase(repository)
 }

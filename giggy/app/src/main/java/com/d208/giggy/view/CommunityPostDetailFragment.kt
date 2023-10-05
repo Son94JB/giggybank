@@ -57,9 +57,10 @@ class CommunityPostDetailFragment : BaseFragment<FragmentCommunityPostDetailBind
     fun init() = with(binding){
         communityPostDetailFragmentViewModel.getOnePost(mainActivityViewModel.seletedPostId)
         communityPostDetailFragmentViewModel.getComments(mainActivityViewModel.seletedPostId)
-
+        (requireActivity() as MainActivity).showLoadingDialog(requireContext())
         // 게시글 정보 불러오기
         communityPostDetailFragmentViewModel.post.observe(viewLifecycleOwner){
+            (requireActivity() as MainActivity).dismissLoadingDialog()
             if(it != null){
                 try{
                     Glide.with(requireContext())

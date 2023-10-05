@@ -21,12 +21,12 @@ class CategoryChooseDialog(context : Context, var currentCategory : String, var 
         val etc = findViewById<LinearLayout>(R.id.dialog_category_choose_etc_layout)
 
         when(currentCategory){
-            "식품" -> food.setBackgroundColor(Color.GREEN)
-            "교통" -> traffic.setBackgroundColor(Color.GREEN)
-            "여가" -> leisure.setBackgroundColor(Color.GREEN)
-            "고정지출" -> fixed.setBackgroundColor(Color.GREEN)
-            "쇼핑" -> shopping.setBackgroundColor(Color.GREEN)
-            "기타" -> etc.setBackgroundColor(Color.GREEN)
+            "식품" -> food.setBackgroundColor(Color.parseColor("#D0F5A9"))
+            "교통" -> traffic.setBackgroundColor(Color.parseColor("#D0F5A9"))
+            "여가" -> leisure.setBackgroundColor(Color.parseColor("#D0F5A9"))
+            "고정지출" -> fixed.setBackgroundColor(Color.parseColor("#D0F5A9"))
+            "쇼핑" -> shopping.setBackgroundColor(Color.parseColor("#D0F5A9"))
+            "기타" -> etc.setBackgroundColor(Color.parseColor("#D0F5A9"))
         }
         food.setOnClickListener {
             (fragment as TransactionDetailFragment).updateCategory("식품")

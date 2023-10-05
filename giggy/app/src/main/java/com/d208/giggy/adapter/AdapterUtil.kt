@@ -1,6 +1,7 @@
 package com.d208.presentation.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+import com.d208.domain.model.DomainBeggerRank
 import com.d208.domain.model.DomainComment
 import com.d208.domain.model.DomainGameRank
 import com.d208.domain.model.DomainPost
@@ -41,10 +42,21 @@ object AdapterUtil {
 
     val diffUtilGameRank = object : DiffUtil.ItemCallback<DomainGameRank>() {
         override fun areItemsTheSame(oldItem: DomainGameRank, newItem: DomainGameRank): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.nickname == newItem.nickname
         }
 
         override fun areContentsTheSame(oldItem: DomainGameRank, newItem: DomainGameRank): Boolean {
+            return oldItem == newItem
+        }
+
+    }
+
+    val diffUtilBeggerRank = object : DiffUtil.ItemCallback<DomainBeggerRank>() {
+        override fun areItemsTheSame(oldItem: DomainBeggerRank, newItem: DomainBeggerRank): Boolean {
+            return oldItem.nickname == newItem.nickname
+        }
+
+        override fun areContentsTheSame(oldItem: DomainBeggerRank, newItem: DomainBeggerRank): Boolean {
             return oldItem == newItem
         }
 
