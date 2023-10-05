@@ -3,7 +3,7 @@ package com.d208.giggy.utils
 import android.content.Context
 import android.content.SharedPreferences
 import com.d208.giggy.di.App
-import com.d208.giggy.utils.Utils.COOKIES_KEY_NAME
+import com.d208.giggy.utils.Utils.ACCESS_TOKEN
 
 
 class SharedPreferencesUtil(context: Context) {
@@ -43,13 +43,13 @@ class SharedPreferencesUtil(context: Context) {
     }
 
 
-    fun addUserCookie(token : String) {
+    fun addToken(token : String) {
         val editor = preferences.edit()
-        editor.putString(COOKIES_KEY_NAME, token)
+        editor.putString(ACCESS_TOKEN, token)
         editor.apply()
     }
-    fun getUserCookie(): MutableSet<String>? {
-        return preferences.getStringSet(COOKIES_KEY_NAME, HashSet())
+    fun getToken(): MutableSet<String>? {
+        return preferences.getStringSet(ACCESS_TOKEN, HashSet())
     }
 
 

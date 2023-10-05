@@ -4,6 +4,7 @@ import com.d208.domain.model.DomainDuplicateCheck
 import com.d208.domain.model.DomainUser
 import com.d208.domain.model.SignUpUser
 import com.d208.domain.utils.RemoteErrorEmitter
+import java.util.UUID
 
 interface MainRepository {
     suspend fun login(remoteErrorEmitter: RemoteErrorEmitter, accessToken : String, refreshToken : String, fcmToken : String) : DomainUser?
@@ -15,4 +16,6 @@ interface MainRepository {
     suspend fun accountAuth(remoteErrorEmitter: RemoteErrorEmitter, accountNumber: String, fcmToken: String, birthday : String) : String?
 
     suspend fun getUserData(remoteErrorEmitter: RemoteErrorEmitter, user : DomainUser) : DomainUser?
+
+    suspend fun updateTargetAmount(remoteErrorEmitter: RemoteErrorEmitter, id : UUID, targetAmount : Int) : Boolean?
 }

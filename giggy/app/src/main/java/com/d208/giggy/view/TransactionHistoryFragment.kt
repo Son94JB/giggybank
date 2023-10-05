@@ -60,12 +60,27 @@ class TransactionHistoryFragment : BaseFragment<FragmentTransactionHistoryBindin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = TransactionAdapater(requireContext())
-        startDate = StringFormatUtil.dateToString(mainActivityViewModel.user.registerDate!!)
+        startDate = StringFormatUtil.dateToString(changeDate(mainActivityViewModel.user.registerDate!!))
         transactionHistoryFragmentViewModel.getRecentData()
         init()
 
     }
 
+    fun changeDate(currentTime : Long) : Long{
+        val calendar = Calendar.getInstance();
+        calendar.timeInMillis = currentTime
+
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+
+        val newDate: Date = calendar.time
+
+        // Date 객체를 다시 Long 값으로 변환
+        val newTimestamp: Long = newDate.time
+        return newTimestamp
+    }
 
     fun spinnerInit(){
         with(binding){
@@ -159,21 +174,23 @@ class TransactionHistoryFragment : BaseFragment<FragmentTransactionHistoryBindin
 //               ).build())
                .build()
             dateRangePicker.show(childFragmentManager, "date_picker")
-            dateRangePicker.addOnPositiveButtonClickListener(object :
-                MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>> {
-                override fun onPositiveButtonClick(selection: Pair<Long, Long>?) {
-                    val calendar = Calendar.getInstance()
-                    calendar.timeInMillis = selection?.first ?: 0
-                    startDate = SimpleDateFormat("yyyyMMdd").format(calendar.time).toString()
-                    Log.d("start", startDate)
+            dateRangePicker.addOnPositiveButtonClickListener { selection ->
+                val calendar = Calendar.getInstance()
+                calendar.timeInMillis = selection?.first ?: 0
+                startDate = SimpleDateFormat("yyyy-MM-dd").format(calendar.time).toString()
+                Log.d("start", startDate)
 
-                    calendar.timeInMillis = selection?.second ?: 0
-                    endDate = SimpleDateFormat("yyyyMMdd").format(calendar.time).toString()
-                    Log.d("end", endDate)
-                    transactionHistoryFragmentViewModel.getTransactionData(UUID.fromString(App.sharedPreferences.getString("id")), startDate, endDate)
-
-                }
-            })
+                calendar.timeInMillis = selection?.second ?: 0
+                endDate = SimpleDateFormat("yyyy-MM-dd").format(calendar.time).toString()
+                Log.d("end", endDate)
+                transactionHistoryFragmentViewModel.getTransactionData(
+                    UUID.fromString(
+                        App.sharedPreferences.getString(
+                            "id"
+                        )
+                    ), startDate, endDate
+                )
+            }
 
         }
         transactionHistoryFragmentViewModel.exceptionHandler.observe(viewLifecycleOwner){
