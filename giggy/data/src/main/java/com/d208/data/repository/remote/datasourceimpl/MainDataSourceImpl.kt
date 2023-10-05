@@ -5,11 +5,13 @@ import com.d208.data.remote.model.AccountAuthData
 import com.d208.data.remote.model.AccountAuthResponse
 import com.d208.data.remote.model.LoginData
 import com.d208.data.remote.model.LoginUser
+import com.d208.data.remote.model.TargetAmountChangeRequest
 import com.d208.data.repository.remote.datasource.MainDataSource
 import com.d208.data.utils.base.BaseDataSource
 import com.d208.domain.model.DomainUser
 import com.d208.domain.model.SignUpUser
 import com.d208.domain.utils.RemoteErrorEmitter
+import java.util.UUID
 
 
 import javax.inject.Inject
@@ -61,6 +63,17 @@ class MainDataSourceImpl @Inject constructor(
         return safeApiCall(remoteErrorEmitter){
             userApi.getUserInfo(user)
                 ?.body() }
+    }
+
+    override suspend fun updateTargetAmount(
+        remoteErrorEmitter: RemoteErrorEmitter,
+        id: UUID,
+        targetAmount: Int
+    ): Boolean? {
+        return safeApiCall(remoteErrorEmitter){
+            val data = TargetAmountChangeRequest(id, targetAmount)
+            userApi.updateTargetAmount(data)?.body()
+        }
     }
 
 
