@@ -23,9 +23,7 @@ import java.util.UUID
 private const val TAG = "HomeFragment giggy"
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home) {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
     private val homeFragmentViewModel : HomeFragmentViewModel by viewModels()
     private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
     private var amountPercent = 0
@@ -37,10 +35,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         animate()
         init()
     }
-    fun test()
-    {
-        amountPercent = 30
-    }
+
     fun animate() {
 
         with(binding){
