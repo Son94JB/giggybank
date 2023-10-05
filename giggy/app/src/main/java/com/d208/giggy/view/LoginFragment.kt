@@ -8,10 +8,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.d208.data.remote.model.LoginData
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentLoginBinding
 import com.d208.giggy.di.App
+import com.d208.giggy.utils.Utils.ACCESS_TOKEN
 import com.d208.giggy.viewmodel.LoginFragmentViewModel
 import com.d208.giggy.viewmodel.MainActivityViewModel
 import com.kakao.sdk.auth.AuthApiClient
@@ -48,6 +50,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
         } else if (token != null) {
             Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
+//            App.sharedPreferences.addToken(token.accessToken)
             mainActivityViewModel.accessToken = token.accessToken
             mainActivityViewModel.refreshToken = token.refreshToken
             loginFragmentViewModel.login(token.accessToken,token.refreshToken, mainActivityViewModel.fcmToken!!)
@@ -78,8 +81,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                             init()
                         }
                         else if (tokenInfo != null) {
+                            Log.d(TAG, "토큰 값: ${App.sharedPreferences.getString(ACCESS_TOKEN)}")
                             Log.i(
                                 TAG, "토큰 정보 보기 성공" +
+                                        "\n 토큰  : ${tokenInfo}"+
                                     "\n회원번호: ${tokenInfo.id}" +
                                     "\n만료시간: ${tokenInfo.expiresIn} 초")
                             if(tokenInfo.expiresIn > 0){
@@ -132,7 +137,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                         } else if (token != null) {
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Access ${token.accessToken}")
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
-                            App.sharedPreferences.addUserCookie(token.accessToken)
+//                            App.sharedPreferences.addToken(token.accessToken)
                             mainActivityViewModel.accessToken = token.accessToken
                             mainActivityViewModel.refreshToken = token.refreshToken
                             loginFragmentViewModel.login(token.accessToken,token.refreshToken, mainActivityViewModel.fcmToken)

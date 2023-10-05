@@ -18,6 +18,7 @@ import com.d208.domain.usecase.PostUpdateUsecase
 import com.d208.domain.usecase.RegisterCommentUsecase
 import com.d208.domain.usecase.RegisterPostUsecase
 import com.d208.domain.usecase.TransactionUsecase
+import com.d208.domain.usecase.UpdateTargetAmountUsecase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -84,4 +85,8 @@ class UseCaseModule {
     @Provides
     @Singleton
     fun provideGameRankUsecase(repository: RankRepository) = GameRankUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideUpdateTargetAmountUsecase(repository: MainRepository) = UpdateTargetAmountUsecase(repository)
 }

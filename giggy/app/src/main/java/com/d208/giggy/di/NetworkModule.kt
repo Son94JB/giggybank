@@ -6,6 +6,7 @@ import com.d208.data.remote.api.PostApi
 import com.d208.data.remote.api.RankApi
 import com.d208.data.remote.api.UserApi
 import com.d208.giggy.utils.Utils.BASE_URL
+import com.google.gson.GsonBuilder
 import com.ssafy.template.config.XAccessTokenInterceptor
 import dagger.Module
 import dagger.Provides
@@ -15,6 +16,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -32,7 +34,7 @@ object NetworkModule {
             .writeTimeout(15, TimeUnit.SECONDS)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
 //            .addNetworkInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
-            .addInterceptor(getLoggingInterceptor())
+//            .addInterceptor(getLoggingInterceptor())
 //            .addInterceptor(AddCookiesInterceptor())  //쿠키 전송
             .build()
     }
@@ -41,6 +43,7 @@ object NetworkModule {
     @Singleton
     //gson 의존성 주입 (아래 retrofit 의존성 주입에 사용)
     fun provideConverterFactory(): GsonConverterFactory {
+
         return GsonConverterFactory.create()
     }
 
@@ -51,10 +54,12 @@ object NetworkModule {
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
+
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
+//            .addConverterFactory(ScalarsConverterFactory.create())
             .build()
     }
 
@@ -82,7 +87,5 @@ object NetworkModule {
         return retrofit.create(RankApi::class.java)
     }
 
-    private fun getLoggingInterceptor(): HttpLoggingInterceptor =
-        HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
 }

@@ -1,7 +1,8 @@
 package com.ssafy.template.config
 
+import android.util.Log
 import com.d208.giggy.di.App.Companion.sharedPreferences
-import com.d208.giggy.utils.Utils.COOKIES_KEY_NAME
+import com.d208.giggy.utils.Utils.ACCESS_TOKEN
 
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -13,9 +14,10 @@ class XAccessTokenInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
-        val jwtToken: String? = sharedPreferences.getString(COOKIES_KEY_NAME)
+        val jwtToken: String? = sharedPreferences.getString(ACCESS_TOKEN)
         if (jwtToken != null) {
-            builder.addHeader("X-ACCESS-TOKEN", jwtToken)
+            Log.d("헤더", "intercept: $jwtToken")
+            builder.addHeader("Authorization", jwtToken)
         }
         return chain.proceed(builder.build())
     }
