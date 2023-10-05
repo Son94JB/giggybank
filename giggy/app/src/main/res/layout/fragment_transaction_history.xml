@@ -42,17 +42,16 @@
         />
 
 
-
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="16dp"
         android:id="@+id/fragment_transaction_history_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_transaction_history_spinner"
-        tools:listitem="@layout/item_transaction"
-        />
+        tools:listitem="@layout/item_transaction" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_marginBottom="16dp"

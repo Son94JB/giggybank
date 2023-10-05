@@ -38,6 +38,10 @@ class PostAdapter (var context : Context) : ListAdapter<DomainPost, PostAdapter.
                     itemPostLike.setImageResource(R.drawable.ic_heart_color)
                     itemHeartListener.onClick(binding, layoutPosition, data)
                 }
+                else{
+                    itemPostLike.setImageResource(R.drawable.heart_transparent)
+                    itemHeartListener.onClick(binding, layoutPosition, data)
+                }
 
             }
 

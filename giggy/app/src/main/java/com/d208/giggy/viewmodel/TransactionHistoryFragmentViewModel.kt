@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d208.domain.model.DomainTransaction
+import com.d208.domain.usecase.GetRecentDataUsecase
 import com.d208.domain.usecase.TransactionUsecase
 import com.d208.domain.utils.ErrorType
 import com.d208.domain.utils.RemoteErrorEmitter
+import com.d208.giggy.di.App
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -15,13 +17,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TransactionHistoryFragmentViewModel @Inject constructor(
-    private val transactionUsecase: TransactionUsecase
+    private val transactionUsecase: TransactionUsecase,
+    private val getRecentDataUsecase: GetRecentDataUsecase,
 ) :  ViewModel(), RemoteErrorEmitter {
 
 
     private val _transactionList = MutableLiveData<MutableList<DomainTransaction>>()
     val transactionList : LiveData<MutableList<DomainTransaction>> get() =_transactionList
 
+    private val _updateSuccess = MutableLiveData<Boolean>()
+    val updateSuccess : LiveData<Boolean> get() = _updateSuccess
+
+    fun getRecentData() {
+        viewModelScope.launch {
+            getRecentDataUsecase.execute(
+                this@TransactionHistoryFragmentViewModel,
+                UUID.fromString(App.sharedPreferences.getString("id")!!)
+            ).let { response ->
+                if (response != null) {
+                    _updateSuccess.value = response
+                }
+            }
+        }
+    }
 
     fun getTransactionData(id : UUID, startDate : String, endDate : String){
         viewModelScope.launch {
