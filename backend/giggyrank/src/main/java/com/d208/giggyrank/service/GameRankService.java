@@ -72,8 +72,13 @@ public class GameRankService {
         Long rank = zsetOps.reverseRank("GameRank", userIdStr);
         Double score = zsetOps.score("GameRank", userIdStr);
 
-        GameRankDto gameRankDto = new GameRankDto(userId, score.intValue(), rank.intValue() + 1);
-        return ResponseEntity.ok(gameRankDto);
+        if (rank == null || score == null) {
+            GameRankDto gameRankDto = new GameRankDto(userId, 0, zsetOps.size("GameRank").intValue());
+            return ResponseEntity.ok(gameRankDto);
+        } else {
+            GameRankDto gameRankDto = new GameRankDto(userId, score.intValue(), rank.intValue() + 1);
+            return ResponseEntity.ok(gameRankDto);
+        }
     }
 
     // 내 최고 점수 불러오기
