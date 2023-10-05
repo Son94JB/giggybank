@@ -82,7 +82,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:fontFamily="@font/the_jamsil_3_regular"
-                            android:text="홍길동"
+                            android:text="현재 잔액"
                             app:layout_constraintStart_toEndOf="@+id/fragment_home_bank_icon"
                             app:layout_constraintTop_toTopOf="@+id/fragment_home_bank_icon" />
 
