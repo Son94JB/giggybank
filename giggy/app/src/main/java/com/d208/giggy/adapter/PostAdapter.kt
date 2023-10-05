@@ -22,14 +22,23 @@ class PostAdapter (var context : Context) : ListAdapter<DomainPost, PostAdapter.
             }
             else{
                 itemPostLike.setImageResource(R.drawable.heart_transparent)
-                itemPostLike.setOnClickListener {
-                    itemPostLike.setImageResource(R.drawable.ic_heart_color)
-                }
             }
-            itemPostTab.text = "[${data.postType}]"
+            when(data.postType){
+                "FREE" -> itemPostTab.text = "[자유]"
+                "TIP" -> itemPostTab.text = "[꿀팁]"
+                "BOAST" -> itemPostTab.text = "[자랑]"
+            }
+
 
             root.setOnClickListener {
                 itemClickListener.onClick(binding, layoutPosition, data)
+            }
+            itemPostLike.setOnClickListener {
+                if(!data.likePost){
+                    itemPostLike.setImageResource(R.drawable.ic_heart_color)
+                    itemHeartListener.onClick(binding, layoutPosition, data)
+                }
+
             }
 
 
@@ -53,6 +62,8 @@ class PostAdapter (var context : Context) : ListAdapter<DomainPost, PostAdapter.
         holder.bind(currentList[position])
     }
     lateinit var itemClickListener: ItemClickListener
+
+    lateinit var itemHeartListener: ItemClickListener
     interface ItemClickListener {
         fun onClick(binding: ItemPostBinding, position: Int, data: DomainPost)
     }

@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.d208.giggy.R
 import com.d208.giggy.base.BaseFragment
 import com.d208.giggy.databinding.FragmentLoginBinding
@@ -47,8 +48,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
         } else if (token != null) {
             Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
-            binding.accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
-            binding.refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
             mainActivityViewModel.accessToken = token.accessToken
             mainActivityViewModel.refreshToken = token.refreshToken
             loginFragmentViewModel.login(token.accessToken,token.refreshToken, mainActivityViewModel.fcmToken!!)
@@ -59,18 +58,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mActivity = requireActivity() as MainActivity
-        init()
-
-    }
-    fun init(){
-        if (AuthApiClient.instance.hasToken()) {
+        if (AuthApiClient.instance.hasToken() && !App.sharedPreferences.getString("id").isNullOrEmpty()) {
             UserApiClient.instance.accessTokenInfo { _, error ->
                 if (error != null) {
                     if (error is KakaoSdkError && error.isInvalidTokenError() == true) {
                         //로그인 필요
+                        init()
                     }
                     else {
                         //기타 에러
+                        init()
                     }
                 }
                 else {
@@ -78,14 +75,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                     UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
                         if (error != null) {
                             Log.e(TAG, "토큰 정보 보기 실패", error)
+                            init()
                         }
                         else if (tokenInfo != null) {
-                            Log.i(TAG, "토큰 정보 보기 성공" +
+                            Log.i(
+                                TAG, "토큰 정보 보기 성공" +
                                     "\n회원번호: ${tokenInfo.id}" +
                                     "\n만료시간: ${tokenInfo.expiresIn} 초")
                             if(tokenInfo.expiresIn > 0){
+//                                App.sharedPreferences.addUserCookie(tokenInfo.toString())
                                 Log.d(TAG, "init: ${App.sharedPreferences.getString("id")}")
                                 findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
+                            }
+                            else{
+                                init()
                             }
                         }
                     }
@@ -94,10 +97,22 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
         }
         else {
             //로그인 필요
+            init()
         }
 
 
+    }
+    fun init(){
+
+
+
         with(binding) {
+
+            Glide.with(requireContext())
+                .load(R.raw.giphy)
+                .into(fragmentLoginBackgroundGif)
+
+
             fragmentLoginKakaoButton.setOnClickListener {
 
                 // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
@@ -117,8 +132,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                         } else if (token != null) {
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Access ${token.accessToken}")
                             Log.i(TAG, "카카오톡으로 로그인 성공 : Refresh ${token.refreshToken}")
-                            accessTokenTextView.text  =  "Access : \n ${token.accessToken}"
-                            refreshTokenTextView.text =  "Refresh : \n ${token.refreshToken}"
+                            App.sharedPreferences.addUserCookie(token.accessToken)
                             mainActivityViewModel.accessToken = token.accessToken
                             mainActivityViewModel.refreshToken = token.refreshToken
                             loginFragmentViewModel.login(token.accessToken,token.refreshToken, mainActivityViewModel.fcmToken)

@@ -5,10 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.d208.data.remote.model.User
 import com.d208.domain.model.DomainUser
 import com.d208.domain.model.SignUpUser
-import com.d208.domain.repository.MainRepository
 import com.d208.domain.usecase.AccountCheckUsecase
 import com.d208.domain.usecase.SignUpUseCase
 import com.d208.domain.utils.ErrorType
@@ -24,8 +22,7 @@ class SignUpNextFragmentViewModel @Inject constructor(
     private val signUpUseCase : SignUpUseCase,
 ) : ViewModel(), RemoteErrorEmitter {
 
-    var apiErrorType = ErrorType.UNKNOWN
-    var errorMessage = "none"
+
 
     var password : String? = null
     private val _accountAuthSuccess = MutableLiveData<Boolean>()
@@ -72,12 +69,32 @@ class SignUpNextFragmentViewModel @Inject constructor(
         }
     }
 
+    var apiErrorType = ErrorType.UNKNOWN
+    var errorMessage = "none"
+
+    private val _exceptionHandler = MutableLiveData<Int>()
+    val exceptionHandler : LiveData<Int> get() = _exceptionHandler
     override fun onError(msg: String) {
         errorMessage = msg
     }
 
     override fun onError(errorType: ErrorType) {
         apiErrorType = errorType
+
+        when (errorType) {
+            ErrorType.NETWORK -> {
+                // 네트워크 에러 처리
+                _exceptionHandler.value = 0
+            }
+            ErrorType.SESSION_EXPIRED -> {
+                // 세션 만료 에러 처리
+                _exceptionHandler.value = 401
+            }
+            // 다른 에러 유형에 대한 처리 추가
+            else -> {
+                _exceptionHandler.value = 4
+            }
+        }
     }
 
 

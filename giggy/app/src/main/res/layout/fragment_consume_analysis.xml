@@ -37,12 +37,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <androidx.appcompat.widget.AppCompatSpinner
+        <com.jaredrummler.materialspinner.MaterialSpinner
             android:layout_marginEnd="16dp"
             android:id="@+id/nice_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/background"
+            app:ms_background_color="@color/background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_consume_analysis_title_text_view"
             />
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/the_jamsil_3_regular"
                 android:textSize="32sp"
-                android:text="100000원" />
+                android:text="0원" />
 
         </LinearLayout>
 
@@ -117,7 +117,7 @@
                         android:id="@+id/fragment_consume_analysis_food_amount_percent_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="45%"
+                        android:text="0%"
                         android:fontFamily="@font/the_jamsil_3_regular"
                         />
 
@@ -129,7 +129,7 @@
                     android:id="@+id/fragment_consume_analysis_food_amount_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="200,000원"
+                    android:text="0원"
                     android:fontFamily="@font/the_jamsil_3_regular"
                     android:textSize="24sp"
                     android:gravity="end"
@@ -167,7 +167,7 @@
                         android:id="@+id/fragment_consume_analysis_traffic_amount_percent_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="35%"
+                        android:text="0%"
                         android:fontFamily="@font/the_jamsil_3_regular"
                         />
 
@@ -178,7 +178,7 @@
                     android:id="@+id/fragment_consume_analysis_traffic_amount_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="100,000원"
+                    android:text="0원"
                     android:fontFamily="@font/the_jamsil_3_regular"
                     android:textSize="24sp"
                     android:gravity="end"
@@ -216,7 +216,7 @@
                         android:id="@+id/fragment_consume_analysis_leisure_amount_percent_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="15%"
+                        android:text="0%"
                         android:fontFamily="@font/the_jamsil_3_regular"
                         />
 
@@ -227,7 +227,7 @@
                     android:id="@+id/fragment_consume_analysis_leisure_amount_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="400,000원"
+                    android:text="0원"
                     android:fontFamily="@font/the_jamsil_3_regular"
                     android:textSize="24sp"
                     android:gravity="end"
@@ -265,7 +265,7 @@
                         android:id="@+id/fragment_consume_analysis_shopping_amount_percent_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="15%"
+                        android:text="0%"
                         android:fontFamily="@font/the_jamsil_3_regular"
                         />
 
@@ -276,7 +276,103 @@
                     android:id="@+id/fragment_consume_analysis_shopping_amount_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="200,000원"
+                    android:text="0원"
+                    android:fontFamily="@font/the_jamsil_3_regular"
+                    android:textSize="24sp"
+                    android:gravity="end"
+                    />
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginVertical="4dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_fixed_expenses"
+                    />
+
+                <LinearLayout
+                    android:layout_marginStart="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="고정지출"
+                        android:fontFamily="@font/the_jamsil_3_regular"
+                        />
+                    <TextView
+                        android:id="@+id/fragment_consume_analysis_fixed_amount_percent_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:fontFamily="@font/the_jamsil_3_regular"
+                        />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/fragment_consume_analysis_fixed_amount_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0원"
+                    android:fontFamily="@font/the_jamsil_3_regular"
+                    android:textSize="24sp"
+                    android:gravity="end"
+                    />
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginVertical="4dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_etc"
+                    />
+
+                <LinearLayout
+                    android:layout_marginStart="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="기타"
+                        android:fontFamily="@font/the_jamsil_3_regular"
+                        />
+                    <TextView
+                        android:id="@+id/fragment_consume_analysis_etc_amount_percent_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:fontFamily="@font/the_jamsil_3_regular"
+                        />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/fragment_consume_analysis_etc_amount_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0원"
                     android:fontFamily="@font/the_jamsil_3_regular"
                     android:textSize="24sp"
                     android:gravity="end"

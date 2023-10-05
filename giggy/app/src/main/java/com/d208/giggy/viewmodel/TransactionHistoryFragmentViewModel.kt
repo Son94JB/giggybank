@@ -10,22 +10,24 @@ import com.d208.domain.utils.ErrorType
 import com.d208.domain.utils.RemoteErrorEmitter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class TransactionHistoryFragmentViewModel @Inject constructor(
     private val transactionUsecase: TransactionUsecase
 ) :  ViewModel(), RemoteErrorEmitter {
-    var apiErrorType = ErrorType.UNKNOWN
-    var errorMessage = "none"
+
 
     private val _transactionList = MutableLiveData<MutableList<DomainTransaction>>()
     val transactionList : LiveData<MutableList<DomainTransaction>> get() =_transactionList
-    fun getTransactionData(accountNumber : String, startDate : String, endDate : String){
+
+
+    fun getTransactionData(id : UUID, startDate : String, endDate : String){
         viewModelScope.launch {
-            transactionUsecase.execute(this@TransactionHistoryFragmentViewModel, accountNumber, startDate, endDate).let{
+            transactionUsecase.execute(this@TransactionHistoryFragmentViewModel, id, startDate, endDate).let{
                 response ->
-                if(response != null){
+                if(response != null && !response.isEmpty()){
                     _transactionList.value = response.sortedByDescending { it.transactionDate } as MutableList<DomainTransaction>
                 }
                 else{
@@ -36,12 +38,33 @@ class TransactionHistoryFragmentViewModel @Inject constructor(
 
     }
 
+    var apiErrorType = ErrorType.UNKNOWN
+    var errorMessage = "none"
+
+    private val _exceptionHandler = MutableLiveData<Int>()
+    val exceptionHandler : LiveData<Int> get() = _exceptionHandler
     override fun onError(msg: String) {
         errorMessage = msg
     }
 
     override fun onError(errorType: ErrorType) {
         apiErrorType = errorType
+
+        when (errorType) {
+            ErrorType.NETWORK -> {
+                // 네트워크 에러 처리
+                _transactionList.value = mutableListOf()
+                _exceptionHandler.value = 0
+            }
+            ErrorType.SESSION_EXPIRED -> {
+                // 세션 만료 에러 처리
+                _exceptionHandler.value = 401
+            }
+            // 다른 에러 유형에 대한 처리 추가
+            else -> {
+                _exceptionHandler.value = 4
+            }
+        }
     }
 
 }

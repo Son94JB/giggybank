@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/fragment_transaction_detail_text_view"
         />
     <TextView
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="16dp"
         android:id="@+id/fragment_transaction_detail_amount_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,5 +61,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_transaction_detail_amount_text_view"
         />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/fragment_transaction_detail_category_choose_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/background"
+        android:src="@drawable/baseline_drive_file_rename_outline_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_transaction_detail_amount_text_view" />
+
+    <TextView
+        android:layout_marginTop="24dp"
+        android:id="@+id/fragment_transaction_detail_category_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="식비"
+        style="@style/Text.regular.Size20"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_transaction_detail_category_choose_button"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_transaction_detail_amount_text_view"
+        />
+
+    <TextView
+        android:id="@+id/fragment_transaction_detail_transaction_date_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="결제 일시"
+        style="@style/Text.regular.Size20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_transaction_detail_category_title_text_view" />
+
+    <TextView
+        android:id="@+id/fragment_transaction_detail_transaction_date_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="2023년 9월 11일 22:54"
+        style="@style/Text.regular.Size20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_transaction_detail_category_title_text_view"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

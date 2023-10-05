@@ -1,6 +1,7 @@
 package com.d208.presentation.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -17,7 +18,7 @@ class TransactionAdapater(var context : Context) : ListAdapter<DomainTransaction
         fun bind(data : DomainTransaction) = with(binding){
             itemTransactionConsumeTitle.text = data.content
             when(data.category){
-                "식비" -> {
+                "식품" -> {
                     itemTransactionCategoryImage.setImageResource(R.drawable.ic_food)
                 }
                 "교통" -> {
@@ -37,10 +38,12 @@ class TransactionAdapater(var context : Context) : ListAdapter<DomainTransaction
                 }
             }
             if(data.transactionType == "출금"){
-                itemTransactionConsumeAmount.text = " - ${StringFormatUtil.moneyToWon(data.amount)}"
+                itemTransactionConsumeAmount.text = " - ${StringFormatUtil.moneyToWon(data.withdraw)}"
+                itemTransactionConsumeAmount.setTextColor(Color.parseColor("#F78181"))
             }
             else{
-                itemTransactionConsumeAmount.text = " + ${StringFormatUtil.moneyToWon(data.amount)}"
+                itemTransactionConsumeAmount.text = " + ${StringFormatUtil.moneyToWon(data.deposit)}"
+                itemTransactionConsumeAmount.setTextColor(Color.parseColor("#A9F5A9"))
             }
 
             itemTransactionConsumeDate.text = StringFormatUtil.dateTimeToString(data.transactionDate)

@@ -1,5 +1,7 @@
 package com.d208.data.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.d208.data.mapper.MainMapper
 import com.d208.data.repository.remote.datasource.MainDataSource
 import com.d208.domain.model.DomainDuplicateCheck
@@ -44,6 +46,7 @@ class MainRepositoryImpl @Inject constructor(
             ?.let { MainMapper.accountAuthMapper(it) }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun getUserData(
         remoteErrorEmitter: RemoteErrorEmitter,
         user: DomainUser

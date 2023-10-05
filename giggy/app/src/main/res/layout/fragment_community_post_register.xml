@@ -84,11 +84,6 @@
             app:tabSelectedTextColor="@color/main"
             app:layout_constraintTop_toBottomOf="@+id/fragment_community_post_register_category_text_view">
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="전체"
-                />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -123,7 +118,7 @@
 
             <com.google.android.material.chip.ChipGroup
                 android:layout_marginStart="8dp"
-                android:layout_gravity="center_horizontal"
+
                 android:id="@+id/fragment_community_post_register_chip_group"
                 android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
@@ -188,6 +183,35 @@
                     app:checkedIcon="@drawable/ic_shopping"
                     />
 
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/fragment_community_post_register_fixed_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipStrokeColor="@color/background"
+                    android:background="@color/main"
+                    android:text="고정지출"
+                    app:chipBackgroundColor="@color/main"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    app:rippleColor="@color/main"
+                    app:chipIconSize="28dp"
+                    app:checkedIcon="@drawable/ic_fixed_expenses"
+                    />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/fragment_community_post_register_selfdev_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipStrokeColor="@color/background"
+                    android:background="@color/main"
+                    android:text=" 자기계발"
+                    app:chipBackgroundColor="@color/main"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    app:rippleColor="@color/main"
+                    app:chipIconSize="28dp"
+                    app:checkedIcon="@drawable/ic_selfdev"
+                    />
+
                 <com.google.android.material.chip.Chip
                     android:id="@+id/fragment_community_post_register_etc_chip"
                     android:layout_width="wrap_content"
@@ -199,6 +223,7 @@
                     style="@style/Widget.Material3.Chip.Filter"
                     app:rippleColor="@color/main"
                     app:chipIconSize="28dp"
+                    app:checkedIcon="@drawable/ic_etc"
                     />
 
 
@@ -240,22 +265,15 @@
             app:layout_constraintTop_toBottomOf="@+id/fragment_community_post_register_content_edit_view"
             />
         
-        <ImageButton
-            android:id="@+id/fragment_community_post_register_image_add_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/image_add_button"
-            android:backgroundTint="@color/background"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_community_post_register_photo_text_view"
-            />
+
 
       <ImageView
+          android:layout_marginTop="16dp"
           android:id="@+id/fragment_community_post_register_image_view"
           android:layout_width="wrap_content"
-          android:layout_height="85dp"
-          android:visibility="gone"
-          app:layout_constraintStart_toEndOf="@+id/fragment_community_post_register_image_add_button"
+          android:layout_height="wrap_content"
+          android:src="@drawable/image_add_button"
+          app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@+id/fragment_community_post_register_photo_text_view"
           />
 
@@ -269,7 +287,24 @@
             android:text="작성 완료"
             android:textColor="@color/white"
             style="@style/Text.regular.Size20"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_community_post_register_image_add_button"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_community_post_register_image_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/fragment_community_post_update_post_button"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_box"
+            android:text="수정"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            style="@style/Text.regular.Size20"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_community_post_register_image_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
