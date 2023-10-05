@@ -30,6 +30,11 @@ public class ApiFilter implements Filter {
         // 리퀘스트의 헤더에서 토큰을 추출한다.
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String accessToken = httpRequest.getHeader("Authorization");
+        String requestURI = httpRequest.getRequestURI();
+
+        // 로그인, 회원가입은 토큰 검증 X
+        if (requestURI.equals("/api/v1/app/user/login") || requestURI.equals("/api/v1/app/user/signup"))
+            chain.doFilter(request, response);
 
         // 레디스에 토큰이 존재하는지 확인한다.
         if (!redisService.getAccessToken(accessToken)) {
@@ -52,7 +57,7 @@ public class ApiFilter implements Filter {
         HttpServletRequestWrapper newRequest = new HttpServletRequestWrapper(httpRequest) {
             @Override
             public String getRequestURI() {
-                return "/api/v1/expired"; // 새로운 요청의 URI 설정
+                return "/api/v1/app/user/expired"; // 새로운 요청의 URI 설정
             }
         };
 
