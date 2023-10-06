@@ -36,6 +36,10 @@ public class BankService {
         // 은행 계좌
         Optional<BankAccount> currentbankaccount = bankAccountRepository.findByAccountNumber(accountnumber);
 
+        Instant now = Instant.now(); // 현재 UTC 시각
+        ZoneId seoulZone = ZoneId.of("Asia/Seoul"); // Seoul 타임존
+        LocalDateTime seoulTime = LocalDateTime.ofInstant(now, seoulZone);
+
         if (currentbankaccount.isPresent() && transactionType.equals("입금")){
 
             BankAccountHistory bankAccountHistory = BankAccountHistory.builder()
@@ -43,7 +47,7 @@ public class BankService {
                     .transactionType(transactionType)
                     .deposit(dwamount)
                     .content(content)
-                    .transactionDate(LocalDateTime.now())
+                    .transactionDate(seoulTime)
                     .bankAccount(currentbankaccount.get())
                     .build();
 
