@@ -41,8 +41,10 @@ Docker, Jenkins, EC2, NGINX
  
 
  ## ERD
-
-
+ ### 앱
+![앱.png](./앱.png)
+ ### 은행
+![은행.png](./은행.png)
  ## 배포 정보 
     
 [포팅 메뉴얼](./exec/쥐금통_포팅_메뉴얼.docx)
