@@ -27,6 +27,10 @@ public class BankService {
     private final BankAccountRepository bankAccountRepository;
     private final BankAccountHistoryRepository bankAccountHistoryRepository;
 
+    Instant now = Instant.now(); // 현재 UTC 시각
+    ZoneId seoulZone = ZoneId.of("Asia/Seoul"); // Seoul 타임존
+    LocalDateTime seoulTime = LocalDateTime.ofInstant(now, seoulZone);
+
 
     @Transactional
     public void addTransactionService(UserTransactionInfoDto userTransactionInfoDto){
@@ -37,10 +41,6 @@ public class BankService {
 
         // 은행 계좌
         Optional<BankAccount> currentbankaccount = bankAccountRepository.findByAccountNumber(accountnumber);
-
-        Instant now = Instant.now(); // 현재 UTC 시각
-        ZoneId seoulZone = ZoneId.of("Asia/Seoul"); // Seoul 타임존
-        LocalDateTime seoulTime = LocalDateTime.ofInstant(now, seoulZone);
 
         if (currentbankaccount.isPresent() && transactionType.equals("입금")){
 
@@ -64,7 +64,7 @@ public class BankService {
                     .transactionType(transactionType)
                     .withdraw(dwamount)
                     .content(content)
-                    .transactionDate(LocalDateTime.now())
+                    .transactionDate(seoulTime)
                     .bankAccount(currentbankaccount.get())
                     .build();
             bankAccountHistoryRepository.save(bankAccountHistory);
@@ -116,7 +116,6 @@ public class BankService {
 //        Optional<BankAccount> bankAccountOptional = bankAccountRepository.findByAccountNumber(accountNumber);
         BankAccount bankAccountOptional = bankAccountRepository.findByAccountNumber(accountNumber).orElse(null);
 
-        System.out.println("aaaaaa = = ="+bankAccountOptional);
 
         if (bankAccountOptional == null) {
             return AuthResponseDto.builder().build();
@@ -140,7 +139,7 @@ public class BankService {
                         .transactionType("입금")
                         .deposit(1)
                         .content(randomContent)
-                        .transactionDate(LocalDateTime.now())
+                        .transactionDate(seoulTime)
                         .bankAccount(bankAccountOptional)
                         .build();
                 bankAccountHistoryRepository.save(bankAccountHistory);
@@ -150,7 +149,7 @@ public class BankService {
                 return AuthResponseDto.builder()
                         .amount(1)
                         .deposit(1)
-                        .transactionDate(LocalDateTime.now())
+                        .transactionDate(seoulTime)
                         .transactionType("입금")
                         .content(randomContent)
                         .build();
