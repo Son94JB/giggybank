@@ -37,7 +37,7 @@ Docker, Jenkins, EC2, NGINX
 <br><br>
 
 ## 기능 명세서
-[기능명세서](https://spring-tsunami-dca.notion.site/2a16de673afb4e92a9214e8d272e07ee?pvs=4)
+[기능명세서](https://spring-tsunami-dca.notion.site/700d875ac1944edaa415a18d61c69b9f?pvs=4)
  
 
  ## ERD
