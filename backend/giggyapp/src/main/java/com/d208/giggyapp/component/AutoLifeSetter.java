@@ -22,6 +22,7 @@ public class AutoLifeSetter {
     @Scheduled(cron = "0 * * * * ?", zone = "Asia/Seoul")  // "0 * * * * ?" "0 0 23 ? * SUN"
     @Transactional
     public void lifeForWeek() {
+        System.out.println("=================시작=================");
         List<User> allUsers = userRepository.findAll();
 
         for (User user : allUsers) {
