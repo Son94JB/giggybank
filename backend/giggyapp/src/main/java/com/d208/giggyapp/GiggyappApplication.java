@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
+@EnableScheduling 
 public class GiggyappApplication {
 
 	public static void main(String[] args) {
