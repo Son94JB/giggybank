@@ -48,7 +48,7 @@ public class AutoLifeSetter {
             System.out.println("=================" + current + "=================");
             user.updateTargetAmount(0);
             user.incraseCurrentAmount(-current);
-            System.out.println("=================" + user.getTargetAmount + "=================");
+            System.out.println("=================" + user.getTargetAmount() + "=================");
         }
     }
 }
