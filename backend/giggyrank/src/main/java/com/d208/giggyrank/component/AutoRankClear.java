@@ -42,34 +42,36 @@ public class AutoRankClear {
         RestTemplate restTemplate = new RestTemplate();
 
         Set<String> topPlayerSet = zsetOps.reverseRange("GameRank", 0, 0);
-        if (topPlayerSet == null || topPlayerSet.isEmpty()) {
-            throw new RuntimeException("No player data in GameRank");
+
+        String topPlayerId = null;
+        Double topScore = null;
+
+        if (topPlayerSet != null && !topPlayerSet.isEmpty()) {
+            topPlayerId = topPlayerSet.iterator().next();
+            topScore = zsetOps.score("GameRank", topPlayerId);
         }
-
-        Set<String> topBeggerSet = zsetOps.reverseRange("begger_rankiing",0,0);
-        if(topBeggerSet == null || topBeggerSet.isEmpty()){
-            throw new RuntimeException("No begger data in BeggerRank");
-        }
-
-        String topPlayerId = topPlayerSet.iterator().next();
-        Double topScore = zsetOps.score("GameRank", topPlayerId);
-
-        String topBeggerId = topBeggerSet.iterator().next();
-        Double ratio = zsetOps.score("begger_ranking", topBeggerId);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
 
         Map<String, Object> map = new HashMap<>();
         map.put("userId", UUID.fromString(topPlayerId));
         map.put("score", topScore.intValue());
         map.put("round", round);
 
+        Set<String> topBeggerSet = zsetOps.reverseRange("begger_ranking",0,0);
+        String topBeggerId = null;
+        Double ratio = null;
+
+        if (topBeggerSet != null && !topBeggerSet.isEmpty()) {
+            topBeggerId = topBeggerSet.iterator().next();
+            ratio = zsetOps.score("GameRank", topBeggerId);
+        }
+        
         Map<String, Object> beggerMap = new HashMap<>();
         map.put("userId", UUID.fromString(topBeggerId));
         map.put("ratio", ratio);
         map.put("round", round);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(map, headers);
 
