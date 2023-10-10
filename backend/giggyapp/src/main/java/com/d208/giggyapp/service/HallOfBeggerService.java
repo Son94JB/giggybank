@@ -98,6 +98,9 @@ public class HallOfBeggerService {
 
         UUID userId = user.getId();
         int targetAmount = user.getTargetAmount();
+        if (targetAmount == 0){
+            return;
+        }
         int currentAmount = user.getCurrentAmount();
         String url = "https://j9d208.p.ssafy.io:8282/api/v1/rank/hall-of-begger/update";
 //        String url = "http://127.0.0.1:8083/api/v1/rank/hall-of-begger/update";
