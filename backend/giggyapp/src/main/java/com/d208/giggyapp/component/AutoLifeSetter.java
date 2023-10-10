@@ -19,7 +19,7 @@ public class AutoLifeSetter {
 
 
     // 소비액에 따른 게임 기회 지급
-    @Scheduled(cron = "0 0 23 ? * SUN", zone = "Asia/Seoul")  // "0 * * * * ?"
+    @Scheduled(cron = "0 * * * * ?", zone = "Asia/Seoul")  // "0 * * * * ?" "0 0 23 ? * SUN"
     @Transactional
     public void lifeForWeek() {
         List<User> allUsers = userRepository.findAll();
@@ -27,6 +27,7 @@ public class AutoLifeSetter {
         for (User user : allUsers) {
             int usedAmount = user.getCurrentAmount();
             int targetAmount = user.getTargetAmount();
+            user.initLife();
 
             int perAmount = round((usedAmount / targetAmount) * 100);
 
@@ -44,8 +45,10 @@ public class AutoLifeSetter {
             }
 
             int current = user.getCurrentAmount();
+            System.out.println("=================" + current + "=================");
             user.updateTargetAmount(0);
             user.incraseCurrentAmount(-current);
+            System.out.println("=================" + user.getTargetAmount + "=================");
         }
     }
 }
